@@ -16,7 +16,6 @@ struct EditList: View {
 
     @Binding var editList: Bool
     @Binding var index: Int
-    @Binding var showList: Bool
 
     @State var listTitle = ""
     @State var listIcon = 0
@@ -27,7 +26,7 @@ struct EditList: View {
                 Section(header: Text("Edit Title")) {
                     TextField(todos.todos[listIndex].title, text: $listTitle)
                         .foregroundColor(.black)
-                        .accentColor(Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1)))
+                        .accentColor(Constants.mainColor)
                         .background(Color.white)
                 }
                 Section(header: Text("Edit Icon")) {
@@ -59,6 +58,6 @@ struct EditList: View {
 
 struct EditList_Previews: PreviewProvider {
     static var previews: some View {
-        EditList(listIndex: 0, editList: .constant(false), index: .constant(0), showList: .constant(false))
+        EditList(listIndex: 0, editList: .constant(false), index: .constant(0))
     }
 }

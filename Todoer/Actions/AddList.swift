@@ -18,7 +18,6 @@ struct AddList: View {
     @Binding var addList: Bool
     @Binding var index: Int
     @Binding var addedList: Bool
-    @Binding var showList: Bool
 
     var body: some View {
         NavigationView {
@@ -26,7 +25,7 @@ struct AddList: View {
                 Section(header: Text("List Title")) {
                     TextField("List Title", text: $listTitle)
                         .foregroundColor(.black)
-                        .accentColor(Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1)))
+                        .accentColor(Constants.mainColor)
                         .background(Color.white)
                 }
                 Section(header: Text("Select Icon")) {
@@ -61,7 +60,7 @@ struct AddList: View {
 
 struct AddList_Previews: PreviewProvider {
     static var previews: some View {
-        AddList(listTitle: "", listIcon: 0, addList: .constant(false), index: .constant(0), addedList: .constant(false), showList: .constant(false))
+        AddList(listTitle: "", listIcon: 0, addList: .constant(false), index: .constant(0), addedList: .constant(false))
     }
 }
 

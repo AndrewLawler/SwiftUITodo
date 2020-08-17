@@ -21,15 +21,14 @@ struct EditTodo: View {
 
     @Binding var editTodo: Bool
     @Binding var index: Int
-    @Binding var showList: Bool
 
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("Edit Title")) {
-                    TextField(todos.todos[index].todos?[todoIndex].content ?? "Title", text: $todoTitle)
+                    TextField(todos.todos[index].todos[todoIndex].content, text: $todoTitle)
                         .foregroundColor(.black)
-                        .accentColor(Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1)))
+                        .accentColor(Constants.mainColor)
                         .background(Color.white)
                 }
                 Section(header: Text("Edit Icon")) {
@@ -44,7 +43,7 @@ struct EditTodo: View {
                     Toggle(isOn: $notificationState) {
                         HStack {
                             ZStack {
-                                Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))
+                                Constants.mainColor
                                     .frame(width: 30, height: 30)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                 Image(systemName: "bell.fill")
@@ -60,7 +59,7 @@ struct EditTodo: View {
                     DatePicker(selection: $reminderDate, in: ...Date(), displayedComponents: .date) {
                         HStack {
                             ZStack {
-                                Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))
+                                Constants.mainColor
                                     .frame(width: 30, height: 30)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                 Image(systemName: "calendar")
@@ -96,6 +95,6 @@ struct EditTodo: View {
 
 struct EditTodo_Previews: PreviewProvider {
     static var previews: some View {
-        EditTodo(todoIndex: 0, todoTitle: "", notificationState: false, reminderDate: Date(), selectedIcon: 0, editTodo: .constant(false), index: .constant(0), showList: .constant(false))
+        EditTodo(todoIndex: 0, todoTitle: "", notificationState: false, reminderDate: Date(), selectedIcon: 0, editTodo: .constant(false), index: .constant(0))
     }
 }

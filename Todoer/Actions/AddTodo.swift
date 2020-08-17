@@ -19,8 +19,6 @@ struct AddTodo: View {
 
     @Binding var index: Int
     @Binding var addTodo: Bool
-    @Binding var addedTodo: Bool
-    @Binding var showList: Bool
 
     var body: some View {
         NavigationView {
@@ -28,7 +26,7 @@ struct AddTodo: View {
                 Section(header: Text("Add Title")) {
                     TextField("Todo title", text: $todoTitle)
                         .foregroundColor(.black)
-                        .accentColor(Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1)))
+                        .accentColor(Constants.mainColor)
                         .background(Color.white)
                 }
                 Section(header: Text("Edit Icon")) {
@@ -43,7 +41,7 @@ struct AddTodo: View {
                     Toggle(isOn: $notificationState) {
                         HStack {
                             ZStack {
-                                Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))
+                                Constants.mainColor
                                     .frame(width: 30, height: 30)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                 Image(systemName: "bell.fill")
@@ -59,7 +57,7 @@ struct AddTodo: View {
                     DatePicker(selection: $reminderDate, in: ...Date(), displayedComponents: .date) {
                         HStack {
                             ZStack {
-                                Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))
+                                Constants.mainColor
                                     .frame(width: 30, height: 30)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                 Image(systemName: "calendar")
@@ -85,8 +83,6 @@ struct AddTodo: View {
                 if !self.todoTitle.isEmpty {
                     self.todos.addTodo(index: self.index, content: self.todoTitle, image: self.selectedIcon, notificationState: self.notificationState, reminderDate: self.reminderDate)
                     self.todoTitle = ""
-                    self.addedTodo = true
-                    self.showList = true
                 }
                 self.addTodo.toggle()
             }) {
@@ -98,6 +94,6 @@ struct AddTodo: View {
 
 struct AddTodo_Previews: PreviewProvider {
     static var previews: some View {
-        AddTodo(todoTitle: "", notificationState: false, reminderDate: Date(), selectedIcon: 0, index: .constant(0), addTodo: .constant(false), addedTodo: .constant(false), showList: .constant(false))
+        AddTodo(todoTitle: "", notificationState: false, reminderDate: Date(), selectedIcon: 0, index: .constant(0), addTodo: .constant(false))
     }
 }

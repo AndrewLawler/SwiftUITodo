@@ -22,7 +22,7 @@ class TodoStore: ObservableObject {
     func todoCount(index: Int) -> Int {
         var count = 0
         if todoListCount() > 0 {
-            count = todos[index].todos?.count ?? 0
+            count = todos[index].todos.count
         }
         return count
     }
@@ -36,13 +36,13 @@ class TodoStore: ObservableObject {
     /// add Todo to list
 
     func addTodo(index: Int, content: String, image: Int, notificationState: Bool, reminderDate: Date) {
-        todos[index].todos?.append(Todo(content: content, image: image, notificationState: notificationState, reminderDate: reminderDate))
+        todos[index].todos.append(Todo(content: content, image: image, notificationState: notificationState, reminderDate: reminderDate))
     }
 
     /// edit Todo
 
     func replaceTodo(listIndex: Int, index: Int, content: String, image: Int, notificationState: Bool, reminderDate: Date) {
-        todos[listIndex].todos![index] = Todo(content: content, image: image, notificationState: notificationState, reminderDate: reminderDate)
+        todos[listIndex].todos[index] = Todo(content: content, image: image, notificationState: notificationState, reminderDate: reminderDate)
     }
 
     /// edit Todo List
@@ -73,5 +73,5 @@ struct TodoList: Identifiable {
     var id = UUID()
     var title: String
     var image: Int
-    var todos: [Todo]?
+    var todos = [Todo]()
 }
