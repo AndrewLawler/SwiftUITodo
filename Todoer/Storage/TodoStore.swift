@@ -137,7 +137,6 @@ class TodoStore: ObservableObject {
             index += 1
         }
     }
-
 }
 
 struct Todo: Identifiable {
