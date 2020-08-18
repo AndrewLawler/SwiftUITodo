@@ -58,27 +58,27 @@ struct Settings: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                         }
                     }
-                    Picker(selection: $iconIndex, label:
-                        HStack {
-                            ZStack {
-                                Constants.mainColor
-                                    .frame(width: 30, height: 30)
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                Image(systemName: "pencil")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(Color.white)
-                            }
-                            Text("App Icon")
-                                .padding(.leading, 5)
-                        }
-                    ){
-                        ForEach(0 ..< Constants.icons.count) {
-                            Image(systemName: "\(Constants.icons[$0].name)")
-                                .foregroundColor(Constants.mainColor)
-                        }
-                    }
+//                    Picker(selection: $iconIndex, label:
+//                        HStack {
+//                            ZStack {
+//                                Constants.mainColor
+//                                    .frame(width: 30, height: 30)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+//                                Image(systemName: "pencil")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 20, height: 20)
+//                                    .foregroundColor(Color.white)
+//                            }
+//                            Text("App Icon")
+//                                .padding(.leading, 5)
+//                        }
+//                    ){
+//                        ForEach(0 ..< Constants.icons.count) {
+//                            Image(systemName: "\(Constants.icons[$0].name)")
+//                                .foregroundColor(Constants.mainColor)
+//                        }
+//                    }
                 }
                 Section(header: Text("Developer")) {
                     NavigationLink(destination: Settings(showSettings: self.$showSettings)) {

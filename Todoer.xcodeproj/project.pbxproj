@@ -24,6 +24,7 @@
 		646D37C824E83A9A006D5B8E /* KeyboardRespobder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646D37C724E83A9A006D5B8E /* KeyboardRespobder.swift */; };
 		646D37CA24E83D0D006D5B8E /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646D37C924E83D0D006D5B8E /* TodoStore.swift */; };
 		6481664324EC479C000178DD /* IconChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6481664224EC479C000178DD /* IconChoice.swift */; };
+		64C5895924EC7892008A3D8D /* EditSubTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C5895824EC7892008A3D8D /* EditSubTodo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		646D37C724E83A9A006D5B8E /* KeyboardRespobder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardRespobder.swift; sourceTree = "<group>"; };
 		646D37C924E83D0D006D5B8E /* TodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStore.swift; sourceTree = "<group>"; };
 		6481664224EC479C000178DD /* IconChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconChoice.swift; sourceTree = "<group>"; };
+		64C5895824EC7892008A3D8D /* EditSubTodo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubTodo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				6481664224EC479C000178DD /* IconChoice.swift */,
 				6431C83C24EA153E00332074 /* EditList.swift */,
 				642AAC8624E9A5F6007C01D7 /* EditTodo.swift */,
+				64C5895824EC7892008A3D8D /* EditSubTodo.swift */,
 				642AAC8824E9A60D007C01D7 /* AddTodo.swift */,
 			);
 			path = Actions;
@@ -254,6 +257,7 @@
 				646D37C824E83A9A006D5B8E /* KeyboardRespobder.swift in Sources */,
 				642AAC8B24E9A621007C01D7 /* AddList.swift in Sources */,
 				646D37B424E827A4006D5B8E /* Todoer.xcdatamodeld in Sources */,
+				64C5895924EC7892008A3D8D /* EditSubTodo.swift in Sources */,
 				642AAC8D24E9A8C1007C01D7 /* Constants.swift in Sources */,
 				642AAC8724E9A5F6007C01D7 /* EditTodo.swift in Sources */,
 				646D37CA24E83D0D006D5B8E /* TodoStore.swift in Sources */,

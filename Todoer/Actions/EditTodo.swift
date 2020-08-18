@@ -41,7 +41,7 @@ struct EditTodo: View {
                             Text("Please edit your icon")
                                 .foregroundColor(Color.primary)
                             Spacer()
-                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].name)
+                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].systemName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
@@ -91,8 +91,8 @@ struct EditTodo: View {
             .navigationBarItems(leading: Button(action: { self.editTodo.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {
+                if self.todoTitle == "" { self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].content }
                 self.todos.replaceTodo(listIndex: self.index, index: self.todoIndex, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.notificationState, reminderDate: self.reminderDate)
-                self.hideKeyboard()
                 self.editTodo.toggle()
                 self.todoTitle = ""
             }) {

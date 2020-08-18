@@ -39,7 +39,7 @@ struct EditList: View {
                             Text("Please edit your icon")
                                 .foregroundColor(Color.primary)
                             Spacer()
-                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].name)
+                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].systemName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
@@ -55,6 +55,7 @@ struct EditList: View {
             .navigationBarItems(leading: Button(action: { self.editList.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {
+                if self.listTitle == "" { self.listTitle = self.todos.todos[self.listIndex].title }
                 self.todos.editTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, index: self.index)
                 self.hideKeyboard()
                 self.listTitle = ""

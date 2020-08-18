@@ -68,7 +68,7 @@ struct ListSelection: View {
                             Constants.mainColor
                                 .frame(width: 80, height: 80)
                                 .cornerRadius(20)
-                            Image(systemName: Constants.iconsOrdered[self.todos.todos[todoIndex].imageSection].icons[self.todos.todos[todoIndex].imageRow].name)
+                            Image(systemName: Constants.iconsOrdered[self.todos.todos[todoIndex].imageSection].icons[self.todos.todos[todoIndex].imageRow].systemName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 50, height: 50)
@@ -113,7 +113,7 @@ struct ListSelection: View {
                     }
                     .padding(.vertical, 8)
                 }.onDelete { index in
-                    self.todos.todos.remove(at: index.first!)
+                    self.todos.deleteTodoList(index: index.first!)
                 }
                 .onMove { (source: IndexSet, destination: Int) in
                     self.todos.todos.move(fromOffsets: source, toOffset: destination)

@@ -27,11 +27,13 @@ struct AddList: View {
         return formatter
     }()
 
+    @State var textfieldPlaceholder = "List Title"
+
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("List Title")) {
-                    TextField("List Title", text: $listTitle)
+                    TextField(textfieldPlaceholder, text: $listTitle)
                         .foregroundColor(.primary)
                         .accentColor(Constants.mainColor)
                 }
@@ -41,7 +43,7 @@ struct AddList: View {
                             Text("Please select an icon")
                                 .foregroundColor(Color.primary)
                             Spacer()
-                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].name)
+                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].systemName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
@@ -57,13 +59,15 @@ struct AddList: View {
             .navigationBarItems(leading: Button(action: { self.addList.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {
-                if !self.listTitle.isEmpty {
+                if self.listTitle != "" {
                     self.todos.createTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex ,createdAt: self.createdDay.string(from: Date()))
                     if self.todos.todoListCount() > 1 { self.index = self.index + 1 }
+                    self.listIcon = 0
+                    self.listTitle = ""
+                    self.addList.toggle()
+                } else {
+                    self.textfieldPlaceholder = "Please add a list title"
                 }
-                self.listIcon = 0
-                self.listTitle = ""
-                self.addList.toggle()
             }) {
                 Text("Done").bold()
             })

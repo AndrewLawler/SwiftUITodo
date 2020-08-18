@@ -27,11 +27,14 @@ struct IconChoice: View {
                 Section(header: Text(Constants.iconsOrdered[sectionIndex].title)) {
                     ForEach(Constants.iconsOrdered[sectionIndex].icons.indices, id: \.self) { iconIndex in
                         HStack {
-                            Image(systemName: "\(Constants.iconsOrdered[sectionIndex].icons[iconIndex].name)")
+                            Image(systemName: "\(Constants.iconsOrdered[sectionIndex].icons[iconIndex].systemName)")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(Constants.mainColor)
+                            Text(Constants.iconsOrdered[sectionIndex].icons[iconIndex].name)
+                                .foregroundColor(Color.primary)
+                                .padding(.leading, 5)
                             Spacer()
                             if self.amISelected(row: iconIndex, sec: sectionIndex) {
                                 Image(systemName: "checkmark")
@@ -44,7 +47,7 @@ struct IconChoice: View {
                         }
                         .frame(maxWidth: .infinity)
                         .frame(maxHeight: .infinity)
-                        .background(Color("iconSelectionRow"))
+                        .background(Color("iconSelectionRow").opacity(0.01))
                         .onTapGesture {
                             self.selectedIconRowIndex = iconIndex
                             self.selectedIconSectionIndex = sectionIndex

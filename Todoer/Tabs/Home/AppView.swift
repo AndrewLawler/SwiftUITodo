@@ -17,6 +17,7 @@ struct AppView: View {
     @State var addTodo = false
     @State var editTodo = false
     @State var editList = false
+    @State var editSubTodo = false
 
     @State var index = 0
 
@@ -187,59 +188,118 @@ struct AppView: View {
                 if self.todos.todoCount(index: index) != 0 {
                     List {
                         ForEach(self.todos.todos[index].todos.indices, id: \.self) { todoIndex in
-                            HStack {
-                                ZStack {
-                                    Color("menuCircle")
-                                        .frame(width: 30, height: 30)
-                                        .clipShape(Circle())
-                                    Image(systemName: "checkmark.circle")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 18, height: 18)
-                                        .foregroundColor(Constants.mainColor)
-                                }.onTapGesture {
-                                    self.todos.todos[self.index].todos.remove(at: todoIndex)
-                                }
-                                .frame(width: 25, height: 25)
-                                .padding(.leading, 10)
-
-                                ZStack {
-                                    Color("menuCircle")
-                                        .frame(width: 30, height: 30)
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                                    Image(systemName: Constants.iconsOrdered[self.todos.todos[self.index].todos[todoIndex].imageSection].icons[self.todos.todos[self.index].todos[todoIndex].imageRow].name)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 18, height: 18)
-                                        .foregroundColor(Constants.mainColor)
-                                }.padding(.leading, 5)
-
-                                Text(self.todos.todos[self.index].todos[todoIndex].content)
-                                    .fontWeight(.medium)
+                            VStack {
+                                HStack {
+                                    ZStack {
+                                        Color("menuCircle")
+                                            .frame(width: 30, height: 30)
+                                            .clipShape(Circle())
+                                        Image(systemName: "checkmark.circle")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(Constants.mainColor)
+                                    }.onTapGesture {
+                                        self.todos.deleteTodo(index: self.index, todoIndex: todoIndex)
+                                    }
+                                    .frame(width: 25, height: 25)
                                     .padding(.leading, 10)
-                                    .font(.system(size: 17))
 
-                                Spacer()
+                                    ZStack {
+                                        Color("menuCircle")
+                                            .frame(width: 30, height: 30)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        Image(systemName: Constants.iconsOrdered[self.todos.todos[self.index].todos[todoIndex].imageSection].icons[self.todos.todos[self.index].todos[todoIndex].imageRow].systemName)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(Constants.mainColor)
+                                    }.padding(.leading, 5)
 
-                                Button(action: {
+                                    Text(self.todos.todos[self.index].todos[todoIndex].content)
+                                        .fontWeight(.medium)
+                                        .padding(.leading, 10)
+                                        .font(.system(size: 17))
+
+                                    Spacer()
+
+                                    Button(action: {
+                                        print("Tapped todo elipsis")
+                                    }) {
+                                        Image(systemName: "ellipsis")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 13, height: 13)
+                                            .foregroundColor(Color("todoIcon"))
+                                    }.sheet(isPresented: self.$editTodo) {
+                                        EditTodo(todoIndex: todoIndex, iconRowIndex: self.todos.todos[self.index].todos[todoIndex].imageRow, iconSectionIndex: self.todos.todos[self.index].todos[todoIndex].imageSection, editTodo: self.$editTodo, index: self.$index)
+                                            .environmentObject(self.todos)
+                                    }
+                                    .padding(.horizontal, 10)
+                                }.onTapGesture {
                                     self.editTodo.toggle()
-                                }) {
-                                    Image(systemName: "ellipsis")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 13, height: 13)
-                                        .foregroundColor(Color("todoIcon"))
                                 }
-                                .frame(width: 25, height: 25)
-                                .sheet(isPresented: self.$editTodo) {
-                                    EditTodo(todoIndex: todoIndex, iconRowIndex: self.todos.todos[self.index].todos[todoIndex].imageRow, iconSectionIndex: self.todos.todos[self.index].todos[todoIndex].imageSection, editTodo: self.$editTodo, index: self.$index)
-                                        .environmentObject(self.todos)
+
+                                HStack {
+                                    VStack {
+                                        ForEach(self.todos.todos[self.index].todos[todoIndex].subTodos.indices, id: \.self) { subTodoIndex in
+                                            HStack {
+                                                Image(systemName: "list.bullet")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 15, height: 15)
+                                                    .foregroundColor(Color("todoIcon"))
+                                                    .padding(.leading, 10)
+
+                                                ZStack {
+                                                    Color("menuCircle")
+                                                        .frame(width: 25, height: 25)
+                                                        .clipShape(Circle())
+                                                    Image(systemName: "checkmark.circle")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 15, height: 15)
+                                                        .foregroundColor(Constants.mainColor)
+                                                }
+                                                .onTapGesture {
+                                                    self.todos.deleteSubTodo(index: self.index, todoIndex: todoIndex, subTodoIndex: subTodoIndex)
+                                                }
+                                                .frame(width: 25, height: 25)
+                                                .padding(.horizontal, 10)
+
+                                                Text(self.todos.todos[self.index].todos[todoIndex].subTodos[subTodoIndex].content)
+                                                    .fontWeight(.regular)
+                                                    .font(.system(size: 13))
+
+                                                Spacer()
+                                                Spacer()
+
+                                                Button(action: {
+                                                    print("Tapped sub todo elipsis")
+                                                }) {
+                                                    Image(systemName: "ellipsis")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 13, height: 13)
+                                                        .foregroundColor(Color("todoIcon"))
+                                                }
+                                                .sheet(isPresented: self.$editSubTodo) {
+                                                    EditSubTodo(todoIndex: todoIndex, subTodoIndex: subTodoIndex, editSubTodo: self.$editSubTodo, index: self.$index)
+                                                        .environmentObject(self.todos)
+                                                }
+                                                .padding(.horizontal, 10)
+                                            }
+                                        }
+                                    }.padding(.leading, 45)
+                                        .onTapGesture {
+                                            self.editSubTodo.toggle()
+                                        }
                                 }
-                                .padding(.trailing, 10)
-                            }.frame(height: 50)
+
+                            }
                         }
                         .onDelete { index in
-                            self.todos.todos[self.index].todos.remove(at: index.first!)
+                            self.todos.deleteTodo(index: self.index, todoIndex: index.first!)
                         }
                         .onMove { (source: IndexSet, destination: Int) in
                             self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
