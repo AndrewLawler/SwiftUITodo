@@ -117,6 +117,7 @@ struct ListSelection: View {
                 }
                 .onMove { (source: IndexSet, destination: Int) in
                     self.todos.todos.move(fromOffsets: source, toOffset: destination)
+                    self.todos.saveTodos()
                 }
             }
         }

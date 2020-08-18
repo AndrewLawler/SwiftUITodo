@@ -303,6 +303,7 @@ struct AppView: View {
                         }
                         .onMove { (source: IndexSet, destination: Int) in
                             self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
+                            self.todos.saveTodos()
                         }
                     }
                 }
