@@ -29,6 +29,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // restore all Todos
         todos.restoreTodos()
 
+        // call this when i need a screenshot
+        todos.populate()
+
         let appView = AppView()
             .environmentObject(todos)
 

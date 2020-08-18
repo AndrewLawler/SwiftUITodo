@@ -22,7 +22,7 @@ struct ListSelection: View {
     @State var clickedEdit = false
 
     func todo(todos: Int) -> String {
-        if todos <= 0 { return "todos" }
+        if todos >= 0 { return "todos" }
         else { return "todo" }
     }
 
@@ -36,7 +36,7 @@ struct ListSelection: View {
                         Color("menuCircle")
                             .frame(width: 40, height: 40)
                             .clipShape(Circle())
-                        Image(systemName: "book.fill")
+                        Image(systemName: "doc.text.fill")
                             .frame(width: 20, height: 20)
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(Constants.mainColor)

@@ -104,6 +104,40 @@ class TodoStore: ObservableObject {
         print("Restored Todos")
     }
 
+    /// App Screenshot
+
+    func populate() {
+        /// call this function when i need a screenshot
+        var index = 0
+        let names = ["Daily Tasks", "Christmas Presents", "Gym Routine", "Building Work", "Weekly Tasks", "Resolutions", "Gym Personal Records", "Plan"]
+        let iconsSection = [0, 3, 4, 4, 0, 4, 0, 0]
+        let iconsRow = [3, 0, 2, 1, 3, 9, 6, 1]
+        while index <= 6 {
+            createTodoList(title: names[index], imageSection: iconsSection[index], imageRow: iconsRow[index], createdAt: "Aug 18, 2020")
+
+            addTodo(index: index, content: "Send E-mail to Ben", imageSection: 3, imageRow: 0, notificationState: false, reminderDate: Date())
+            addSubTodo(title: "Don't forget to attach the file", index: index, todoIndex: 0)
+
+            addTodo(index: index, content: "Get work done", imageSection: 0, imageRow: 3, notificationState: false, reminderDate: Date())
+
+            addTodo(index: index, content: "Eat the pasta for lunch", imageSection: 4, imageRow: 9, notificationState: false, reminderDate: Date())
+            addSubTodo(title: "Wash up the tupperware", index: index, todoIndex: 2)
+
+            addTodo(index: index, content: "Get Shopping", imageSection: 0, imageRow: 2, notificationState: false, reminderDate: Date())
+
+            addTodo(index: index, content: "Take kids to football practice", imageSection: 0, imageRow: 6, notificationState: false, reminderDate: Date())
+            addSubTodo(title: "Pick kids up", index: index, todoIndex: 4)
+
+            addTodo(index: index, content: "Ring Mum", imageSection: 0, imageRow: 4, notificationState: false, reminderDate: Date())
+
+            addTodo(index: index, content: "Take the trash out", imageSection: 4, imageRow: 8, notificationState: false, reminderDate: Date())
+            addSubTodo(title: "Remember to add a new bin bag", index: index, todoIndex: 6)
+
+            addTodo(index: index, content: "Promote my app", imageSection: 4, imageRow: 9, notificationState: false, reminderDate: Date())
+            index += 1
+        }
+    }
+
 }
 
 struct Todo: Identifiable {

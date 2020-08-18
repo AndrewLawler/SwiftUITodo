@@ -137,7 +137,7 @@ struct Settings: View {
                 }
 
                 Section(header: Text("App Version")) {
-                    Text("Version 1.0")
+                    Text("Version \(Constants.version)")
                         .frame(maxWidth: .infinity)
                         .foregroundColor(Constants.mainColor)
                         .font(.system(size: 15))

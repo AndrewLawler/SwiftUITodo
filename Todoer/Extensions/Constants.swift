@@ -26,6 +26,7 @@ struct ColorChoice: Identifiable {
 }
 
 enum Constants {
+    static var version = "1.0"
 
     static var mainColor = Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))
     static var mainColorIndex = 0
@@ -38,8 +39,8 @@ enum Constants {
             Icon(systemName: "folder.fill", name: "Folder"),
             Icon(systemName: "phone.fill", name: "Phone"),
             Icon(systemName: "calendar", name: "Calendar"),
+            Icon(systemName: "car.fill", name: "Car")
         ]),
-
         SectionIcon(title: "Health", icons: [
             Icon(systemName: "heart.fill", name: "Heart"),
 
@@ -68,6 +69,7 @@ enum Constants {
             Icon(systemName: "video.fill", name: "Video"),
             Icon(systemName: "camera.fill", name: "Camera"),
             Icon(systemName: "trash.fill", name: "Trash"),
+            Icon(systemName: "clock.fill", name: "Clock"),
         ])
     ]
 

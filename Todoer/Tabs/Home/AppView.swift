@@ -186,6 +186,9 @@ struct AppView: View {
 
                 /// List View
                 if self.todos.todoCount(index: index) != 0 {
+
+                    /// todos
+
                     List {
                         ForEach(self.todos.todos[index].todos.indices, id: \.self) { todoIndex in
                             VStack {
@@ -219,7 +222,7 @@ struct AppView: View {
                                     Text(self.todos.todos[self.index].todos[todoIndex].content)
                                         .fontWeight(.medium)
                                         .padding(.leading, 10)
-                                        .font(.system(size: 17))
+                                        .font(.body)
 
                                     Spacer()
 
@@ -240,6 +243,8 @@ struct AppView: View {
                                     self.editTodo.toggle()
                                 }
 
+                                /// sub todos
+
                                 HStack {
                                     VStack {
                                         ForEach(self.todos.todos[self.index].todos[todoIndex].subTodos.indices, id: \.self) { subTodoIndex in
@@ -247,9 +252,9 @@ struct AppView: View {
                                                 Image(systemName: "list.bullet")
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 15, height: 15)
+                                                    .frame(width: 14, height: 14)
                                                     .foregroundColor(Color("todoIcon"))
-                                                    .padding(.leading, 10)
+                                                    .padding(.leading, 12)
 
                                                 ZStack {
                                                     Color("menuCircle")
@@ -269,7 +274,7 @@ struct AppView: View {
 
                                                 Text(self.todos.todos[self.index].todos[todoIndex].subTodos[subTodoIndex].content)
                                                     .fontWeight(.regular)
-                                                    .font(.system(size: 13))
+                                                    .font(.caption)
 
                                                 Spacer()
                                                 Spacer()
@@ -295,8 +300,7 @@ struct AppView: View {
                                             self.editSubTodo.toggle()
                                         }
                                 }
-
-                            }
+                            }.padding(.vertical, 10)
                         }
                         .onDelete { index in
                             self.todos.deleteTodo(index: self.index, todoIndex: index.first!)
