@@ -18,7 +18,13 @@ struct ListSelection: View {
 
     @Binding var index: Int
     @Binding var showLists: Bool
-    @Binding var addedList: Bool
+
+    @State var clickedEdit = false
+
+    func todo(todos: Int) -> String {
+        if todos <= 0 { return "todos" }
+        else { return "todo" }
+    }
 
     var body: some View {
         VStack {
@@ -27,7 +33,7 @@ struct ListSelection: View {
                 Spacer()
                 Button(action: { self.addList.toggle() }) {
                     ZStack {
-                        Color(#colorLiteral(red: 0.9740100503, green: 0.9682194591, blue: 0.9784608483, alpha: 1))
+                        Color("menuCircle")
                             .frame(width: 40, height: 40)
                             .clipShape(Circle())
                         Image(systemName: "book.fill")
@@ -38,7 +44,7 @@ struct ListSelection: View {
                 }
                 .padding(.trailing, 10)
                 .sheet(isPresented: $addList) {
-                    AddList(addList: self.$addList, index: self.$index, addedList: self.$addedList)
+                    AddList(addList: self.$addList, index: self.$index)
                         .environmentObject(self.todos)
                 }.padding(.trailing, 10)
                 ZStack {
@@ -46,6 +52,9 @@ struct ListSelection: View {
                     EditButton()
                         .font(.system(size: 15))
                         .foregroundColor(Constants.mainColor)
+                        .onTapGesture {
+                            self.clickedEdit.toggle()
+                        }
                 }
             }
             .padding(.top, 40)
@@ -59,37 +68,46 @@ struct ListSelection: View {
                             Constants.mainColor
                                 .frame(width: 80, height: 80)
                                 .cornerRadius(20)
-                            Image(systemName: Constants.icons[self.todos.todos[todoIndex].image].name)
+                            Image(systemName: Constants.iconsOrdered[self.todos.todos[todoIndex].imageSection].icons[self.todos.todos[todoIndex].imageRow].name)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 60, height: 60)
+                                .frame(width: 50, height: 50)
                                 .foregroundColor(Color.white)
                         }.frame(width: 80, height: 80)
                         .onTapGesture {
                             self.index = todoIndex
                             self.showLists.toggle()
                         }
-                        Text(self.todos.todos[todoIndex].title)
-                            .font(.system(size: 20, weight: .bold))
-                            .padding(.leading, 10)
-                            .frame(width: 230, height: 80, alignment: .leading)
+                        VStack {
+                            Text(self.todos.todos[todoIndex].title)
+                                .font(.system(size: 20, weight: .bold))
+                                .padding(.leading, 10)
+                                .frame(width: 160, alignment: .leading)
+                            Text("\(self.todos.todos[todoIndex].todos.count) \(self.todo(todos: self.todos.todos[todoIndex].todos.count))")
+                                .font(.system(size: 13, weight: .medium))
+                                .padding(.leading, 10)
+                                .frame(width: 160, alignment: .leading)
+                                .foregroundColor(.secondary)
+                                .padding(.top, 10)
+                            Text("Created: \(self.todos.todos[todoIndex].createdAt)")
+                                .font(.system(size: 12, weight: .medium))
+                                .padding(.leading, 10)
+                                .frame(width: 160, alignment: .leading)
+                                .foregroundColor(Color.secondary.opacity(0.7))
+                                .padding(.top, 3)
+                        }
                         Spacer()
                         Button(action: {
                             self.editList.toggle()
                         }) {
-                            ZStack {
-                                Constants.mainColor
-                                    .frame(width: 25, height: 25)
-                                    .clipShape(Circle())
-                                Image(systemName: "ellipsis")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 15, height: 15)
-                                    .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                            }.frame(width: 25, height: 25)
+                            Image(systemName: "ellipsis")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(Color("todoIcon"))
+                                .frame(width: 25, height: 25)
                         }
                         .sheet(isPresented: self.$editList) {
-                            EditList(listIndex: todoIndex, editList: self.$editList, index: self.$index)
+                            EditList(listIndex: todoIndex, iconRowIndex: self.todos.todos[todoIndex].imageRow, iconSectionIndex: self.todos.todos[todoIndex].imageSection, editList: self.$editList, index: self.$index)
                                 .environmentObject(self.todos)
                         }
                     }
@@ -107,6 +125,6 @@ struct ListSelection: View {
 
 struct ListSelection_Previews: PreviewProvider {
     static var previews: some View {
-        ListSelection(index: .constant(0), showLists: .constant(false), addedList: .constant(false))
+        ListSelection(index: .constant(0), showLists: .constant(false))
     }
 }

@@ -20,19 +20,28 @@ struct AddTodo: View {
     @Binding var index: Int
     @Binding var addTodo: Bool
 
+    @State var selectedIconRowIndex = 0
+    @State var selectedIconSectionIndex = 0
+
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("Add Title")) {
                     TextField("Todo title", text: $todoTitle)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .accentColor(Constants.mainColor)
-                        .background(Color.white)
                 }
-                Section(header: Text("Edit Icon")) {
-                    Picker(selection: $selectedIcon, label: Text("Please choose an icon")) {
-                        ForEach(0 ..< Constants.icons.count) {
-                            Image(systemName: "\(Constants.icons[$0].name)")
+                Section(header: Text("Select Icon")) {
+                    NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
+                        HStack {
+                            Text("Please select an icon")
+                                .foregroundColor(Color.primary)
+                            Spacer()
+                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].name)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .font(.system(size: 15, weight: .bold))
                                 .foregroundColor(Constants.mainColor)
                         }
                     }
@@ -81,7 +90,7 @@ struct AddTodo: View {
             }, trailing:
                 Button(action: {
                 if !self.todoTitle.isEmpty {
-                    self.todos.addTodo(index: self.index, content: self.todoTitle, image: self.selectedIcon, notificationState: self.notificationState, reminderDate: self.reminderDate)
+                    self.todos.addTodo(index: self.index, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.notificationState, reminderDate: self.reminderDate)
                     self.todoTitle = ""
                 }
                 self.addTodo.toggle()

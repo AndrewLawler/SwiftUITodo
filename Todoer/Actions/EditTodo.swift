@@ -13,6 +13,8 @@ struct EditTodo: View {
     @EnvironmentObject var todos: TodoStore
     
     var todoIndex: Int
+    var iconRowIndex: Int
+    var iconSectionIndex: Int
 
     @State var todoTitle = ""
     @State var notificationState = false
@@ -22,19 +24,28 @@ struct EditTodo: View {
     @Binding var editTodo: Bool
     @Binding var index: Int
 
+    @State var selectedIconRowIndex = 0
+    @State var selectedIconSectionIndex = 0
+
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("Edit Title")) {
                     TextField(todos.todos[index].todos[todoIndex].content, text: $todoTitle)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .accentColor(Constants.mainColor)
-                        .background(Color.white)
                 }
                 Section(header: Text("Edit Icon")) {
-                    Picker(selection: $selectedIcon, label: Text("Please choose an icon")) {
-                        ForEach(0 ..< Constants.icons.count) {
-                            Image(systemName: "\(Constants.icons[$0].name)")
+                    NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
+                        HStack {
+                            Text("Please edit your icon")
+                                .foregroundColor(Color.primary)
+                            Spacer()
+                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].name)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .font(.system(size: 15, weight: .bold))
                                 .foregroundColor(Constants.mainColor)
                         }
                     }
@@ -80,21 +91,23 @@ struct EditTodo: View {
             .navigationBarItems(leading: Button(action: { self.editTodo.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {
-                if !self.todoTitle.isEmpty {
-                    self.todos.replaceTodo(listIndex: self.index, index: self.todoIndex, content: self.todoTitle, image: self.selectedIcon, notificationState: self.notificationState, reminderDate: self.reminderDate)
-                }
+                self.todos.replaceTodo(listIndex: self.index, index: self.todoIndex, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.notificationState, reminderDate: self.reminderDate)
                 self.hideKeyboard()
                 self.editTodo.toggle()
                 self.todoTitle = ""
             }) {
                 Text("Done").bold()
             })
+        }.onAppear {
+            self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].content
+            self.selectedIconRowIndex = self.iconRowIndex
+            self.selectedIconSectionIndex = self.iconSectionIndex
         }
     }
 }
 
 struct EditTodo_Previews: PreviewProvider {
     static var previews: some View {
-        EditTodo(todoIndex: 0, todoTitle: "", notificationState: false, reminderDate: Date(), selectedIcon: 0, editTodo: .constant(false), index: .constant(0))
+        EditTodo(todoIndex: 0, iconRowIndex: 0, iconSectionIndex: 0, todoTitle: "", notificationState: false, reminderDate: Date(), selectedIcon: 0, editTodo: .constant(false), index: .constant(0))
     }
 }

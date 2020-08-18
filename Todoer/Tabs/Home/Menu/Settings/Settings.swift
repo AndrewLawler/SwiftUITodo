@@ -94,7 +94,7 @@ struct Settings: View {
                                     .foregroundColor(Color.white)
                             }
                             Text("Follow Me")
-                                .foregroundColor(.black)
+                                .foregroundColor(Color.primary)
                                 .padding(.leading, 5)
                         }
                     }
@@ -111,7 +111,7 @@ struct Settings: View {
                                     .foregroundColor(Color.white)
                             }
                             Text("Rate App")
-                                .foregroundColor(.black)
+                                .foregroundColor(Color.primary)
                                 .padding(.leading, 5)
                         }
                     }

@@ -17,21 +17,35 @@ struct AddList: View {
 
     @Binding var addList: Bool
     @Binding var index: Int
-    @Binding var addedList: Bool
+
+    @State var selectedIconSectionIndex = 0
+    @State var selectedIconRowIndex = 0
+
+    let createdDay: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }()
 
     var body: some View {
         NavigationView {
             List {
                 Section(header: Text("List Title")) {
                     TextField("List Title", text: $listTitle)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .accentColor(Constants.mainColor)
-                        .background(Color.white)
                 }
                 Section(header: Text("Select Icon")) {
-                    Picker(selection: $listIcon, label: Text("Please choose an icon")) {
-                        ForEach(0 ..< Constants.icons.count) {
-                            Image(systemName: "\(Constants.icons[$0].name)")
+                    NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
+                        HStack {
+                            Text("Please select an icon")
+                                .foregroundColor(Color.primary)
+                            Spacer()
+                            Image(systemName: Constants.iconsOrdered[self.selectedIconSectionIndex].icons[self.selectedIconRowIndex].name)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .font(.system(size: 15, weight: .bold))
                                 .foregroundColor(Constants.mainColor)
                         }
                     }
@@ -44,9 +58,8 @@ struct AddList: View {
                 Text("Cancel")
             }, trailing: Button(action: {
                 if !self.listTitle.isEmpty {
-                    self.todos.createTodoList(title: self.listTitle, image: self.listIcon)
+                    self.todos.createTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex ,createdAt: self.createdDay.string(from: Date()))
                     if self.todos.todoListCount() > 1 { self.index = self.index + 1 }
-                    self.addedList.toggle()
                 }
                 self.listIcon = 0
                 self.listTitle = ""
@@ -60,7 +73,7 @@ struct AddList: View {
 
 struct AddList_Previews: PreviewProvider {
     static var previews: some View {
-        AddList(listTitle: "", listIcon: 0, addList: .constant(false), index: .constant(0), addedList: .constant(false))
+        AddList(listTitle: "", listIcon: 0, addList: .constant(false), index: .constant(0))
     }
 }
 

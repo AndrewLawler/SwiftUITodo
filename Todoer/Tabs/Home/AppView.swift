@@ -16,22 +16,52 @@ struct AppView: View {
     @State var addList = false
     @State var addTodo = false
     @State var editTodo = false
-    
-    @State var addedList = false
+    @State var editList = false
 
     @State var index = 0
 
     @State var showSettings = false
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
-                Text(todos.todoListCount() == 0 ? "Welcome to Todoer" : todos.todos[index].title).font(.largeTitle).bold()
+                if todos.todoListCount() == 0 {
+                    Text("Welcome to Todoer").font(.largeTitle).bold()
+                        .padding(.top, 50)
+                } else {
+                    Text(todos.todos[index].title)
+                    	.font(.largeTitle).bold()
+                    	.foregroundColor(Color.primary)
+                        .multilineTextAlignment(.leading)
+                }
+            }
+            .padding(.top, 20)
+            .padding(.bottom, 20)
+            .padding(.horizontal, 20)
+            
+            HStack {
+                if todos.todoListCount() != 0 {
+                    Button(action: { self.editList.toggle() }) {
+                        ZStack {
+                            Color("menuCircle")
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                            Image(systemName: "pencil")
+                                .frame(width: 20, height: 20)
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(Constants.mainColor)
+                        }
+                    }
+                    .sheet(isPresented: $editList) {
+                        EditList(listIndex: self.index, iconRowIndex: self.todos.todos[self.index].imageRow, iconSectionIndex: self.todos.todos[self.index].imageSection, editList: self.$editList, index: self.$index)
+                            .environmentObject(self.todos)
+                    }
+                }
                 Spacer()
-                if self.todos.todoListCount() > 1 {
+                if todos.todoListCount() > 0 {
                     Button(action: { self.showLists.toggle() }) {
                         ZStack {
-                            Color(#colorLiteral(red: 0.9740100503, green: 0.9682194591, blue: 0.9784608483, alpha: 1))
+                            Color("menuCircle")
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                             Image(systemName: "arrowshape.turn.up.left.fill")
@@ -41,18 +71,17 @@ struct AppView: View {
                         }
                     }
                     .sheet(isPresented: $showLists) {
-                        ListSelection(index: self.$index, showLists: self.$showLists, addedList: self.$addedList)
+                        ListSelection(index: self.$index, showLists: self.$showLists)
                             .environmentObject(self.todos)
                     }
                     .padding(.trailing, 10)
-                }
-                if todos.todoListCount() == 1 {
+
                     Button(action: { self.addList.toggle() }) {
                         ZStack {
-                            Color(#colorLiteral(red: 0.9740100503, green: 0.9682194591, blue: 0.9784608483, alpha: 1))
+                            Color("menuCircle")
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
-                            Image(systemName: "book.fill")
+                            Image(systemName: "doc.text.fill")
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
@@ -60,14 +89,13 @@ struct AppView: View {
                     }
                     .padding(.trailing, 10)
                     .sheet(isPresented: $addList) {
-                        AddList(addList: self.$addList, index: self.$index, addedList: self.$addedList)
+                        AddList(addList: self.$addList, index: self.$index)
                             .environmentObject(self.todos)
                     }
-                }
-                if todos.todoListCount() > 0 {
+
                     Button(action: { self.addTodo.toggle() }) {
                         ZStack {
-                            Color(#colorLiteral(red: 0.9740100503, green: 0.9682194591, blue: 0.9784608483, alpha: 1))
+                            Color("menuCircle")
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                             Image(systemName: "plus")
@@ -91,7 +119,7 @@ struct AppView: View {
                     }
                     Button(action: { self.showSettings.toggle() }) {
                         ZStack {
-                            Color(#colorLiteral(red: 0.9740100503, green: 0.9682194591, blue: 0.9784608483, alpha: 1))
+                            Color("menuCircle")
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                             Image(systemName: "gear")
@@ -104,34 +132,37 @@ struct AppView: View {
                     }
                 }
             }
-            .padding(.top, 40)
+            .frame(maxWidth: .infinity)
+            .frame(height: 50)
             .padding(.horizontal, 20)
-            .padding(.bottom, 20)
+            .padding(.bottom, todos.todoListCount() == 0 ? 0 : 20)
 
             ZStack {
                 /// Empty State
                 VStack {
                     Spacer()
                     VStack(spacing: 20) {
-                        Image(systemName: todos.todoListCount() == 0 ? "book.fill" : "pencil.circle")
+                        Image(systemName: todos.todoListCount() == 0 ? "doc.text.fill" : "plus.circle")
                             .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .frame(width: 144, height: 144)
-                            .padding(.bottom, 10)
+                            .padding(.bottom, 30)
                             .foregroundColor(Constants.mainColor)
                         Text("Oops, I'm Empty!")
                             .font(.system(size: 30, weight: .semibold))
-                            .foregroundColor(Color(#colorLiteral(red: 0.3137254902, green: 0.3137254902, blue: 0.3137254902, alpha: 1)))
+                            .foregroundColor(Color("emptyStateTitle"))
+                            .padding(.bottom, 10)
                         Text(todos.todoListCount() == 0 ? "Add a todo list using the\nbutton below." : "Add a todo using the\nbutton below.")
                             .font(.system(size: 18, weight: .regular))
                             .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
                             .multilineTextAlignment(.center)
-                            .padding(.bottom, 10)
+                            .padding(.bottom, 30)
                         Button(action: {
                             self.todos.todoListCount() == 0 ? self.addList.toggle() : self.addTodo.toggle()
                         }) {
                             ZStack {
                                 Constants.mainColor
-                                    .frame(width: 107, height: 37)
+                                    .frame(width: 107, height: 43)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
                                 Image(systemName: "plus")
                                     .foregroundColor(.white)
@@ -140,7 +171,7 @@ struct AppView: View {
                         }
                         .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
                             if self.addList {
-                                AddList(addList: self.$addList, index: self.$index, addedList: self.$addedList)
+                                AddList(addList: self.$addList, index: self.$index)
                                     .environmentObject(self.todos)
                             } else if self.addTodo {
                                 AddTodo(index: self.$index, addTodo: self.$addTodo)
@@ -154,8 +185,66 @@ struct AppView: View {
 
                 /// List View
                 if self.todos.todoCount(index: index) != 0 {
-                    ListView(index: self.$index, editTodo: self.$editTodo)
-                        .environmentObject(self.todos)
+                    List {
+                        ForEach(self.todos.todos[index].todos.indices, id: \.self) { todoIndex in
+                            HStack {
+                                ZStack {
+                                    Color("menuCircle")
+                                        .frame(width: 30, height: 30)
+                                        .clipShape(Circle())
+                                    Image(systemName: "checkmark.circle")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 18, height: 18)
+                                        .foregroundColor(Constants.mainColor)
+                                }.onTapGesture {
+                                    self.todos.todos[self.index].todos.remove(at: todoIndex)
+                                }
+                                .frame(width: 25, height: 25)
+                                .padding(.leading, 10)
+
+                                ZStack {
+                                    Color("menuCircle")
+                                        .frame(width: 30, height: 30)
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    Image(systemName: Constants.iconsOrdered[self.todos.todos[self.index].todos[todoIndex].imageSection].icons[self.todos.todos[self.index].todos[todoIndex].imageRow].name)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 18, height: 18)
+                                        .foregroundColor(Constants.mainColor)
+                                }.padding(.leading, 5)
+
+                                Text(self.todos.todos[self.index].todos[todoIndex].content)
+                                    .fontWeight(.medium)
+                                    .padding(.leading, 10)
+                                    .font(.system(size: 17))
+
+                                Spacer()
+
+                                Button(action: {
+                                    self.editTodo.toggle()
+                                }) {
+                                    Image(systemName: "ellipsis")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 13, height: 13)
+                                        .foregroundColor(Color("todoIcon"))
+                                }
+                                .frame(width: 25, height: 25)
+                                .sheet(isPresented: self.$editTodo) {
+                                    EditTodo(todoIndex: todoIndex, iconRowIndex: self.todos.todos[self.index].todos[todoIndex].imageRow, iconSectionIndex: self.todos.todos[self.index].todos[todoIndex].imageSection, editTodo: self.$editTodo, index: self.$index)
+                                        .environmentObject(self.todos)
+                                }
+                                .padding(.trailing, 10)
+                            }.frame(height: 50)
+                        }
+                        .onDelete { index in
+                            self.todos.todos[self.index].todos.remove(at: index.first!)
+                        }
+                        .onMove { (source: IndexSet, destination: Int) in
+                            self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
+                        }
+                    }
                 }
             }
         }.edgesIgnoringSafeArea(.bottom)
@@ -170,83 +259,8 @@ struct AppView_Previews: PreviewProvider {
 
 struct CircleBackground: View {
     var body: some View {
-        Color(#colorLiteral(red: 0.9740100503, green: 0.9682194591, blue: 0.9784608483, alpha: 1))
+        Color("menuCircle")
             .frame(width: 40, height: 40)
             .clipShape(Circle())
-    }
-}
-
-struct ListView: View {
-
-    @EnvironmentObject var todos: TodoStore
-    @Binding var index: Int
-    @Binding var editTodo: Bool
-
-    var body: some View {
-        List {
-            ForEach(self.todos.todos[index].todos.indices, id: \.self) { todoIndex in
-                HStack {
-                    ZStack {
-                        Constants.mainColor
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
-                        Image(systemName: "checkmark.circle")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                    }.onTapGesture {
-                        self.todos.todos[self.index].todos.remove(at: todoIndex)
-                    }
-                    .frame(width: 25, height: 25)
-                    .padding(.leading, 10)
-
-                    ZStack {
-                        Color(#colorLiteral(red: 0.9740100503, green: 0.9682194591, blue: 0.9784608483, alpha: 1))
-                            .frame(width: 35, height: 35)
-                            .clipShape(Circle())
-                        Image(systemName: Constants.icons[self.todos.todos[self.index].todos[todoIndex].image].name)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 27, height: 27)
-                            .foregroundColor(Constants.mainColor)
-                    }
-
-                    Text(self.todos.todos[self.index].todos[todoIndex].content)
-                        .fontWeight(.medium)
-                        .padding(.leading, 10)
-                        .font(.system(size: 17))
-
-                    Spacer()
-
-                    Button(action: {
-                        self.editTodo.toggle()
-                    }) {
-                        ZStack {
-                            Constants.mainColor
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
-                            Image(systemName: "ellipsis")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                        }
-                    }
-                    .frame(width: 25, height: 25)
-                    .sheet(isPresented: self.$editTodo) {
-                        EditTodo(todoIndex: todoIndex, editTodo: self.$editTodo, index: self.$index)
-                            .environmentObject(self.todos)
-                    }
-                    .padding(.trailing, 10)
-                }
-            }
-            .onDelete { index in
-                self.todos.todos[self.index].todos.remove(at: index.first!)
-            }
-            .onMove { (source: IndexSet, destination: Int) in
-                self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
-            }
-        }
     }
 }
