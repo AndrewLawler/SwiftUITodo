@@ -61,7 +61,10 @@ struct AddList: View {
             }, trailing: Button(action: {
                 if self.listTitle != "" {
                     self.todos.createTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex ,createdAt: self.createdDay.string(from: Date()))
-                    if self.todos.todoListCount() > 1 { self.index = self.index + 1 }
+                    if self.todos.todoListCount() > 1 {
+                        let count = self.todos.todoListCount()
+                        self.index = count - 1
+                    }
                     self.listIcon = 0
                     self.listTitle = ""
                     self.addList.toggle()

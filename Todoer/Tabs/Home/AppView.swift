@@ -22,47 +22,32 @@ struct AppView: View {
     @State var index = 0
 
     @State var showSettings = false
+
+    @State var indexOfTodo = 0
+    @State var indexOfSubTodo = 0
     
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
+            HStack(spacing: 30) {
                 if todos.todoListCount() == 0 {
                     Text("Welcome to Todoer").font(.largeTitle).bold()
                         .padding(.top, 50)
                 } else {
                     Text(todos.todos[index].title)
-                    	.font(.largeTitle).bold()
-                    	.foregroundColor(Color.primary)
-                        .multilineTextAlignment(.leading)
+                        .font(.largeTitle).bold()
+                        .foregroundColor(Color.primary)
+                        .multilineTextAlignment(.center)
                 }
             }
-            .padding(.top, 20)
-            .padding(.bottom, 20)
+            .padding(.top, 25)
+            .padding(.bottom, 25)
             .padding(.horizontal, 20)
             
             HStack {
                 if todos.todoListCount() != 0 {
-                    Button(action: { self.editList.toggle() }) {
-                        ZStack {
-                            Color("menuCircle")
-                                .frame(width: 40, height: 40)
-                                .clipShape(Circle())
-                            Image(systemName: "pencil")
-                                .frame(width: 20, height: 20)
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Constants.mainColor)
-                        }
-                    }
-                    .sheet(isPresented: $editList) {
-                        EditList(listIndex: self.index, iconRowIndex: self.todos.todos[self.index].imageRow, iconSectionIndex: self.todos.todos[self.index].imageSection, editList: self.$editList, index: self.$index)
-                            .environmentObject(self.todos)
-                    }
-                }
-                Spacer()
-                if todos.todoListCount() > 0 {
                     Button(action: { self.showLists.toggle() }) {
                         ZStack {
-                            Color("menuCircle")
+                            Color("darkModeMenuCircle")
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                             Image(systemName: "arrowshape.turn.up.left.fill")
@@ -75,11 +60,30 @@ struct AppView: View {
                         ListSelection(index: self.$index, showLists: self.$showLists)
                             .environmentObject(self.todos)
                     }
-                    .padding(.trailing, 10)
+                }
+
+                Spacer()
+
+                if todos.todoListCount() > 0 {
+                    Button(action: { self.editList.toggle() }) {
+                        ZStack {
+                            Color("darkModeMenuCircle")
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                            Image(systemName: "pencil")
+                                .frame(width: 20, height: 20)
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(Constants.mainColor)
+                        }
+                    }
+                    .sheet(isPresented: $editList) {
+                        EditList(listIndex: self.index, iconRowIndex: self.todos.todos[self.index].imageRow, iconSectionIndex: self.todos.todos[self.index].imageSection, editList: self.$editList, index: self.$index)
+                            .environmentObject(self.todos)
+                    }.padding(.trailing, 10)
 
                     Button(action: { self.addList.toggle() }) {
                         ZStack {
-                            Color("menuCircle")
+                            Color("darkModeMenuCircle")
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                             Image(systemName: "doc.text.fill")
@@ -96,7 +100,7 @@ struct AppView: View {
 
                     Button(action: { self.addTodo.toggle() }) {
                         ZStack {
-                            Color("menuCircle")
+                            Color("darkModeMenuCircle")
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                             Image(systemName: "plus")
@@ -112,15 +116,17 @@ struct AppView: View {
                     }
                     if !(todos.todos[index].todos.isEmpty ) {
                         ZStack {
-                            CircleBackground()
+                            Color("darkModeMenuCircle")
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
                             EditButton()
-                                .font(.system(size: 15))
+                                .font(.system(size: 13, weight: .bold))
                                 .foregroundColor(Constants.mainColor)
                         }.padding(.trailing, 10)
                     }
                     Button(action: { self.showSettings.toggle() }) {
                         ZStack {
-                            Color("menuCircle")
+                            Color("darkModeMenuCircle")
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                             Image(systemName: "gear")
@@ -134,9 +140,13 @@ struct AppView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 50)
+            .frame(height: 40)
             .padding(.horizontal, 20)
-            .padding(.bottom, todos.todoListCount() == 0 ? 0 : 20)
+            .padding(.top, 10)
+            .padding(.bottom, todos.todoListCount() == 0 ? 0 : 10)
+            .frame(width: UIScreen.main.bounds.width - 20)
+            .background(Color("menuTabBar"))
+            .clipShape(RoundedRectangle(cornerRadius: 30))
 
             ZStack {
                 /// Empty State
@@ -186,15 +196,13 @@ struct AppView: View {
 
                 /// List View
                 if self.todos.todoCount(index: index) != 0 {
-
                     /// todos
-
                     List {
                         ForEach(self.todos.todos[index].todos.indices, id: \.self) { todoIndex in
                             VStack {
                                 HStack {
                                     ZStack {
-                                        Color("menuCircle")
+                                        Color("todoIconBackground")
                                             .frame(width: 30, height: 30)
                                             .clipShape(Circle())
                                         Image(systemName: "checkmark.circle")
@@ -209,7 +217,7 @@ struct AppView: View {
                                     .padding(.leading, 10)
 
                                     ZStack {
-                                        Color("menuCircle")
+                                        Color("todoIconBackground")
                                             .frame(width: 30, height: 30)
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
                                         Image(systemName: Constants.iconsOrdered[self.todos.todos[self.index].todos[todoIndex].imageSection].icons[self.todos.todos[self.index].todos[todoIndex].imageRow].systemName)
@@ -227,20 +235,20 @@ struct AppView: View {
                                     Spacer()
 
                                     Button(action: {
-                                        print("Tapped todo elipsis")
+                                        self.indexOfTodo = todoIndex
+                                        self.editTodo.toggle()
                                     }) {
                                         Image(systemName: "ellipsis")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 13, height: 13)
                                             .foregroundColor(Color("todoIcon"))
-                                    }.sheet(isPresented: self.$editTodo) {
-                                        EditTodo(todoIndex: todoIndex, iconRowIndex: self.todos.todos[self.index].todos[todoIndex].imageRow, iconSectionIndex: self.todos.todos[self.index].todos[todoIndex].imageSection, editTodo: self.$editTodo, index: self.$index)
+                                            .padding(.horizontal, 10)
+                                    }.buttonStyle(PlainButtonStyle())
+                                    .sheet(isPresented: self.$editTodo) {
+                                        EditTodo(todoIndex: self.indexOfTodo, iconRowIndex:    self.todos.todos[self.index].todos  [todoIndex].imageRow, iconSectionIndex:     self.todos.todos[self.index].todos  [todoIndex].imageSection, editTodo:     self.$editTodo, index: self.$index)
                                             .environmentObject(self.todos)
-                                    }
-                                    .padding(.horizontal, 10)
-                                }.onTapGesture {
-                                    self.editTodo.toggle()
+                                    }.frame(width: 30, height: 30)
                                 }
 
                                 /// sub todos
@@ -257,7 +265,7 @@ struct AppView: View {
                                                     .padding(.leading, 12)
 
                                                 ZStack {
-                                                    Color("menuCircle")
+                                                    Color("todoIconBackground")
                                                         .frame(width: 25, height: 25)
                                                         .clipShape(Circle())
                                                     Image(systemName: "checkmark.circle")
@@ -280,25 +288,24 @@ struct AppView: View {
                                                 Spacer()
 
                                                 Button(action: {
-                                                    print("Tapped sub todo elipsis")
+                                                    self.indexOfTodo = todoIndex
+                                                    self.indexOfSubTodo = subTodoIndex
+                                                    self.editSubTodo.toggle()
                                                 }) {
                                                     Image(systemName: "ellipsis")
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
                                                         .frame(width: 13, height: 13)
                                                         .foregroundColor(Color("todoIcon"))
-                                                }
+                                                }.buttonStyle(PlainButtonStyle())
                                                 .sheet(isPresented: self.$editSubTodo) {
-                                                    EditSubTodo(todoIndex: todoIndex, subTodoIndex: subTodoIndex, editSubTodo: self.$editSubTodo, index: self.$index)
+                                                    EditSubTodo(todoIndex: self.indexOfTodo, subTodoIndex: self.indexOfSubTodo, editSubTodo: self.$editSubTodo, index: self.$index)
                                                         .environmentObject(self.todos)
-                                                }
-                                                .padding(.horizontal, 10)
+                                                }.padding(.horizontal, 10)
+                                                .frame(width: 30, height: 30)
                                             }
                                         }
                                     }.padding(.leading, 45)
-                                        .onTapGesture {
-                                            self.editSubTodo.toggle()
-                                        }
                                 }
                             }.padding(.vertical, 10)
                         }
@@ -309,23 +316,19 @@ struct AppView: View {
                             self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
                             self.todos.saveTodos()
                         }
-                    }
+                        //.listRowBackground(Color("appBackground"))
+                    }.padding(.top, 10)
                 }
             }
-        }.edgesIgnoringSafeArea(.bottom)
+        }
+        .edgesIgnoringSafeArea(.bottom)
+        //.background(Color("appBackground"))
+        //.edgesIgnoringSafeArea(.vertical)
     }
 }
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         AppView()
-    }
-}
-
-struct CircleBackground: View {
-    var body: some View {
-        Color("menuCircle")
-            .frame(width: 40, height: 40)
-            .clipShape(Circle())
     }
 }

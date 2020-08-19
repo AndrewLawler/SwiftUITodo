@@ -36,7 +36,7 @@ struct Settings: View {
                                 .padding(.leading, 5)
                         }
                     }
-                    Picker(selection: $colorIndex, label:
+                    NavigationLink(destination: ColorChoice(selectedColorRowIndex: self.$colorIndex)) {
                         HStack {
                             ZStack {
                                 Constants.mainColor
@@ -49,36 +49,14 @@ struct Settings: View {
                                     .foregroundColor(Color.white)
                             }
                             Text("Color")
+                                .foregroundColor(Color.primary)
                                 .padding(.leading, 5)
-                        }
-                    ){
-                        ForEach(0 ..< Constants.colors.count) {
-                            Constants.colors[$0].color
+                            Spacer()
+                            Constants.colors[self.colorIndex].color
                                 .frame(width: 20, height: 20)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                .cornerRadius(5)
                         }
                     }
-//                    Picker(selection: $iconIndex, label:
-//                        HStack {
-//                            ZStack {
-//                                Constants.mainColor
-//                                    .frame(width: 30, height: 30)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-//                                Image(systemName: "pencil")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .frame(width: 20, height: 20)
-//                                    .foregroundColor(Color.white)
-//                            }
-//                            Text("App Icon")
-//                                .padding(.leading, 5)
-//                        }
-//                    ){
-//                        ForEach(0 ..< Constants.icons.count) {
-//                            Image(systemName: "\(Constants.icons[$0].name)")
-//                                .foregroundColor(Constants.mainColor)
-//                        }
-//                    }
                 }
                 Section(header: Text("Developer")) {
                     NavigationLink(destination: Settings(showSettings: self.$showSettings)) {

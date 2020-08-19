@@ -24,6 +24,7 @@
 		646D37C824E83A9A006D5B8E /* KeyboardRespobder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646D37C724E83A9A006D5B8E /* KeyboardRespobder.swift */; };
 		646D37CA24E83D0D006D5B8E /* TodoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646D37C924E83D0D006D5B8E /* TodoStore.swift */; };
 		6481664324EC479C000178DD /* IconChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6481664224EC479C000178DD /* IconChoice.swift */; };
+		64817ED724EDD64400FC3501 /* ColorChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64817ED624EDD64400FC3501 /* ColorChoice.swift */; };
 		64C5895924EC7892008A3D8D /* EditSubTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C5895824EC7892008A3D8D /* EditSubTodo.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		646D37C724E83A9A006D5B8E /* KeyboardRespobder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardRespobder.swift; sourceTree = "<group>"; };
 		646D37C924E83D0D006D5B8E /* TodoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoStore.swift; sourceTree = "<group>"; };
 		6481664224EC479C000178DD /* IconChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconChoice.swift; sourceTree = "<group>"; };
+		64817ED624EDD64400FC3501 /* ColorChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChoice.swift; sourceTree = "<group>"; };
 		64C5895824EC7892008A3D8D /* EditSubTodo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSubTodo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +72,7 @@
 				642AAC8624E9A5F6007C01D7 /* EditTodo.swift */,
 				64C5895824EC7892008A3D8D /* EditSubTodo.swift */,
 				642AAC8824E9A60D007C01D7 /* AddTodo.swift */,
+				64817ED624EDD64400FC3501 /* ColorChoice.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				6401CAE224E97DD00026C8A5 /* Settings.swift in Sources */,
 				642AAC8924E9A60D007C01D7 /* AddTodo.swift in Sources */,
 				6481664324EC479C000178DD /* IconChoice.swift in Sources */,
+				64817ED724EDD64400FC3501 /* ColorChoice.swift in Sources */,
 				646D37B124E827A4006D5B8E /* SceneDelegate.swift in Sources */,
 				6431C83D24EA153E00332074 /* EditList.swift in Sources */,
 				646D37C824E83A9A006D5B8E /* KeyboardRespobder.swift in Sources */,

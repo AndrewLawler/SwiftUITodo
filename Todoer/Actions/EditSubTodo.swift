@@ -23,14 +23,14 @@ struct EditSubTodo: View {
         NavigationView {
             List {
                 Section(header: Text("Edit Title")) {
-                    TextField(todos.todos[index].todos[todoIndex].content, text: $todoTitle)
+                    TextField(todos.todos[index].todos[todoIndex].subTodos[subTodoIndex].content, text: $todoTitle)
                         .foregroundColor(.primary)
                         .accentColor(Constants.mainColor)
                 }
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("Edit Todo")
+            .navigationBarTitle("Edit Sub Todo")
             .navigationBarItems(leading: Button(action: { self.editSubTodo.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {

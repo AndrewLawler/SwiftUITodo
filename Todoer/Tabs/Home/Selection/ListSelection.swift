@@ -20,10 +20,26 @@ struct ListSelection: View {
     @Binding var showLists: Bool
 
     @State var clickedEdit = false
+    @State var editIndex = 0
 
-    func todo(todos: Int) -> String {
+    func todoText(todos: Int) -> String {
         if todos >= 0 { return "todos" }
         else { return "todo" }
+    }
+
+    func subTodoText(todos: Int) -> String {
+        if todos >= 0 { return "sub todos" }
+        else { return "sub todo" }
+    }
+
+    func calculateSubTodo(listIndex: Int) -> Int {
+        var count = 0
+        var index = 0
+        while index < self.todos.todos[listIndex].todos.count {
+            count += self.todos.todos[listIndex].todos[index].subTodos.count
+            index += 1
+        }
+        return count
     }
 
     var body: some View {
@@ -31,35 +47,42 @@ struct ListSelection: View {
             HStack {
                 Text("Lists").font(.largeTitle).bold()
                 Spacer()
-                Button(action: { self.addList.toggle() }) {
+                HStack {
+                    Button(action: { self.addList.toggle() }) {
+                        ZStack {
+                            Color("darkModeMenuCircle")
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20, height: 20)
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(Constants.mainColor)
+                        }
+                    }
+                    .padding(.trailing, 10)
+                    .sheet(isPresented: $addList) {
+                        AddList(addList: self.$addList, index: self.$index)
+                            .environmentObject(self.todos)
+                    }.padding(.trailing, 10)
                     ZStack {
-                        Color("menuCircle")
+                        Color("darkModeMenuCircle")
                             .frame(width: 40, height: 40)
                             .clipShape(Circle())
-                        Image(systemName: "doc.text.fill")
-                            .frame(width: 20, height: 20)
-                            .font(.system(size: 20, weight: .semibold))
+                        EditButton()
+                            .font(.system(size: 13, weight: .bold))
                             .foregroundColor(Constants.mainColor)
+                            .onTapGesture {
+                                self.clickedEdit.toggle()
+                            }
                     }
                 }
-                .padding(.trailing, 10)
-                .sheet(isPresented: $addList) {
-                    AddList(addList: self.$addList, index: self.$index)
-                        .environmentObject(self.todos)
-                }.padding(.trailing, 10)
-                ZStack {
-                    CircleBackground()
-                    EditButton()
-                        .font(.system(size: 15))
-                        .foregroundColor(Constants.mainColor)
-                        .onTapGesture {
-                            self.clickedEdit.toggle()
-                        }
-                }
+                .frame(width: 135)
+                .frame(height: 60)
+                .background(Color("menuTabBar"))
+                .clipShape(RoundedRectangle(cornerRadius: 30))
             }
             .padding(.top, 40)
             .padding(.horizontal, 20)
-            .padding(.bottom, 20)
             
             List {
                 ForEach(self.todos.todos.indices, id: \.self) { todoIndex in
@@ -83,7 +106,7 @@ struct ListSelection: View {
                                 .font(.system(size: 20, weight: .bold))
                                 .padding(.leading, 10)
                                 .frame(width: 150, alignment: .leading)
-                            Text("\(self.todos.todos[todoIndex].todos.count) \(self.todo(todos: self.todos.todos[todoIndex].todos.count))")
+                            Text("\(self.todos.todos[todoIndex].todos.count) \(self.todoText(todos: self.todos.todos[todoIndex].todos.count)), \(self.calculateSubTodo(listIndex: todoIndex)) \(self.subTodoText(todos: self.calculateSubTodo(listIndex: todoIndex)))")
                                 .font(.system(size: 13, weight: .medium))
                                 .padding(.leading, 10)
                                 .frame(width: 150, alignment: .leading)
@@ -96,8 +119,11 @@ struct ListSelection: View {
                                 .foregroundColor(Color.secondary.opacity(0.7))
                                 .padding(.top, 3)
                         }
+
                         Spacer()
+
                         Button(action: {
+                            self.editIndex = todoIndex
                             self.editList.toggle()
                         }) {
                             Image(systemName: "ellipsis")
@@ -105,14 +131,25 @@ struct ListSelection: View {
                                 .aspectRatio(contentMode: .fit)
                                 .foregroundColor(Color("todoIcon"))
                                 .frame(width: 25, height: 25)
-                        }
+                            }.buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: self.$editList) {
-                            EditList(listIndex: todoIndex, iconRowIndex: self.todos.todos[todoIndex].imageRow, iconSectionIndex: self.todos.todos[todoIndex].imageSection, editList: self.$editList, index: self.$index)
+                            EditList(listIndex: self.editIndex, iconRowIndex: self.todos.todos[todoIndex].imageRow, iconSectionIndex: self.todos.todos[todoIndex].imageSection, editList: self.$editList, index: self.$index)
                                 .environmentObject(self.todos)
                         }
                     }
+                    .background(Color("iconSelectionRow").opacity(0.01))
+                    .onTapGesture {
+                        self.index = todoIndex
+                        self.showLists.toggle()
+
+                    }
                     .padding(.vertical, 8)
                 }.onDelete { index in
+                    if self.index == index.first && self.index == self.todos.todoListCount() - 1 && self.todos.todoListCount() > 1 {
+                        self.index = self.index - 1
+                    } else {
+                        self.index = 0
+                    }
                     self.todos.deleteTodoList(index: index.first!)
                 }
                 .onMove { (source: IndexSet, destination: Int) in

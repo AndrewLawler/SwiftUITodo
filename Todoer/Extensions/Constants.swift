@@ -20,9 +20,10 @@ struct SectionIcon: Identifiable {
     let icons: [Icon]
 }
 
-struct ColorChoice: Identifiable {
+struct ColorOption: Identifiable {
     let id = UUID()
     let color: Color
+    let name: String
 }
 
 enum Constants {
@@ -75,11 +76,13 @@ enum Constants {
 
     static let appIcons: [String] = []
 
-    static let colors: [ColorChoice] = [
-        ColorChoice(color: Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))),
-        ColorChoice(color: Color(#colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1))),
-        ColorChoice(color: Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))),
-        ColorChoice(color: Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)))
+    static let colors: [ColorOption] = [
+        ColorOption(color: Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)), name: "Blue"),
+        ColorOption(color: Color(#colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)), name: "Pink"),
+        ColorOption(color: Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)), name: "Orange"),
+        ColorOption(color: Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)), name: "Green"),
+        ColorOption(color: Color(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)), name: "Yellow"),
+        ColorOption(color: Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)), name: "Purple"),
     ]
 
 }
