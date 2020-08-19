@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 
+/// keyboard responder used to shift the view upwards
 class KeyboardResponder: ObservableObject {
 
     @Published var currentHeight: CGFloat = 0
@@ -35,6 +36,8 @@ class KeyboardResponder: ObservableObject {
         }
     }
 }
+
+/// hide keyboard function used if the screen is tapped
 
 #if canImport(UIKit)
 extension View {

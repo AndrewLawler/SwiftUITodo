@@ -246,7 +246,11 @@ struct AppView: View {
                                             .padding(.horizontal, 10)
                                     }.buttonStyle(PlainButtonStyle())
                                     .sheet(isPresented: self.$editTodo) {
-                                        EditTodo(todoIndex: self.indexOfTodo, iconRowIndex:    self.todos.todos[self.index].todos  [todoIndex].imageRow, iconSectionIndex:     self.todos.todos[self.index].todos  [todoIndex].imageSection, editTodo:     self.$editTodo, index: self.$index)
+                                        EditTodo(todoIndex: self.indexOfTodo,
+                                                 iconRowIndex: self.todos.todos[self.index].todos[self.indexOfTodo].imageRow,
+                                                 iconSectionIndex: self.todos.todos[self.index].todos[self.indexOfTodo].imageSection,
+                                                 editTodo: self.$editTodo,
+                                                 index: self.$index)
                                             .environmentObject(self.todos)
                                     }.frame(width: 30, height: 30)
                                 }

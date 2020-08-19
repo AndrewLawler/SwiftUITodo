@@ -8,8 +8,11 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 class TodoStore: ObservableObject {
+
+    /// storage of our todos
 
     @Published var todos: [TodoList] = []
 
@@ -95,13 +98,11 @@ class TodoStore: ObservableObject {
     /// save todos
     
     func saveTodos() {
-        print("Saved Todos")
     }
 
     /// restore todos
 
     func restoreTodos() {
-        print("Restored Todos")
     }
 
     /// App Screenshot

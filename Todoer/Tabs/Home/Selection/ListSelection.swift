@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// List selection is the screen in which you can change which list you are viewing
 struct ListSelection: View {
     
     @EnvironmentObject var todos: TodoStore
@@ -22,16 +23,19 @@ struct ListSelection: View {
     @State var clickedEdit = false
     @State var editIndex = 0
 
+    /// get the correct string needed for the todo
     func todoText(todos: Int) -> String {
         if todos >= 0 { return "todos" }
         else { return "todo" }
     }
 
+    /// get the correct string needed for the sub todo
     func subTodoText(todos: Int) -> String {
         if todos >= 0 { return "sub todos" }
         else { return "sub todo" }
     }
 
+    /// calculate how many sub todos each list has to then convert it to a sub todo text
     func calculateSubTodo(listIndex: Int) -> Int {
         var count = 0
         var index = 0
@@ -44,9 +48,12 @@ struct ListSelection: View {
 
     var body: some View {
         VStack {
+            /// Custom NavigationView
             HStack {
+                /// recreates the nav title style
                 Text("Lists").font(.largeTitle).bold()
                 Spacer()
+                /// HStack of the two buttons used in the view
                 HStack {
                     Button(action: { self.addList.toggle() }) {
                         ZStack {
@@ -76,6 +83,7 @@ struct ListSelection: View {
                             }
                     }
                 }
+                /// adds a ring around the menu items in dark mode
                 .frame(width: 135)
                 .frame(height: 60)
                 .background(Color("menuTabBar"))
@@ -83,10 +91,13 @@ struct ListSelection: View {
             }
             .padding(.top, 40)
             .padding(.horizontal, 20)
-            
+
+            /// list showing all the possible lists
             List {
+                /// loop the todolists via their index
                 ForEach(self.todos.todos.indices, id: \.self) { todoIndex in
                     HStack {
+                        /// image with tap gesture to change the overall app index
                         ZStack {
                             Constants.mainColor
                                 .frame(width: 80, height: 80)
@@ -101,6 +112,7 @@ struct ListSelection: View {
                             self.index = todoIndex
                             self.showLists.toggle()
                         }
+                        /// text with title, todos and creation date
                         VStack {
                             Text(self.todos.todos[todoIndex].title)
                                 .font(.system(size: 20, weight: .bold))
@@ -122,6 +134,7 @@ struct ListSelection: View {
 
                         Spacer()
 
+                        /// more button to edit the list
                         Button(action: {
                             self.editIndex = todoIndex
                             self.editList.toggle()
@@ -133,10 +146,11 @@ struct ListSelection: View {
                                 .frame(width: 25, height: 25)
                             }.buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: self.$editList) {
-                            EditList(listIndex: self.editIndex, iconRowIndex: self.todos.todos[todoIndex].imageRow, iconSectionIndex: self.todos.todos[todoIndex].imageSection, editList: self.$editList, index: self.$index)
+                            EditList(listIndex: self.editIndex, iconRowIndex: self.todos.todos[self.editIndex].imageRow, iconSectionIndex: self.todos.todos[self.editIndex].imageSection, editList: self.$editList, index: self.$index)
                                 .environmentObject(self.todos)
                         }
                     }
+                    /// adds a tap gesture to the entire list on an invisible item
                     .background(Color("iconSelectionRow").opacity(0.01))
                     .onTapGesture {
                         self.index = todoIndex
@@ -145,6 +159,7 @@ struct ListSelection: View {
                     }
                     .padding(.vertical, 8)
                 }.onDelete { index in
+                    /// if the item we are deleting is the same as the current index + the index is the last possible index and the count is greater than 1, reduce the index by 1. Else, just set it to 0 to be safe.
                     if self.index == index.first && self.index == self.todos.todoListCount() - 1 && self.todos.todoListCount() > 1 {
                         self.index = self.index - 1
                     } else {

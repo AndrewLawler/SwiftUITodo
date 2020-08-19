@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+/// Custom view to add a list to the todo store
+
 struct AddList: View {
 
     @EnvironmentObject var todos: TodoStore
@@ -21,16 +23,20 @@ struct AddList: View {
     @State var selectedIconSectionIndex = 0
     @State var selectedIconRowIndex = 0
 
+    /// formatter to take the date created and transform it
+
     let createdDay: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         return formatter
     }()
 
+    /// placeholder which can be updated throughout if needed
     @State var textfieldPlaceholder = "List Title"
 
     var body: some View {
         NavigationView {
+            /// list showing options in menu format
             List {
                 Section(header: Text("List Title")) {
                     TextField(textfieldPlaceholder, text: $listTitle)
@@ -59,6 +65,7 @@ struct AddList: View {
             .navigationBarItems(leading: Button(action: { self.addList.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {
+                /// if we are empty to not create a todo, instead just change the textfield placeholder to request something
                 if self.listTitle != "" {
                     self.todos.createTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex ,createdAt: self.createdDay.string(from: Date()))
                     if self.todos.todoListCount() > 1 {

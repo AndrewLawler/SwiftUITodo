@@ -8,30 +8,36 @@
 
 import SwiftUI
 
+/// icon structure which contains system name and name
 struct Icon: Identifiable {
     let id = UUID()
     let systemName: String
     let name: String
 }
 
+/// section icon which contains array of icons and then title for the section
 struct SectionIcon: Identifiable {
     let id = UUID()
     let title: String
     let icons: [Icon]
 }
 
+/// color option which contains a name and color
 struct ColorOption: Identifiable {
     let id = UUID()
     let color: Color
     let name: String
 }
 
+/// enum used to reference static variables across the app
 enum Constants {
+
     static var version = "1.0"
 
     static var mainColor = Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))
     static var mainColorIndex = 0
 
+    /// ordered icons into sections, used in Icon Choice View
     static let iconsOrdered: [SectionIcon] = [
         SectionIcon(title: "Popular", icons: [
             Icon(systemName: "house.fill", name: "House"),
@@ -74,8 +80,10 @@ enum Constants {
         ])
     ]
 
+    /// custom app icons when we get up and running with the app icon
     static let appIcons: [String] = []
 
+    /// color choices for the user to pick from
     static let colors: [ColorOption] = [
         ColorOption(color: Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)), name: "Blue"),
         ColorOption(color: Color(#colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)), name: "Pink"),
