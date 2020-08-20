@@ -10,6 +10,7 @@ import SwiftUI
 
 struct AppView: View {
 
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var todos: TodoStore
 
     @State var showLists = false
@@ -27,6 +28,8 @@ struct AppView: View {
     @State var index = 0
 
     @State var showSettings = false
+
+    /// need logic for gapFromTop using device type of less than iphone 8
     
     var body: some View {
         VStack(spacing: 0) {
@@ -39,10 +42,10 @@ struct AppView: View {
                         .font(.largeTitle).bold()
                         .foregroundColor(Color.primary)
                         .multilineTextAlignment(.center)
-                        .padding(.top, 70)
+                        .padding(.top, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 30 : 70)
                 }
             }
-            .padding(.bottom, 25)
+            .padding(.bottom, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 10 : 35)
             .padding(.horizontal, 20)
             
             HStack {
@@ -334,7 +337,7 @@ struct AppView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .background(Color("appBackground"))
-        .edgesIgnoringSafeArea(.vertical)
+        .edgesIgnoringSafeArea(.top)
     }
 }
 
