@@ -156,9 +156,9 @@ struct ListSelection: View {
                         self.index = todoIndex
                         self.showLists.toggle()
 
-                    }
-                    .padding(.vertical, 8)
-                }.onDelete { index in
+                    }.padding(.vertical, 8)
+                }
+                .onDelete { index in
                     /// if the item we are deleting is the same as the current index + the index is the last possible index and the count is greater than 1, reduce the index by 1. Else, just set it to 0 to be safe.
                     if self.index == index.first && self.index == self.todos.todoListCount() - 1 && self.todos.todoListCount() > 1 {
                         self.index = self.index - 1
@@ -170,7 +170,8 @@ struct ListSelection: View {
                 .onMove { (source: IndexSet, destination: Int) in
                     self.todos.todos.move(fromOffsets: source, toOffset: destination)
                     self.todos.saveTodos()
-                }.listRowBackground(Color("appBackground"))
+                }
+                .listRowBackground(Color("appBackground"))
             }
         }.background(Color("appBackground"))
     }

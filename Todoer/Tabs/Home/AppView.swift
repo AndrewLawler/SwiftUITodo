@@ -150,7 +150,7 @@ struct AppView: View {
             .padding(.top, 10)
             .padding(.bottom, todos.todoListCount() == 0 ? 0 : 10)
             .frame(width: UIScreen.main.bounds.width - 20)
-            .background(Color("menuTabBar"))
+            .background(Color(todos.todoListCount() == 0 ? "appBackground" : "menuTabBar"))
             .clipShape(RoundedRectangle(cornerRadius: 30))
 
             ZStack {
@@ -335,9 +335,10 @@ struct AppView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity)
         .edgesIgnoringSafeArea(.bottom)
         .background(Color("appBackground"))
-        .edgesIgnoringSafeArea(.top)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
