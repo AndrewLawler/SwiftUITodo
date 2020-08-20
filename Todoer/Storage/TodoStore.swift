@@ -13,11 +13,9 @@ import CoreData
 class TodoStore: ObservableObject {
 
     /// storage of our todos
-
     @Published var todos: [TodoList] = []
 
     /// count of [todos] and [todoslist]
-
     func todoListCount() -> Int {
         return todos.count
     }
@@ -31,21 +29,18 @@ class TodoStore: ObservableObject {
     }
 
     /// create Todo List
-
     func createTodoList(title: String, imageSection: Int, imageRow: Int, createdAt: String) {
         todos.append(TodoList(title: title, imageSection: imageSection, imageRow: imageRow, createdAt: createdAt))
         saveTodos()
     }
 
     /// delete Todo List
-
     func deleteTodoList(index: Int) {
         todos.remove(at: index)
         saveTodos()
     }
 
     /// edit Todo List
-
     func editTodoList(title: String, imageSection: Int, imageRow: Int, index: Int) {
         todos[index].title = title
         todos[index].imageRow = imageRow
@@ -54,67 +49,97 @@ class TodoStore: ObservableObject {
     }
 
     /// add Todo to list
-
     func addTodo(index: Int, content: String, imageSection: Int, imageRow: Int, notificationState: Bool, reminderDate: Date) {
         todos[index].todos.append(Todo(content: content, imageSection: imageSection, imageRow: imageRow, notificationState: notificationState, reminderDate: reminderDate))
         saveTodos()
     }
 
     /// edit Todo
-
     func replaceTodo(listIndex: Int, index: Int, content: String, imageSection: Int, imageRow: Int, notificationState: Bool, reminderDate: Date) {
         todos[listIndex].todos[index] = Todo(content: content, imageSection: imageSection, imageRow: imageRow, notificationState: notificationState, reminderDate: reminderDate)
         saveTodos()
     }
 
     /// delete todo
-
     func deleteTodo(index: Int, todoIndex: Int) {
         todos[index].todos.remove(at: todoIndex)
         saveTodos()
     }
 
     /// add sub todo
-
     func addSubTodo(title: String, index: Int, todoIndex: Int) {
         todos[index].todos[todoIndex].subTodos.append(SubTodo(content: title))
         saveTodos()
     }
 
     /// edit sub todo
-
     func replaceSubTodo(listIndex: Int, index: Int, subTodoIndex: Int, content: String) {
         todos[listIndex].todos[index].subTodos[subTodoIndex] = SubTodo(content: content)
         saveTodos()
     }
 
     /// delete sub todo
-
     func deleteSubTodo(index: Int, todoIndex: Int, subTodoIndex: Int) {
         todos[index].todos[todoIndex].subTodos.remove(at: subTodoIndex)
         saveTodos()
     }
 
     /// save todos
-    
     func saveTodos() {
+//        /// method to create and save a lists
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let context = appDelegate.persistentContainer.viewContext
+//
+//        let listEntity = NSEntityDescription.entity(forEntityName: "TodoLists", in: context)
+//        let todoEntity = NSEntityDescription.entity(forEntityName: "Todo", in: context)
+//        let subTodoEntity = NSEntityDescription.entity(forEntityName: "SubTodo", in: context)
+//
+//        for list in todos {
+//            /// for each list we create a new object
+//            let newTodoList = NSManagedObject(entity: listEntity!, insertInto: context)
+//            /// set local values here
+//
+//            for todos in list.todos {
+//                let newTodoEntity = NSManagedObject(entity: todoEntity!, insertInto: context)
+//                /// set local values for each todo here
+//
+//                for subs in todos.subTodos {
+//                    let newSubTodoEntity = NSManagedObject(entity: subTodoEntity!, insertInto: context)
+//                    /// set local values for each sub todo here
+//                }
+//            }
+//        }
+//        /// save
+//        do {
+//            try context.save()
+//            } catch {
+//            print("Failed saving")
+//        }
     }
 
     /// restore todos
-
     func restoreTodos() {
     }
 
-    /// App Screenshot
-
+    /// App Screenshot - Automatically populates the app with lists and todos to test
     func populate() {
-        /// call this function when i need a screenshot
-        var index = 0
+        /// names array for each of the lists
         let names = ["Daily Tasks", "Christmas Presents", "Gym Routine", "Building Work", "Weekly Tasks", "Resolutions", "Gym Personal Records", "Plan"]
+
+        /// iconRow and Section for the list icon
         let iconsSection = [0, 3, 4, 4, 0, 4, 0, 0]
         let iconsRow = [3, 0, 2, 1, 3, 9, 6, 1]
+
+        /// dateformatter, same used in AddList for authenticity
+        let createdDay: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            return formatter
+        }()
+
+        var index = 0
         while index <= 6 {
-            createTodoList(title: names[index], imageSection: iconsSection[index], imageRow: iconsRow[index], createdAt: "Aug 18, 2020")
+            createTodoList(title: names[index], imageSection: iconsSection[index], imageRow: iconsRow[index], createdAt: createdDay.string(from: Date()))
 
             addTodo(index: index, content: "Send E-mail to Ben", imageSection: 3, imageRow: 0, notificationState: false, reminderDate: Date())
             addSubTodo(title: "Don't forget to attach the file", index: index, todoIndex: 0)
@@ -138,6 +163,7 @@ class TodoStore: ObservableObject {
             index += 1
         }
     }
+
 }
 
 struct Todo: Identifiable {

@@ -14,32 +14,34 @@ struct AppView: View {
 
     @State var showLists = false
     @State var addList = false
+    @State var editList = false
+
     @State var addTodo = false
     @State var editTodo = false
-    @State var editList = false
+
     @State var editSubTodo = false
+
+    @State var indexOfTodo = 0
+    @State var indexOfSubTodo = 0
 
     @State var index = 0
 
     @State var showSettings = false
-
-    @State var indexOfTodo = 0
-    @State var indexOfSubTodo = 0
     
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 30) {
                 if todos.todoListCount() == 0 {
                     Text("Welcome to Todoer").font(.largeTitle).bold()
-                        .padding(.top, 50)
+                        .padding(.top, 90)
                 } else {
                     Text(todos.todos[index].title)
                         .font(.largeTitle).bold()
                         .foregroundColor(Color.primary)
                         .multilineTextAlignment(.center)
+                        .padding(.top, 70)
                 }
             }
-            .padding(.top, 25)
             .padding(.bottom, 25)
             .padding(.horizontal, 20)
             
@@ -311,7 +313,8 @@ struct AppView: View {
                                         }
                                     }.padding(.leading, 45)
                                 }
-                            }.padding(.vertical, 10)
+                            }
+                            .padding(.vertical, 7)
                         }
                         .onDelete { index in
                             self.todos.deleteTodo(index: self.index, todoIndex: index.first!)
@@ -320,14 +323,18 @@ struct AppView: View {
                             self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
                             self.todos.saveTodos()
                         }
-                        //.listRowBackground(Color("appBackground"))
-                    }.padding(.top, 10)
+                        .listRowBackground(Color("appBackground"))
+                    }.onAppear {
+                        UITableView.appearance().separatorStyle = .none
+                        UITableView.appearance().backgroundColor = UIColor(named: "appBackground")
+                    }
+                    .padding(.top, 10)
                 }
             }
         }
         .edgesIgnoringSafeArea(.bottom)
-        //.background(Color("appBackground"))
-        //.edgesIgnoringSafeArea(.vertical)
+        .background(Color("appBackground"))
+        .edgesIgnoringSafeArea(.vertical)
     }
 }
 

@@ -43,6 +43,8 @@ struct ColorChoice: View {
                     .background(Color("iconSelectionRow").opacity(0.01))
                     .onTapGesture {
                         self.selectedColorRowIndex = colorIndex
+                        Constants.mainColor = Constants.colors[self.selectedColorRowIndex].color
+                        Constants.mainColorIndex = self.selectedColorRowIndex
                     }
                 }
             }
