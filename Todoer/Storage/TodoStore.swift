@@ -99,13 +99,37 @@ class TodoStore: ObservableObject {
 //            let newTodoList = NSManagedObject(entity: listEntity!, insertInto: context)
 //            /// set local values here
 //
+//            //title
+//            //imageSection
+//            //imageRow
+//            //createdAt
+//            //todos
+//
+//            var todoObjects: [NSManagedObject] = []
+//
 //            for todos in list.todos {
+//
 //                let newTodoEntity = NSManagedObject(entity: todoEntity!, insertInto: context)
 //                /// set local values for each todo here
+//
+//                //content
+//                //imageSection
+//                //imageRow
+//                //notificationState
+//                //reminderDate
+//                //subTodos
+//
+//                todoObjects.append(newTodoEntity)
+//
+//                var subTodoObjects: [NSManagedObject] = []
 //
 //                for subs in todos.subTodos {
 //                    let newSubTodoEntity = NSManagedObject(entity: subTodoEntity!, insertInto: context)
 //                    /// set local values for each sub todo here
+//
+//                    //content
+//
+//                    subTodoObjects.append(newSubTodoEntity)
 //                }
 //            }
 //        }

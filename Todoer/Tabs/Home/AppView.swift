@@ -49,7 +49,7 @@ struct AppView: View {
             .padding(.horizontal, 20)
             
             HStack {
-                if todos.todoListCount() != 0 {
+                if todos.todoListCount() == 1 && todos.todoCount(index: index) >= 1 {
                     Button(action: { self.showLists.toggle() }) {
                         ZStack {
                             Color("darkModeMenuCircle")
@@ -64,10 +64,9 @@ struct AppView: View {
                     .sheet(isPresented: $showLists) {
                         ListSelection(index: self.$index, showLists: self.$showLists)
                             .environmentObject(self.todos)
-                    }
+                    }.padding(.trailing, 10)
+                    
                 }
-
-                Spacer()
 
                 if todos.todoListCount() > 0 {
                     Button(action: { self.editList.toggle() }) {
@@ -129,6 +128,7 @@ struct AppView: View {
                                 .foregroundColor(Constants.mainColor)
                         }.padding(.trailing, 10)
                     }
+
                     Button(action: { self.showSettings.toggle() }) {
                         ZStack {
                             Color("darkModeMenuCircle")
