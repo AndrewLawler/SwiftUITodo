@@ -37,7 +37,7 @@ struct IconChoice: View {
                                 .padding(.leading, 5)
                             Spacer()
                             if self.amISelected(row: iconIndex, sec: sectionIndex) {
-                                Image(systemName: "checkmark")
+                                Image(systemName: Constants.images.check)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 15, height: 15)
@@ -47,7 +47,7 @@ struct IconChoice: View {
                         }
                         .frame(maxWidth: .infinity)
                         .frame(maxHeight: .infinity)
-                        .background(Color("iconSelectionRow").opacity(0.01))
+                        .background(Color(Constants.color.iconRow).opacity(0.01))
                         .onTapGesture {
                             self.selectedIconRowIndex = iconIndex
                             self.selectedIconSectionIndex = sectionIndex

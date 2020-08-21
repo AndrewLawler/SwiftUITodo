@@ -93,25 +93,6 @@ struct Settings: View {
                                 .padding(.leading, 5)
                         }
                     }
-//
-//                    Link(destination: URL(string: "https://www.apple.com")!) {
-//                        HStack {
-//                            ZStack {
-//                                Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))
-//                                    .frame(width: 30, height: 30)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-//                                Image(systemName: "star.fill")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .frame(width: 20, height: 20)
-//                                    .foregroundColor(Color.white)
-//                            }
-//                            Text("Rate App")
-//                                .foregroundColor(.black)
-//                                .padding(.leading, 5)
-//                        }
-//                    }
-
                 }
 
                 Section(header: Text("App Version")) {

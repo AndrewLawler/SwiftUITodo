@@ -37,6 +37,47 @@ enum Constants {
     static var mainColor = Color(#colorLiteral(red: 0.07450980392, green: 0.568627451, blue: 0.8784313725, alpha: 1))
     static var mainColorIndex = 0
 
+    enum color {
+        static let darkMenuCircle = "darkModeMenuCircle"
+        static let appBG = "appBackground"
+        static let todo = "todoIcon"
+        static let todoBG = "todoIconBackground"
+        static let emptyTitle = "emptyStateTitle"
+        static let menuTab = "menuTabBar"
+        static let iconRow = "iconSelectionRow"
+    }
+
+    enum welcome {
+        static let title = "Welcome to Todoer"
+    }
+
+    enum images {
+        static let check = "checkmark"
+        static let checkmark = "checkmark.circle"
+        static let ellipsis = "ellipsis"
+        static let plus = "plus"
+        static let plusCircle = "plus.circle"
+        static let menuArrow = "arrowshape.turn.up.left.fill"
+        static let edit = "pencil"
+        static let list = "doc.text.fill"
+        static let settings = "gear"
+        static let bulletList = "list.bullet"
+    }
+
+    enum emptyState {
+        static let title = "Oops, I'm Empty!"
+        static let listSubTitle = "Add a todo list using the\nbutton below."
+        static let todoSubtitle = "Add a todo using the\nbutton below."
+    }
+
+    enum listSelect {
+        static let title = "Lists"
+        static let todo = "todo"
+        static let todos = "todos"
+        static let subtodo = "sub todo"
+        static let subtodos = "sub todos"
+    }
+
     /// ordered icons into sections, used in Icon Choice View
     static let iconsOrdered: [SectionIcon] = [
         SectionIcon(title: "Popular", icons: [

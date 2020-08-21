@@ -25,14 +25,16 @@ struct ListSelection: View {
 
     /// get the correct string needed for the todo
     func todoText(todos: Int) -> String {
-        if todos >= 0 { return "todos" }
-        else { return "todo" }
+        if todos == 1 { return Constants.listSelect.todo }
+        else if todos == 0 || todos > 1 { return Constants.listSelect.todos }
+        else { return Constants.listSelect.todo }
     }
 
     /// get the correct string needed for the sub todo
     func subTodoText(todos: Int) -> String {
-        if todos >= 0 { return "sub todos" }
-        else { return "sub todo" }
+        if todos == 1 { return Constants.listSelect.subtodo }
+        else if todos == 0 || todos > 1 { return Constants.listSelect.subtodos }
+        else { return Constants.listSelect.subtodo }
     }
 
     /// calculate how many sub todos each list has to then convert it to a sub todo text
@@ -51,16 +53,16 @@ struct ListSelection: View {
             /// Custom NavigationView
             HStack {
                 /// recreates the nav title style
-                Text("Lists").font(.largeTitle).bold()
+                Text(Constants.listSelect.title).font(.largeTitle).bold()
                 Spacer()
                 /// HStack of the two buttons used in the view
                 HStack {
                     Button(action: { self.addList.toggle() }) {
                         ZStack {
-                            Color("darkModeMenuCircle")
+                            Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
-                            Image(systemName: "doc.text.fill")
+                            Image(systemName: Constants.images.list)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
@@ -72,7 +74,7 @@ struct ListSelection: View {
                             .environmentObject(self.todos)
                     }.padding(.trailing, 10)
                     ZStack {
-                        Color("darkModeMenuCircle")
+                        Color(Constants.color.darkMenuCircle)
                             .frame(width: 40, height: 40)
                             .clipShape(Circle())
                         EditButton()
@@ -86,7 +88,7 @@ struct ListSelection: View {
                 /// adds a ring around the menu items in dark mode
                 .frame(width: 135)
                 .frame(height: 60)
-                .background(Color("menuTabBar"))
+                .background(Color(Constants.color.menuTab))
                 .clipShape(RoundedRectangle(cornerRadius: 30))
             }
             .padding(.top, 40)
@@ -139,10 +141,10 @@ struct ListSelection: View {
                             self.editIndex = todoIndex
                             self.editList.toggle()
                         }) {
-                            Image(systemName: "ellipsis")
+                            Image(systemName: Constants.images.ellipsis)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .foregroundColor(Color("todoIcon"))
+                                .foregroundColor(Color(Constants.color.todo))
                                 .frame(width: 25, height: 25)
                             }.buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: self.$editList) {
@@ -151,7 +153,7 @@ struct ListSelection: View {
                         }
                     }
                     /// adds a tap gesture to the entire list on an invisible item
-                    .background(Color("iconSelectionRow").opacity(0.01))
+                    .background(Color(Constants.color.iconRow).opacity(0.01))
                     .onTapGesture {
                         self.index = todoIndex
                         self.showLists.toggle()
@@ -171,9 +173,9 @@ struct ListSelection: View {
                     self.todos.todos.move(fromOffsets: source, toOffset: destination)
                     self.todos.saveTodos()
                 }
-                .listRowBackground(Color("appBackground"))
+                .listRowBackground(Color(Constants.color.appBG))
             }
-        }.background(Color("appBackground"))
+        }.background(Color(Constants.color.appBG))
     }
 }
 

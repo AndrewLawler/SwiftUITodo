@@ -35,7 +35,7 @@ struct AppView: View {
         VStack(spacing: 0) {
             HStack(spacing: 30) {
                 if todos.todoListCount() == 0 {
-                    Text("Welcome to Todoer").font(.largeTitle).bold()
+                    Text(Constants.welcome.title).font(.largeTitle).bold()
                         .padding(.top, 90)
                 } else {
                     Text(todos.todos[index].title)
@@ -52,10 +52,10 @@ struct AppView: View {
                 if todos.todoListCount() == 1 && todos.todoCount(index: index) >= 1 {
                     Button(action: { self.showLists.toggle() }) {
                         ZStack {
-                            Color("darkModeMenuCircle")
+                            Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
-                            Image(systemName: "arrowshape.turn.up.left.fill")
+                            Image(systemName: Constants.images.menuArrow)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
@@ -71,10 +71,10 @@ struct AppView: View {
                 if todos.todoListCount() > 0 {
                     Button(action: { self.editList.toggle() }) {
                         ZStack {
-                            Color("darkModeMenuCircle")
+                            Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
-                            Image(systemName: "pencil")
+                            Image(systemName: Constants.images.edit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
@@ -87,10 +87,10 @@ struct AppView: View {
 
                     Button(action: { self.addList.toggle() }) {
                         ZStack {
-                            Color("darkModeMenuCircle")
+                            Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
-                            Image(systemName: "doc.text.fill")
+                            Image(systemName: Constants.images.list)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
@@ -104,10 +104,10 @@ struct AppView: View {
 
                     Button(action: { self.addTodo.toggle() }) {
                         ZStack {
-                            Color("darkModeMenuCircle")
+                            Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
-                            Image(systemName: "plus")
+                            Image(systemName: Constants.images.plus)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
@@ -120,7 +120,7 @@ struct AppView: View {
                     }
                     if !(todos.todos[index].todos.isEmpty ) {
                         ZStack {
-                            Color("darkModeMenuCircle")
+                            Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                             EditButton()
@@ -131,10 +131,10 @@ struct AppView: View {
 
                     Button(action: { self.showSettings.toggle() }) {
                         ZStack {
-                            Color("darkModeMenuCircle")
+                            Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
-                            Image(systemName: "gear")
+                            Image(systemName: Constants.images.settings)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
@@ -150,7 +150,7 @@ struct AppView: View {
             .padding(.top, 10)
             .padding(.bottom, todos.todoListCount() == 0 ? 0 : 10)
             .frame(width: UIScreen.main.bounds.width - 20)
-            .background(Color(todos.todoListCount() == 0 ? "appBackground" : "menuTabBar"))
+            .background(Color(todos.todoListCount() == 0 ? Constants.color.appBG : Constants.color.menuTab))
             .clipShape(RoundedRectangle(cornerRadius: 30))
 
             ZStack {
@@ -158,17 +158,17 @@ struct AppView: View {
                 VStack {
                     Spacer()
                     VStack(spacing: 20) {
-                        Image(systemName: todos.todoListCount() == 0 ? "doc.text.fill" : "plus.circle")
+                        Image(systemName: todos.todoListCount() == 0 ? Constants.images.list : Constants.images.plusCircle)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 144, height: 144)
                             .padding(.bottom, 30)
                             .foregroundColor(Constants.mainColor)
-                        Text("Oops, I'm Empty!")
+                        Text(Constants.emptyState.title)
                             .font(.system(size: 30, weight: .semibold))
-                            .foregroundColor(Color("emptyStateTitle"))
+                            .foregroundColor(Color(Constants.color.emptyTitle))
                             .padding(.bottom, 10)
-                        Text(todos.todoListCount() == 0 ? "Add a todo list using the\nbutton below." : "Add a todo using the\nbutton below.")
+                        Text(todos.todoListCount() == 0 ? Constants.emptyState.listSubTitle : Constants.emptyState.todoSubtitle)
                             .font(.system(size: 18, weight: .regular))
                             .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
                             .multilineTextAlignment(.center)
@@ -180,7 +180,7 @@ struct AppView: View {
                                 Constants.mainColor
                                     .frame(width: 107, height: 43)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                                Image(systemName: "plus")
+                                Image(systemName: Constants.images.plus)
                                     .foregroundColor(.white)
                                     .font(.system(size: 20, weight: .semibold))
                             }
@@ -207,10 +207,10 @@ struct AppView: View {
                             VStack {
                                 HStack {
                                     ZStack {
-                                        Color("todoIconBackground")
+                                        Color(Constants.color.todoBG)
                                             .frame(width: 30, height: 30)
                                             .clipShape(Circle())
-                                        Image(systemName: "checkmark.circle")
+                                        Image(systemName: Constants.images.checkmark)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 18, height: 18)
@@ -224,7 +224,7 @@ struct AppView: View {
                                     .padding(.leading, 10)
 
                                     ZStack {
-                                        Color("todoIconBackground")
+                                        Color(Constants.color.todoBG)
                                             .frame(width: 30, height: 30)
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
                                         Image(systemName: Constants.iconsOrdered[self.todos.todos[self.index].todos[todoIndex].imageSection].icons[self.todos.todos[self.index].todos[todoIndex].imageRow].systemName)
@@ -245,11 +245,11 @@ struct AppView: View {
                                         self.indexOfTodo = todoIndex
                                         self.editTodo.toggle()
                                     }) {
-                                        Image(systemName: "ellipsis")
+                                        Image(systemName: Constants.images.ellipsis)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 13, height: 13)
-                                            .foregroundColor(Color("todoIcon"))
+                                            .foregroundColor(Color(Constants.color.todo))
                                             .padding(.horizontal, 10)
                                     }.buttonStyle(PlainButtonStyle())
                                     .sheet(isPresented: self.$editTodo) {
@@ -268,18 +268,18 @@ struct AppView: View {
                                     VStack {
                                         ForEach(self.todos.todos[self.index].todos[todoIndex].subTodos.indices, id: \.self) { subTodoIndex in
                                             HStack {
-                                                Image(systemName: "list.bullet")
+                                                Image(systemName: Constants.images.bulletList)
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
                                                     .frame(width: 14, height: 14)
-                                                    .foregroundColor(Color("todoIcon"))
+                                                    .foregroundColor(Color(Constants.color.todo))
                                                     .padding(.leading, 12)
 
                                                 ZStack {
-                                                    Color("todoIconBackground")
+                                                    Color(Constants.color.todoBG)
                                                         .frame(width: 25, height: 25)
                                                         .clipShape(Circle())
-                                                    Image(systemName: "checkmark.circle")
+                                                    Image(systemName: Constants.images.checkmark)
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
                                                         .frame(width: 15, height: 15)
@@ -305,11 +305,11 @@ struct AppView: View {
                                                     self.indexOfSubTodo = subTodoIndex
                                                     self.editSubTodo.toggle()
                                                 }) {
-                                                    Image(systemName: "ellipsis")
+                                                    Image(systemName: Constants.images.ellipsis)
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
                                                         .frame(width: 13, height: 13)
-                                                        .foregroundColor(Color("todoIcon"))
+                                                        .foregroundColor(Color(Constants.color.todo))
                                                 }.buttonStyle(PlainButtonStyle())
                                                 .sheet(isPresented: self.$editSubTodo) {
                                                     EditSubTodo(todoIndex: self.indexOfTodo, subTodoIndex: self.indexOfSubTodo, editSubTodo: self.$editSubTodo, index: self.$index)
@@ -334,10 +334,10 @@ struct AppView: View {
                             }
                             self.todos.saveTodos()
                         }
-                        .listRowBackground(Color("appBackground"))
+                        .listRowBackground(Color(Constants.color.appBG))
                     }.onAppear {
                         UITableView.appearance().separatorStyle = .none
-                        UITableView.appearance().backgroundColor = UIColor(named: "appBackground")
+                        UITableView.appearance().backgroundColor = UIColor(named: Constants.color.appBG)
                     }
                     .padding(.top, 10)
                 }
@@ -345,7 +345,7 @@ struct AppView: View {
         }
         .frame(maxWidth: .infinity)
         .edgesIgnoringSafeArea(.bottom)
-        .background(Color("appBackground"))
+        .background(Color(Constants.color.appBG))
         .edgesIgnoringSafeArea(.all)
     }
 }
