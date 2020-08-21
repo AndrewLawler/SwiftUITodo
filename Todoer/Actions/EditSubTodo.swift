@@ -43,8 +43,6 @@ struct EditSubTodo: View {
             })
         }.onAppear {
             self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].subTodos[self.subTodoIndex].content
-        }.onTapGesture {
-            self.hideKeyboard()
         }
     }
 }

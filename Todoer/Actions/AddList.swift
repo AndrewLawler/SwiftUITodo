@@ -64,23 +64,23 @@ struct AddList: View {
             .navigationBarTitle("Create List")
             .navigationBarItems(leading: Button(action: { self.addList.toggle() }) {
                 Text("Cancel")
-            }, trailing: Button(action: {
-                /// if we are empty to not create a todo, instead just change the textfield placeholder to request something
-                if self.listTitle != "" {
-                    self.todos.createTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex ,createdAt: self.createdDay.string(from: Date()))
-                    if self.todos.todoListCount() > 1 {
-                        let count = self.todos.todoListCount()
-                        self.index = count - 1
+                }, trailing: Button(action: {
+                    /// if we are empty to not create a todo, instead just change the textfield placeholder to request something
+                    if self.listTitle != "" {
+                        self.todos.createTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex ,createdAt: self.createdDay.string(from: Date()))
+                        if self.todos.todoListCount() > 1 {
+                            let count = self.todos.todoListCount()
+                            self.index = count - 1
+                        }
+                        self.listIcon = 0
+                        self.listTitle = ""
+                        self.addList.toggle()
+                    } else {
+                        self.textfieldPlaceholder = "Please add a list title"
                     }
-                    self.listIcon = 0
-                    self.listTitle = ""
-                    self.addList.toggle()
-                } else {
-                    self.textfieldPlaceholder = "Please add a list title"
-                }
-            }) {
-                Text("Done").bold()
-            })
+                }) {
+                    Text("Done").bold()
+                })
         }
     }
 }

@@ -216,7 +216,9 @@ struct AppView: View {
                                             .frame(width: 18, height: 18)
                                             .foregroundColor(Constants.mainColor)
                                     }.onTapGesture {
-                                        self.todos.deleteTodo(index: self.index, todoIndex: todoIndex)
+                                        withAnimation(.easeOut) {
+                                            self.todos.deleteTodo(index: self.index, todoIndex: todoIndex)
+                                        }
                                     }
                                     .frame(width: 25, height: 25)
                                     .padding(.leading, 10)
@@ -284,7 +286,9 @@ struct AppView: View {
                                                         .foregroundColor(Constants.mainColor)
                                                 }
                                                 .onTapGesture {
-                                                    self.todos.deleteSubTodo(index: self.index, todoIndex: todoIndex, subTodoIndex: subTodoIndex)
+                                                    withAnimation(.easeOut) {
+                                                        self.todos.deleteSubTodo(index: self.index, todoIndex: todoIndex, subTodoIndex: subTodoIndex)
+                                                    }
                                                 }
                                                 .frame(width: 25, height: 25)
                                                 .padding(.horizontal, 10)
@@ -320,10 +324,14 @@ struct AppView: View {
                             .padding(.vertical, 7)
                         }
                         .onDelete { index in
-                            self.todos.deleteTodo(index: self.index, todoIndex: index.first!)
+                            withAnimation(.easeOut) {
+                                self.todos.deleteTodo(index: self.index, todoIndex: index.first!)
+                            }
                         }
                         .onMove { (source: IndexSet, destination: Int) in
-                            self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
+                            withAnimation(.easeOut) {
+                                self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
+                            }
                             self.todos.saveTodos()
                         }
                         .listRowBackground(Color("appBackground"))

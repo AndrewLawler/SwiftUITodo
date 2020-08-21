@@ -57,7 +57,6 @@ struct EditList: View {
             }, trailing: Button(action: {
                 if self.listTitle == "" { self.listTitle = self.todos.todos[self.listIndex].title }
                 self.todos.editTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, index: self.listIndex)
-                self.hideKeyboard()
                 self.listTitle = ""
                 self.listIcon = 0
                 self.editList.toggle()
