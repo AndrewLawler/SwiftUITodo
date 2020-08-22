@@ -20,22 +20,22 @@ struct Settings: View {
         NavigationView {
             List {
                 Section(header: Text("Customisation")) {
-                    Toggle(isOn: $notificationState) {
-                        HStack {
-                            ZStack {
-                                Constants.mainColor
-                                    .frame(width: 30, height: 30)
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                Image(systemName: "bell.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(Color.white)
-                            }
-                            Text("Notifications")
-                                .padding(.leading, 5)
-                        }
-                    }
+//                    Toggle(isOn: $notificationState) {
+//                        HStack {
+//                            ZStack {
+//                                Constants.mainColor
+//                                    .frame(width: 30, height: 30)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+//                                Image(systemName: "bell.fill")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 20, height: 20)
+//                                    .foregroundColor(Color.white)
+//                            }
+//                            Text("Notifications")
+//                                .padding(.leading, 5)
+//                        }
+//                    }
                     NavigationLink(destination: ColorChoice(selectedColorRowIndex: self.$colorIndex)) {
                         HStack {
                             ZStack {

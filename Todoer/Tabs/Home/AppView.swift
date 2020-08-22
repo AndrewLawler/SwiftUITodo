@@ -49,7 +49,7 @@ struct AppView: View {
             .padding(.horizontal, 20)
             
             HStack {
-                if todos.todoListCount() == 1 && todos.todoCount(index: index) >= 1 {
+                if todos.todoListCount() >= 1 && todos.todoCount(index: index) >= 1 {
                     Button(action: { self.showLists.toggle() }) {
                         ZStack {
                             Color(Constants.color.darkMenuCircle)
@@ -206,14 +206,15 @@ struct AppView: View {
                         ForEach(self.todos.todos[index].todos.indices, id: \.self) { todoIndex in
                             VStack {
                                 HStack {
+
                                     ZStack {
                                         Color(Constants.color.todoBG)
-                                            .frame(width: 30, height: 30)
+                                            .frame(width: 25, height: 25)
                                             .clipShape(Circle())
                                         Image(systemName: Constants.images.checkmark)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(width: 18, height: 18)
+                                            .frame(width: 15, height: 15)
                                             .foregroundColor(Constants.mainColor)
                                     }.onTapGesture {
                                         withAnimation(.easeOut) {
@@ -225,12 +226,12 @@ struct AppView: View {
 
                                     ZStack {
                                         Color(Constants.color.todoBG)
-                                            .frame(width: 30, height: 30)
+                                            .frame(width: 25, height: 25)
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
                                         Image(systemName: Constants.iconsOrdered[self.todos.todos[self.index].todos[todoIndex].imageSection].icons[self.todos.todos[self.index].todos[todoIndex].imageRow].systemName)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(width: 18, height: 18)
+                                            .frame(width: 15, height: 15)
                                             .foregroundColor(Constants.mainColor)
                                     }.padding(.leading, 5)
 
@@ -274,7 +275,6 @@ struct AppView: View {
                                                     .frame(width: 14, height: 14)
                                                     .foregroundColor(Color(Constants.color.todo))
                                                     .padding(.leading, 12)
-
                                                 ZStack {
                                                     Color(Constants.color.todoBG)
                                                         .frame(width: 25, height: 25)

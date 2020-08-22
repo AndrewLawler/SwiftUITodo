@@ -50,40 +50,40 @@ struct EditTodo: View {
                         }
                     }
                 }
-                Section(header: Text("Edit Notifications")) {
-                    Toggle(isOn: $notificationState) {
-                        HStack {
-                            ZStack {
-                                Constants.mainColor
-                                    .frame(width: 30, height: 30)
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                Image(systemName: "bell.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(Color.white)
-                            }
-                            Text("Notifications")
-                                .padding(.leading, 5)
-                        }
-                    }
-                    DatePicker(selection: $reminderDate, in: ...Date(), displayedComponents: .date) {
-                        HStack {
-                            ZStack {
-                                Constants.mainColor
-                                    .frame(width: 30, height: 30)
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                Image(systemName: "calendar")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(Color.white)
-                            }
-                            Text("Date")
-                                .padding(.leading, 5)
-                        }
-                    }
-                }
+//                Section(header: Text("Edit Notifications")) {
+//                    Toggle(isOn: $notificationState) {
+//                        HStack {
+//                            ZStack {
+//                                Constants.mainColor
+//                                    .frame(width: 30, height: 30)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+//                                Image(systemName: "bell.fill")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 20, height: 20)
+//                                    .foregroundColor(Color.white)
+//                            }
+//                            Text("Notifications")
+//                                .padding(.leading, 5)
+//                        }
+//                    }
+//                    DatePicker(selection: $reminderDate, in: ...Date(), displayedComponents: .date) {
+//                        HStack {
+//                            ZStack {
+//                                Constants.mainColor
+//                                    .frame(width: 30, height: 30)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+//                                Image(systemName: "calendar")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 20, height: 20)
+//                                    .foregroundColor(Color.white)
+//                            }
+//                            Text("Date")
+//                                .padding(.leading, 5)
+//                        }
+//                    }
+//                }
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
