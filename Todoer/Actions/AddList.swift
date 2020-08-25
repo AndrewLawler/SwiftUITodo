@@ -32,7 +32,7 @@ struct AddList: View {
     }()
 
     /// placeholder which can be updated throughout if needed
-    @State var textfieldPlaceholder = "List Title"
+    @State var textfieldPlaceholder = "Please enter list title"
 
     var body: some View {
         NavigationView {

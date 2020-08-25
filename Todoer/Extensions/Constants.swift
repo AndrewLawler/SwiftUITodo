@@ -48,7 +48,7 @@ enum Constants {
     }
 
     enum welcome {
-        static let title = "Welcome to Todoer"
+        static let title = "Welcome to Task List"
     }
 
     enum images {
@@ -66,16 +66,16 @@ enum Constants {
 
     enum emptyState {
         static let title = "Oops, I'm Empty!"
-        static let listSubTitle = "Add a todo list using the\nbutton below."
-        static let todoSubtitle = "Add a todo using the\nbutton below."
+        static let listSubTitle = "Add a task list using the\nbutton below."
+        static let todoSubtitle = "Add a task using the\nbutton below."
     }
 
     enum listSelect {
         static let title = "Lists"
-        static let todo = "todo"
-        static let todos = "todos"
-        static let subtodo = "sub todo"
-        static let subtodos = "sub todos"
+        static let todo = "task"
+        static let todos = "tasks"
+        static let subtodo = "sub task"
+        static let subtodos = "sub tasks"
     }
 
     /// ordered icons into sections, used in Icon Choice View

@@ -23,7 +23,7 @@ struct AddTodo: View {
     @State var selectedIconRowIndex = 0
     @State var selectedIconSectionIndex = 0
 
-    @State var textfieldPlaceholder = "Todo title"
+    @State var textfieldPlaceholder = "Please enter task title"
 
     @State var todoIndex = 0
     @State var subTodoToggle = false
@@ -38,7 +38,7 @@ struct AddTodo: View {
                 }
 
                 if self.todos.todos[self.index].todos.count != 0 {
-                    Section(header: Text("Sub Todo?")) {
+                    Section(header: Text("Sub Task?")) {
                         Toggle(isOn: $subTodoToggle) {
                             HStack {
                                 ZStack {
@@ -51,12 +51,12 @@ struct AddTodo: View {
                                         .frame(width: 20, height: 20)
                                         .foregroundColor(Color.white)
                                 }
-                                Text("Add Sub Todo")
+                                Text("Add Sub Task")
                                     .padding(.leading, 5)
                             }
                         }
                         if subTodoToggle {
-                            Picker(selection: $todoIndex, label: Text("Add to main todo")){
+                            Picker(selection: $todoIndex, label: Text("Add to main task")){
                                 ForEach(0 ..< self.todos.todos[self.index].todos.count) {
                                     Text(self.todos.todos[self.index].todos[$0].content)
                                 }
@@ -118,7 +118,7 @@ struct AddTodo: View {
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("Add Todo")
+            .navigationBarTitle("Add Task")
             .navigationBarItems(leading: 
                 Button(action: { self.addTodo.toggle() }) {
                     Text("Cancel")
@@ -133,7 +133,7 @@ struct AddTodo: View {
                         self.todoTitle = ""
                         self.addTodo.toggle()
                     } else {
-                        self.textfieldPlaceholder = "Please add a todo title"
+                        self.textfieldPlaceholder = "Please add a task title"
                     }
             }) {
                 Text("Done").bold()

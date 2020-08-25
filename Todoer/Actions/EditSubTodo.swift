@@ -30,7 +30,7 @@ struct EditSubTodo: View {
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("Edit Sub Todo")
+            .navigationBarTitle("Edit Sub Task")
             .navigationBarItems(leading: Button(action: { self.editSubTodo.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {

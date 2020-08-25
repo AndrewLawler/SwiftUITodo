@@ -87,7 +87,7 @@ struct EditTodo: View {
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarTitle("Edit Todo")
+            .navigationBarTitle("Edit Task")
             .navigationBarItems(leading: Button(action: { self.editTodo.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {

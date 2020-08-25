@@ -37,7 +37,7 @@
 		642AAC8A24E9A621007C01D7 /* AddList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddList.swift; sourceTree = "<group>"; };
 		642AAC8C24E9A8C1007C01D7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6431C83C24EA153E00332074 /* EditList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditList.swift; sourceTree = "<group>"; };
-		646D37AB24E827A4006D5B8E /* Todoer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todoer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		646D37AB24E827A4006D5B8E /* TaskList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		646D37AE24E827A4006D5B8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		646D37B024E827A4006D5B8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		646D37B324E827A4006D5B8E /* Todoer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Todoer.xcdatamodel; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 		646D37AC24E827A4006D5B8E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				646D37AB24E827A4006D5B8E /* Todoer.app */,
+				646D37AB24E827A4006D5B8E /* TaskList.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -181,9 +181,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		646D37AA24E827A4006D5B8E /* Todoer */ = {
+		646D37AA24E827A4006D5B8E /* TaskList */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 646D37C224E827A5006D5B8E /* Build configuration list for PBXNativeTarget "Todoer" */;
+			buildConfigurationList = 646D37C224E827A5006D5B8E /* Build configuration list for PBXNativeTarget "TaskList" */;
 			buildPhases = (
 				646D37A724E827A4006D5B8E /* Sources */,
 				646D37A824E827A4006D5B8E /* Frameworks */,
@@ -193,9 +193,9 @@
 			);
 			dependencies = (
 			);
-			name = Todoer;
+			name = TaskList;
 			productName = Todoer;
-			productReference = 646D37AB24E827A4006D5B8E /* Todoer.app */;
+			productReference = 646D37AB24E827A4006D5B8E /* TaskList.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -213,7 +213,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 646D37A624E827A4006D5B8E /* Build configuration list for PBXProject "Todoer" */;
+			buildConfigurationList = 646D37A624E827A4006D5B8E /* Build configuration list for PBXProject "TaskList" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -226,7 +226,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				646D37AA24E827A4006D5B8E /* Todoer */,
+				646D37AA24E827A4006D5B8E /* TaskList */,
 			);
 		};
 /* End PBXProject section */
@@ -439,7 +439,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		646D37A624E827A4006D5B8E /* Build configuration list for PBXProject "Todoer" */ = {
+		646D37A624E827A4006D5B8E /* Build configuration list for PBXProject "TaskList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				646D37C024E827A5006D5B8E /* Debug */,
@@ -448,7 +448,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		646D37C224E827A5006D5B8E /* Build configuration list for PBXNativeTarget "Todoer" */ = {
+		646D37C224E827A5006D5B8E /* Build configuration list for PBXNativeTarget "TaskList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				646D37C324E827A5006D5B8E /* Debug */,

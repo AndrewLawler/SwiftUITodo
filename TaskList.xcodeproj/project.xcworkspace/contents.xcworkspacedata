@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Todoer.xcodeproj">
+      location = "self:/Users/andrewlawler/Documents/Coding/App Store/Todoer/TaskList.xcodeproj">
    </FileRef>
 </Workspace>
