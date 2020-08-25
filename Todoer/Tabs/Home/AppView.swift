@@ -33,6 +33,7 @@ struct AppView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+
             HStack(spacing: 30) {
                 if todos.todoListCount() == 0 {
                     Text(Constants.welcome.title).font(.largeTitle).bold()
@@ -42,7 +43,7 @@ struct AppView: View {
                         .font(.largeTitle).bold()
                         .foregroundColor(Color.primary)
                         .multilineTextAlignment(.center)
-                        .padding(.top, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 30 : 70)
+                        .padding(.top, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 30 : 75)
                 }
             }
             .padding(.bottom, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 10 : 35)
@@ -55,6 +56,7 @@ struct AppView: View {
                             Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
+                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             Image(systemName: Constants.images.menuArrow)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
@@ -64,8 +66,8 @@ struct AppView: View {
                     .sheet(isPresented: $showLists) {
                         ListSelection(index: self.$index, showLists: self.$showLists)
                             .environmentObject(self.todos)
-                    }.padding(.trailing, 10)
-                    
+                    }
+                    .padding(.trailing, 10)
                 }
 
                 if todos.todoListCount() > 0 {
@@ -74,6 +76,7 @@ struct AppView: View {
                             Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
+                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             Image(systemName: Constants.images.edit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
@@ -83,50 +86,56 @@ struct AppView: View {
                     .sheet(isPresented: $editList) {
                         EditList(listIndex: self.index, iconRowIndex: self.todos.todos[self.index].imageRow, iconSectionIndex: self.todos.todos[self.index].imageSection, editList: self.$editList, index: self.$index)
                             .environmentObject(self.todos)
-                    }.padding(.trailing, 10)
+                    }
+                    .padding(.trailing, 10)
 
                     Button(action: { self.addList.toggle() }) {
                         ZStack {
                             Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
+                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             Image(systemName: Constants.images.list)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
                         }
                     }
-                    .padding(.trailing, 10)
                     .sheet(isPresented: $addList) {
                         AddList(addList: self.$addList, index: self.$index)
                             .environmentObject(self.todos)
                     }
+                    .padding(.trailing, 10)
 
                     Button(action: { self.addTodo.toggle() }) {
                         ZStack {
                             Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
+                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             Image(systemName: Constants.images.plus)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
                         }
                     }
-                    .padding(.trailing, 10)
                     .sheet(isPresented: $addTodo) {
                         AddTodo(index: self.$index, addTodo: self.$addTodo)
                             .environmentObject(self.todos)
                     }
+                    .padding(.trailing, 10)
+
                     if !(todos.todos[index].todos.isEmpty ) {
                         ZStack {
                             Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
+                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             EditButton()
                                 .font(.system(size: 13, weight: .bold))
                                 .foregroundColor(Constants.mainColor)
-                        }.padding(.trailing, 10)
+                        }
+                        .padding(.trailing, 10)
                     }
 
                     Button(action: { self.showSettings.toggle() }) {
@@ -134,12 +143,14 @@ struct AppView: View {
                             Color(Constants.color.darkMenuCircle)
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
+                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             Image(systemName: Constants.images.settings)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Constants.mainColor)
                         }
-                    }.sheet(isPresented: $showSettings) {
+                    }
+                    .sheet(isPresented: $showSettings) {
                         Settings(showSettings: self.$showSettings)
                     }
                 }
@@ -152,6 +163,7 @@ struct AppView: View {
             .frame(width: UIScreen.main.bounds.width - 20)
             .background(Color(todos.todoListCount() == 0 ? Constants.color.appBG : Constants.color.menuTab))
             .clipShape(RoundedRectangle(cornerRadius: 30))
+            .padding(.bottom, todos.todoListCount() == 0 ? 0 : 10)
 
             ZStack {
                 /// Empty State
@@ -204,9 +216,8 @@ struct AppView: View {
                     /// todos
                     List {
                         ForEach(self.todos.todos[index].todos.indices, id: \.self) { todoIndex in
-                            VStack {
+                            VStack(spacing: 10) {
                                 HStack {
-
                                     ZStack {
                                         Color(Constants.color.todoBG)
                                             .frame(width: 25, height: 25)
@@ -226,19 +237,19 @@ struct AppView: View {
 
                                     ZStack {
                                         Color(Constants.color.todoBG)
-                                            .frame(width: 25, height: 25)
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                            .frame(width: 30, height: 30)
+                                            .clipShape(Circle())
                                         Image(systemName: Constants.iconsOrdered[self.todos.todos[self.index].todos[todoIndex].imageSection].icons[self.todos.todos[self.index].todos[todoIndex].imageRow].systemName)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(width: 15, height: 15)
+                                            .frame(width: 17, height: 17)
                                             .foregroundColor(Constants.mainColor)
                                     }.padding(.leading, 5)
 
                                     Text(self.todos.todos[self.index].todos[todoIndex].content)
                                         .fontWeight(.medium)
                                         .padding(.leading, 10)
-                                        .font(.body)
+                                        .font(.callout)
 
                                     Spacer()
 
@@ -260,68 +271,72 @@ struct AppView: View {
                                                  editTodo: self.$editTodo,
                                                  index: self.$index)
                                             .environmentObject(self.todos)
-                                    }.frame(width: 30, height: 30)
+                                    }
                                 }
 
                                 /// sub todos
-
-                                HStack {
-                                    VStack {
-                                        ForEach(self.todos.todos[self.index].todos[todoIndex].subTodos.indices, id: \.self) { subTodoIndex in
-                                            HStack {
-                                                Image(systemName: Constants.images.bulletList)
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 14, height: 14)
-                                                    .foregroundColor(Color(Constants.color.todo))
-                                                    .padding(.leading, 12)
-                                                ZStack {
-                                                    Color(Constants.color.todoBG)
-                                                        .frame(width: 25, height: 25)
-                                                        .clipShape(Circle())
-                                                    Image(systemName: Constants.images.checkmark)
+                                if self.todos.todos[self.index].todos[todoIndex].subTodos.count > 0 {
+                                    HStack {
+                                        VStack {
+                                            ForEach(self.todos.todos[self.index].todos[todoIndex].subTodos.indices, id:     \.self) { subTodoIndex in
+                                                HStack {
+                                                    Image(systemName: Constants.images.bulletList)
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 15, height: 15)
-                                                        .foregroundColor(Constants.mainColor)
-                                                }
-                                                .onTapGesture {
-                                                    withAnimation(.easeOut) {
-                                                        self.todos.deleteSubTodo(index: self.index, todoIndex: todoIndex, subTodoIndex: subTodoIndex)
-                                                    }
-                                                }
-                                                .frame(width: 25, height: 25)
-                                                .padding(.horizontal, 10)
-
-                                                Text(self.todos.todos[self.index].todos[todoIndex].subTodos[subTodoIndex].content)
-                                                    .fontWeight(.regular)
-                                                    .font(.caption)
-
-                                                Spacer()
-                                                Spacer()
-
-                                                Button(action: {
-                                                    self.indexOfTodo = todoIndex
-                                                    self.indexOfSubTodo = subTodoIndex
-                                                    self.editSubTodo.toggle()
-                                                }) {
-                                                    Image(systemName: Constants.images.ellipsis)
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 13, height: 13)
+                                                        .frame(width: 14, height: 14)
                                                         .foregroundColor(Color(Constants.color.todo))
-                                                }.buttonStyle(PlainButtonStyle())
-                                                .sheet(isPresented: self.$editSubTodo) {
-                                                    EditSubTodo(todoIndex: self.indexOfTodo, subTodoIndex: self.indexOfSubTodo, editSubTodo: self.$editSubTodo, index: self.$index)
-                                                        .environmentObject(self.todos)
-                                                }.padding(.horizontal, 10)
-                                                .frame(width: 30, height: 30)
+                                                        .padding(.leading, 12)
+                                                    ZStack {
+                                                        Color(Constants.color.todoBG)
+                                                            .frame(width: 25, height: 25)
+                                                            .clipShape(Circle())
+                                                        Image(systemName: Constants.images.checkmark)
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .frame(width: 15, height: 15)
+                                                            .foregroundColor(Constants.mainColor)
+                                                    }
+                                                    .onTapGesture {
+                                                        withAnimation(.easeOut) {
+                                                            self.todos.deleteSubTodo(index: self.index, todoIndex:  todoIndex, subTodoIndex: subTodoIndex)
+                                                        }
+                                                    }
+                                                    .frame(width: 25, height: 25)
+                                                    .padding(.horizontal, 10)
+
+                                                    Text(self.todos.todos[self.index].todos[todoIndex].subTodos [subTodoIndex].content)
+                                                        .fontWeight(.regular)
+                                                        .font(.caption)
+
+                                                    Spacer()
+                                                    Spacer()
+
+                                                    Button(action: {
+                                                        self.indexOfTodo = todoIndex
+                                                        self.indexOfSubTodo = subTodoIndex
+                                                        self.editSubTodo.toggle()
+                                                    }) {
+                                                        Image(systemName: Constants.images.ellipsis)
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .frame(width: 13, height: 13)
+                                                            .foregroundColor(Color(Constants.color.todo))
+                                                    }.buttonStyle(PlainButtonStyle())
+                                                    .sheet(isPresented: self.$editSubTodo) {
+                                                        EditSubTodo(todoIndex: self.indexOfTodo, subTodoIndex:  self.indexOfSubTodo, editSubTodo: self.$editSubTodo, index:     self.$index)
+                                                            .environmentObject(self.todos)
+                                                    }.padding(.horizontal, 10)
+                                                }
                                             }
-                                        }
-                                    }.padding(.leading, 45)
+                                        }.padding(.leading, 45)
+                                    }
                                 }
                             }
-                            .padding(.vertical, 7)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 17)
+                            .background(Color("oppositeColor"))
+                            .cornerRadius(10)
+                            .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 0)
                         }
                         .onDelete { index in
                             withAnimation(.easeOut) {
