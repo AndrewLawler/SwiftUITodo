@@ -314,28 +314,27 @@ struct AppView: View {
                                                         .font(.caption)
 
                                                     Spacer()
-                                                    Spacer()
 
                                                     Button(action: {
                                                         self.indexOfTodo = todoIndex
                                                         self.indexOfSubTodo = subTodoIndex
                                                         self.editSubTodo.toggle()
                                                     }) {
-
                                                         ZStack {
                                                             Color("oppositeColor")
-                                                                .frame(width: 10, height: 20)
+                                                                .frame(width: 30, height: 30)
                                                             Image(systemName: Constants.images.ellipsis)
                                                                 .resizable()
                                                                 .aspectRatio(contentMode: .fit)
                                                                 .frame(width: 13, height: 13)
                                                                 .foregroundColor(Color(Constants.color.todo))
+                                                                .padding(.horizontal, 10)
                                                         }
                                                     }.buttonStyle(PlainButtonStyle())
                                                     .sheet(isPresented: self.$editSubTodo) {
                                                         EditSubTodo(todoIndex: self.indexOfTodo, subTodoIndex:  self.indexOfSubTodo, editSubTodo: self.$editSubTodo, index:     self.$index)
                                                             .environmentObject(self.todos)
-                                                    }.padding(.horizontal, 10)
+                                                    }
                                                 }
                                             }
                                         }.padding(.leading, 45)

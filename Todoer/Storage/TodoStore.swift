@@ -90,11 +90,11 @@ class TodoStore: ObservableObject {
 
         let todo = Todo(id: "\(UUID())", content: content, imageSection: imageSection, imageRow: imageRow, notificationState: notificationState, reminderDate: reminderDate)
 
-        let lists = realm.objects(TodoList.self).filter("id = '\(todos[index].id)'")
+        let lists = realm.objects(TodoList.self).filter("id = '\(todos[listIndex].id)'")
 
         if let list = lists.first {
             try! realm.write {
-                list.todos[listIndex] = todo
+                list.todos[index] = todo
             }
         }
 
