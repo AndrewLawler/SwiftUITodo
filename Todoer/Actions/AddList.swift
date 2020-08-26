@@ -41,7 +41,7 @@ struct AddList: View {
                 Section(header: Text("List Title")) {
                     TextField(textfieldPlaceholder, text: $listTitle)
                         .foregroundColor(.primary)
-                        .accentColor(Constants.mainColor)
+                        .accentColor(Color(Constants.mainColor))
                 }
                 Section(header: Text("Select Icon")) {
                     NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
@@ -54,7 +54,7 @@ struct AddList: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
                 }

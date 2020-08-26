@@ -31,7 +31,7 @@ struct IconChoice: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                             Text(Constants.iconsOrdered[sectionIndex].icons[iconIndex].name)
                                 .foregroundColor(Color.primary)
                                 .padding(.leading, 5)
@@ -42,7 +42,7 @@ struct IconChoice: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 15, height: 15)
                                     .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(Constants.mainColor)
+                                    .foregroundColor(Color(Constants.mainColor))
                             }
                         }
                         .frame(maxWidth: .infinity)

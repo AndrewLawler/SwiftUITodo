@@ -66,29 +66,30 @@ struct ListSelection: View {
                             Image(systemName: Constants.images.list)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
-                    .padding(.trailing, 10)
+                    //.padding(.trailing, 10)
                     .sheet(isPresented: $addList) {
                         AddList(addList: self.$addList, index: self.$index)
                             .environmentObject(self.todos)
-                    }.padding(.trailing, 10)
-                    ZStack {
-                        Color(Constants.color.darkMenuCircle)
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
-                        EditButton()
-                            .font(.system(size: 13, weight: .bold))
-                            .foregroundColor(Constants.mainColor)
-                            .onTapGesture {
-                                self.clickedEdit.toggle()
-                            }
                     }
+                    //.padding(.trailing, 10)
+//                    ZStack {
+//                        Color(Constants.color.darkMenuCircle)
+//                            .frame(width: 40, height: 40)
+//                            .clipShape(Circle())
+//                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
+//                        EditButton()
+//                            .font(.system(size: 13, weight: .bold))
+//                            .foregroundColor(Constants.mainColor)
+//                            .onTapGesture {
+//                                self.clickedEdit.toggle()
+//                            }
+//                    }
                 }
                 /// adds a ring around the menu items in dark mode
-                .frame(width: 135)
+                .frame(width: 135 - 60)
                 .frame(height: 60)
                 .background(Color(Constants.color.menuTab))
                 .clipShape(RoundedRectangle(cornerRadius: 30))
@@ -103,7 +104,7 @@ struct ListSelection: View {
                     HStack {
                         /// image with tap gesture to change the overall app index
                         ZStack {
-                            Constants.mainColor
+                            Color(Constants.mainColor)
                                 .frame(width: 80, height: 80)
                                 .cornerRadius(20)
                             Image(systemName: Constants.iconsOrdered[self.todos.todos[todoIndex].imageSection].icons[self.todos.todos[todoIndex].imageRow].systemName)
@@ -121,17 +122,17 @@ struct ListSelection: View {
                             Text(self.todos.todos[todoIndex].title)
                                 .font(.headline).bold()
                                 .padding(.leading, 10)
-                                .frame(width: 220, alignment: .leading)
+                                .frame(width: 180, alignment: .leading)
                             Text("\(self.todos.todos[todoIndex].todos.count) \(self.todoText(todos: self.todos.todos[todoIndex].todos.count)), \(self.calculateSubTodo(listIndex: todoIndex)) \(self.subTodoText(todos: self.calculateSubTodo(listIndex: todoIndex)))")
                                 .font(.system(size: 13, weight: .medium))
                                 .padding(.leading, 10)
-                                .frame(width: 220, height: 13, alignment: .leading)
+                                .frame(width: 180, height: 13, alignment: .leading)
                                 .foregroundColor(.secondary)
                                 .padding(.top, 10)
                             Text("Created: \(self.todos.todos[todoIndex].createdAt)")
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(.leading, 10)
-                                .frame(width: 220, height: 12, alignment: .leading)
+                                .frame(width: 180, height: 12, alignment: .leading)
                                 .foregroundColor(Color.secondary.opacity(0.7))
                                 .padding(.top, 5)
                         }
@@ -172,8 +173,7 @@ struct ListSelection: View {
                     self.todos.deleteTodoList(index: index.first!)
                 }
                 .onMove { (source: IndexSet, destination: Int) in
-                    self.todos.todos.move(fromOffsets: source, toOffset: destination)
-                    self.todos.saveTodos()
+                    self.todos.moveList(source: source, destination: destination)
                 }
                 .listRowBackground(Color(Constants.color.appBG))
             }

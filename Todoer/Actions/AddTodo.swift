@@ -34,7 +34,7 @@ struct AddTodo: View {
                 Section(header: Text("Add Title")) {
                     TextField(textfieldPlaceholder, text: $todoTitle)
                         .foregroundColor(.primary)
-                        .accentColor(Constants.mainColor)
+                        .accentColor(Color(Constants.mainColor))
                 }
 
                 if self.todos.todos[self.index].todos.count != 0 {
@@ -42,7 +42,7 @@ struct AddTodo: View {
                         Toggle(isOn: $subTodoToggle) {
                             HStack {
                                 ZStack {
-                                    Constants.mainColor
+                                    Color(Constants.mainColor)
                                         .frame(width: 30, height: 30)
                                         .clipShape(RoundedRectangle(cornerRadius: 5))
                                     Image(systemName: "text.badge.plus")
@@ -76,7 +76,7 @@ struct AddTodo: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 20, height: 20)
                                     .font(.system(size: 15, weight: .bold))
-                                    .foregroundColor(Constants.mainColor)
+                                    .foregroundColor(Color(Constants.mainColor))
                             }
                         }
                     }

@@ -33,7 +33,7 @@ struct EditTodo: View {
                 Section(header: Text("Edit Title")) {
                     TextField(todos.todos[index].todos[todoIndex].content, text: $todoTitle)
                         .foregroundColor(.primary)
-                        .accentColor(Constants.mainColor)
+                        .accentColor(Color(Constants.mainColor))
                 }
                 Section(header: Text("Edit Icon")) {
                     NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
@@ -46,7 +46,7 @@ struct EditTodo: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
                 }
@@ -84,16 +84,6 @@ struct EditTodo: View {
 //                        }
 //                    }
 //                }
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        self.todos.deleteTodo(index: self.index, todoIndex: self.todoIndex)
-                        self.editTodo.toggle()
-                    }) {
-                        Text("Delete")
-                    }
-                    Spacer()
-                }
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)

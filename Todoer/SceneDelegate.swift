@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import RealmSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -27,10 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
 
         // restore all Todos
-        todos.restoreTodos()
-
-        // call this when i need a screenshot
-        todos.populate()
+        todos.reloadRealm()
 
         let appView = AppView()
             .environmentObject(todos)
@@ -42,6 +40,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -50,7 +50,7 @@ struct AppView: View {
             .padding(.horizontal, 20)
             
             HStack {
-                if todos.todoListCount() >= 1 && todos.todoCount(index: index) >= 1 {
+                if todos.todoListCount() >= 1 {
                     Button(action: { self.showLists.toggle() }) {
                         ZStack {
                             Color(Constants.color.darkMenuCircle)
@@ -60,7 +60,7 @@ struct AppView: View {
                             Image(systemName: Constants.images.menuArrow)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
                     .sheet(isPresented: $showLists) {
@@ -80,7 +80,7 @@ struct AppView: View {
                             Image(systemName: Constants.images.edit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
                     .sheet(isPresented: $editList) {
@@ -98,7 +98,7 @@ struct AppView: View {
                             Image(systemName: Constants.images.list)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
                     .sheet(isPresented: $addList) {
@@ -116,7 +116,7 @@ struct AppView: View {
                             Image(systemName: Constants.images.plus)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
                     .sheet(isPresented: $addTodo) {
@@ -133,7 +133,7 @@ struct AppView: View {
                                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             EditButton()
                                 .font(.system(size: 13, weight: .bold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                         .padding(.trailing, 10)
                     }
@@ -147,11 +147,12 @@ struct AppView: View {
                             Image(systemName: Constants.images.settings)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
                     .sheet(isPresented: $showSettings) {
                         Settings(showSettings: self.$showSettings)
+                            .environmentObject(self.todos)
                     }
                 }
             }
@@ -175,7 +176,7 @@ struct AppView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 144, height: 144)
                             .padding(.bottom, 30)
-                            .foregroundColor(Constants.mainColor)
+                            .foregroundColor(Color(Constants.mainColor))
                         Text(Constants.emptyState.title)
                             .font(.system(size: 30, weight: .semibold))
                             .foregroundColor(Color(Constants.color.emptyTitle))
@@ -189,7 +190,7 @@ struct AppView: View {
                             self.todos.todoListCount() == 0 ? self.addList.toggle() : self.addTodo.toggle()
                         }) {
                             ZStack {
-                                Constants.mainColor
+                                Color(Constants.mainColor)
                                     .frame(width: 107, height: 43)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
                                 Image(systemName: Constants.images.plus)
@@ -226,7 +227,7 @@ struct AppView: View {
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 15, height: 15)
-                                            .foregroundColor(Constants.mainColor)
+                                            .foregroundColor(Color(Constants.mainColor))
                                     }.onTapGesture {
                                         withAnimation(.easeOut) {
                                             self.todos.deleteTodo(index: self.index, todoIndex: todoIndex)
@@ -243,7 +244,7 @@ struct AppView: View {
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 17, height: 17)
-                                            .foregroundColor(Constants.mainColor)
+                                            .foregroundColor(Color(Constants.mainColor))
                                     }.padding(.leading, 5)
 
                                     Text(self.todos.todos[self.index].todos[todoIndex].content)
@@ -298,7 +299,7 @@ struct AppView: View {
                                                             .resizable()
                                                             .aspectRatio(contentMode: .fit)
                                                             .frame(width: 15, height: 15)
-                                                            .foregroundColor(Constants.mainColor)
+                                                            .foregroundColor(Color(Constants.mainColor))
                                                     }
                                                     .onTapGesture {
                                                         withAnimation(.easeOut) {
@@ -354,9 +355,8 @@ struct AppView: View {
                         }
                         .onMove { (source: IndexSet, destination: Int) in
                             withAnimation(.easeOut) {
-                                self.todos.todos[self.index].todos.move(fromOffsets: source, toOffset: destination)
+                                self.todos.moveTodo(index: self.index, source: source, destination: destination)
                             }
-                            self.todos.saveTodos()
                         }
                         .listRowBackground(Color(Constants.color.appBG))
                     }.onAppear {

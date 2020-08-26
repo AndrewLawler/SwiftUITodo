@@ -22,7 +22,7 @@ struct ColorChoice: View {
             Section(header: Text("Select a color")) {
                 ForEach(Constants.colors.indices, id: \.self) { colorIndex in
                     HStack {
-                        Constants.colors[colorIndex].color
+                        Color(Constants.colors[colorIndex].color)
                             .frame(width: 20, height: 20)
                             .cornerRadius(5)
                         Text(Constants.colors[colorIndex].name)
@@ -35,7 +35,7 @@ struct ColorChoice: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 15, height: 15)
                                 .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -43,8 +43,6 @@ struct ColorChoice: View {
                     .background(Color("iconSelectionRow").opacity(0.01))
                     .onTapGesture {
                         self.selectedColorRowIndex = colorIndex
-                        Constants.mainColor = Constants.colors[self.selectedColorRowIndex].color
-                        Constants.mainColorIndex = self.selectedColorRowIndex
                     }
                 }
             }

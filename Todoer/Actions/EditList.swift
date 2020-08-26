@@ -31,7 +31,7 @@ struct EditList: View {
                 Section(header: Text("Edit Title")) {
                     TextField(todos.todos[listIndex].title, text: $listTitle)
                         .foregroundColor(.primary)
-                        .accentColor(Constants.mainColor)
+                        .accentColor(Color(Constants.mainColor))
                 }
                 Section(header: Text("Select Icon")) {
                     NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
@@ -44,19 +44,9 @@ struct EditList: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(Constants.mainColor)
+                                .foregroundColor(Color(Constants.mainColor))
                         }
                     }
-                }
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        self.todos.deleteTodoList(index: self.index)
-                        self.editList.toggle()
-                    }) {
-                        Text("Delete")
-                    }
-                    Spacer()
                 }
             }
             .listStyle(GroupedListStyle())

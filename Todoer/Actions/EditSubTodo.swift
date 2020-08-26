@@ -25,17 +25,7 @@ struct EditSubTodo: View {
                 Section(header: Text("Edit Title")) {
                     TextField(todos.todos[index].todos[todoIndex].subTodos[subTodoIndex].content, text: $todoTitle)
                         .foregroundColor(.primary)
-                        .accentColor(Constants.mainColor)
-                }
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        self.todos.deleteSubTodo(index: self.index, todoIndex: self.todoIndex, subTodoIndex: self.subTodoIndex)
-                        self.editSubTodo.toggle()
-                    }) {
-                        Text("Delete")
-                    }
-                    Spacer()
+                        .accentColor(Color(Constants.mainColor))
                 }
             }
             .listStyle(GroupedListStyle())

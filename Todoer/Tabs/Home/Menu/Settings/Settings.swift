@@ -10,6 +10,8 @@ import SwiftUI
 
 struct Settings: View {
 
+    @EnvironmentObject var todos: TodoStore
+
     @State var notificationState = false
     @State var colorIndex = Constants.mainColorIndex
     @State var iconIndex = 0
@@ -48,7 +50,7 @@ struct Settings: View {
                     NavigationLink(destination: ColorChoice(selectedColorRowIndex: self.$colorIndex)) {
                         HStack {
                             ZStack {
-                                Constants.mainColor
+                                Color(Constants.mainColor)
                                     .frame(width: 30, height: 30)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                 Image(systemName: "paintbrush.fill")
@@ -61,7 +63,7 @@ struct Settings: View {
                                 .foregroundColor(Color.primary)
                                 .padding(.leading, 5)
                             Spacer()
-                            Constants.colors[self.colorIndex].color
+                            Color(Constants.colors[self.colorIndex].color)
                                 .frame(width: 20, height: 20)
                                 .cornerRadius(5)
                         }
@@ -70,7 +72,7 @@ struct Settings: View {
                 Section(header: Text("App")) {
                     HStack {
                         ZStack {
-                            Constants.mainColor
+                            Color(Constants.mainColor)
                                 .frame(width: 30, height: 30)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                             Image(systemName: "person.circle")
@@ -84,13 +86,13 @@ struct Settings: View {
                             .padding(.leading, 5)
                         Spacer()
                         Image(systemName: "arrow.right.square")
-                            .foregroundColor(Constants.mainColor)
+                            .foregroundColor(Color(Constants.mainColor))
                     }.onTapGesture {
                         self.openDeveloper()
                     }
                     HStack {
                         ZStack {
-                            Constants.mainColor
+                            Color(Constants.mainColor)
                                 .frame(width: 30, height: 30)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                             Image(systemName: "star.fill")
@@ -104,7 +106,7 @@ struct Settings: View {
                             .padding(.leading, 5)
                         Spacer()
                         Image(systemName: "arrow.right.square")
-                            .foregroundColor(Constants.mainColor)
+                            .foregroundColor(Color(Constants.mainColor))
                     }.onTapGesture {
                         self.openRate()
                     }
@@ -112,7 +114,7 @@ struct Settings: View {
                 Section(header: Text("Release")) {
                     Text("Version \(Constants.version)")
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(Constants.mainColor)
+                        .foregroundColor(Color(Constants.mainColor))
                         .font(.system(size: 15))
                 }
             }
@@ -122,9 +124,8 @@ struct Settings: View {
             .navigationBarItems(leading: Button(action: { self.showSettings.toggle() }) {
                 Text("Cancel")
                 }, trailing: Button(action: {
+                    self.todos.changeColorPreference(colorIndex: self.colorIndex)
                     self.showSettings.toggle()
-                    Constants.mainColor = Constants.colors[self.colorIndex].color
-                    Constants.mainColorIndex = self.colorIndex
                 }) {
                 Text("Done").bold()
             })
