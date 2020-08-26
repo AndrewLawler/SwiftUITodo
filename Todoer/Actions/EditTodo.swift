@@ -84,6 +84,13 @@ struct EditTodo: View {
 //                        }
 //                    }
 //                }
+                HStack {
+                    Spacer()
+                    Button(action: { self.todos.deleteTodo(index: self.index, todoIndex: self.todoIndex) }) {
+                        Text("Delete")
+                    }
+                    Spacer()
+                }
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)

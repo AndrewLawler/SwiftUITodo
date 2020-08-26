@@ -27,6 +27,13 @@ struct EditSubTodo: View {
                         .foregroundColor(.primary)
                         .accentColor(Constants.mainColor)
                 }
+                HStack {
+                    Spacer()
+                    Button(action: { self.todos.deleteSubTodo(index: self.index, todoIndex: self.todoIndex, subTodoIndex: self.subTodoIndex)}) {
+                        Text("Delete")
+                    }
+                    Spacer()
+                }
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)

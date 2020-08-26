@@ -48,6 +48,13 @@ struct EditList: View {
                         }
                     }
                 }
+                HStack {
+                    Spacer()
+                    Button(action: { self.todos.deleteTodoList(index: self.index) }) {
+                        Text("Delete")
+                    }
+                    Spacer()
+                }
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)

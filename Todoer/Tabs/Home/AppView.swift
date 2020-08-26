@@ -257,13 +257,18 @@ struct AppView: View {
                                         self.indexOfTodo = todoIndex
                                         self.editTodo.toggle()
                                     }) {
-                                        Image(systemName: Constants.images.ellipsis)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 13, height: 13)
-                                            .foregroundColor(Color(Constants.color.todo))
-                                            .padding(.horizontal, 10)
-                                    }.buttonStyle(PlainButtonStyle())
+                                        ZStack {
+                                            Color("oppositeColor")
+                                                .frame(width: 30, height: 30)
+                                            Image(systemName: Constants.images.ellipsis)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 13, height: 13)
+                                                .foregroundColor(Color(Constants.color.todo))
+                                                .padding(.horizontal, 10)
+                                        }
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
                                     .sheet(isPresented: self.$editTodo) {
                                         EditTodo(todoIndex: self.indexOfTodo,
                                                  iconRowIndex: self.todos.todos[self.index].todos[self.indexOfTodo].imageRow,
@@ -316,11 +321,16 @@ struct AppView: View {
                                                         self.indexOfSubTodo = subTodoIndex
                                                         self.editSubTodo.toggle()
                                                     }) {
-                                                        Image(systemName: Constants.images.ellipsis)
-                                                            .resizable()
-                                                            .aspectRatio(contentMode: .fit)
-                                                            .frame(width: 13, height: 13)
-                                                            .foregroundColor(Color(Constants.color.todo))
+
+                                                        ZStack {
+                                                            Color("oppositeColor")
+                                                                .frame(width: 10, height: 20)
+                                                            Image(systemName: Constants.images.ellipsis)
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .frame(width: 13, height: 13)
+                                                                .foregroundColor(Color(Constants.color.todo))
+                                                        }
                                                     }.buttonStyle(PlainButtonStyle())
                                                     .sheet(isPresented: self.$editSubTodo) {
                                                         EditSubTodo(todoIndex: self.indexOfTodo, subTodoIndex:  self.indexOfSubTodo, editSubTodo: self.$editSubTodo, index:     self.$index)
