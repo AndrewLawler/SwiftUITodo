@@ -278,7 +278,6 @@ struct AppView: View {
                                             .environmentObject(self.todos)
                                     }
                                 }
-
                                 /// sub todos
                                 if self.todos.todos[self.index].todos[todoIndex].subTodos.count > 0 {
                                     HStack {

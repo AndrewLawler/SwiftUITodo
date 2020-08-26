@@ -86,7 +86,10 @@ struct EditTodo: View {
 //                }
                 HStack {
                     Spacer()
-                    Button(action: { self.todos.deleteTodo(index: self.index, todoIndex: self.todoIndex) }) {
+                    Button(action: {
+                        self.todos.deleteTodo(index: self.index, todoIndex: self.todoIndex)
+                        self.editTodo.toggle()
+                    }) {
                         Text("Delete")
                     }
                     Spacer()

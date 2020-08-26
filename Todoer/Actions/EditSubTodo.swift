@@ -29,7 +29,10 @@ struct EditSubTodo: View {
                 }
                 HStack {
                     Spacer()
-                    Button(action: { self.todos.deleteSubTodo(index: self.index, todoIndex: self.todoIndex, subTodoIndex: self.subTodoIndex)}) {
+                    Button(action: {
+                        self.todos.deleteSubTodo(index: self.index, todoIndex: self.todoIndex, subTodoIndex: self.subTodoIndex)
+                        self.editSubTodo.toggle()
+                    }) {
                         Text("Delete")
                     }
                     Spacer()

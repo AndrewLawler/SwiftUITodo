@@ -16,10 +16,19 @@ struct Settings: View {
 
     @Binding var showSettings: Bool
 
+    func openDeveloper() {
+        let url = URL (string: "http://twitter.com/andylawler_dev")!
+        UIApplication.shared.open (url)
+    }
+
+    func openRate() {
+
+    }
+
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Customisation")) {
+                Section(header: Text("Customization")) {
 //                    Toggle(isOn: $notificationState) {
 //                        HStack {
 //                            ZStack {
@@ -58,44 +67,49 @@ struct Settings: View {
                         }
                     }
                 }
-                Section(header: Text("Developer")) {
-                    NavigationLink(destination: Settings(showSettings: self.$showSettings)) {
-                        HStack {
-                            ZStack {
-                                Constants.mainColor
-                                    .frame(width: 30, height: 30)
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                Image(systemName: "person.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(Color.white)
-                            }
-                            Text("Follow Me")
-                                .foregroundColor(Color.primary)
-                                .padding(.leading, 5)
+                Section(header: Text("App")) {
+                    HStack {
+                        ZStack {
+                            Constants.mainColor
+                                .frame(width: 30, height: 30)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            Image(systemName: "person.circle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.white)
                         }
+                        Text("Developer")
+                            .foregroundColor(Color.primary)
+                            .padding(.leading, 5)
+                        Spacer()
+                        Image(systemName: "arrow.right.square")
+                            .foregroundColor(Constants.mainColor)
+                    }.onTapGesture {
+                        self.openDeveloper()
                     }
-                    NavigationLink(destination: Settings(showSettings: self.$showSettings)) {
-                        HStack {
-                            ZStack {
-                                Constants.mainColor
-                                    .frame(width: 30, height: 30)
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                Image(systemName: "star.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(Color.white)
-                            }
-                            Text("Rate App")
-                                .foregroundColor(Color.primary)
-                                .padding(.leading, 5)
+                    HStack {
+                        ZStack {
+                            Constants.mainColor
+                                .frame(width: 30, height: 30)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.white)
                         }
+                        Text("Rate App")
+                            .foregroundColor(Color.primary)
+                            .padding(.leading, 5)
+                        Spacer()
+                        Image(systemName: "arrow.right.square")
+                            .foregroundColor(Constants.mainColor)
+                    }.onTapGesture {
+                        self.openRate()
                     }
                 }
-
-                Section(header: Text("App Version")) {
+                Section(header: Text("Release")) {
                     Text("Version \(Constants.version)")
                         .frame(maxWidth: .infinity)
                         .foregroundColor(Constants.mainColor)

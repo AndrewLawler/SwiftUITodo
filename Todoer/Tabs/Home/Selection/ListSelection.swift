@@ -119,21 +119,21 @@ struct ListSelection: View {
                         /// text with title, todos and creation date
                         VStack {
                             Text(self.todos.todos[todoIndex].title)
-                                .font(.system(size: 20, weight: .bold))
+                                .font(.headline).bold()
                                 .padding(.leading, 10)
-                                .frame(width: 150, alignment: .leading)
+                                .frame(width: 220, alignment: .leading)
                             Text("\(self.todos.todos[todoIndex].todos.count) \(self.todoText(todos: self.todos.todos[todoIndex].todos.count)), \(self.calculateSubTodo(listIndex: todoIndex)) \(self.subTodoText(todos: self.calculateSubTodo(listIndex: todoIndex)))")
                                 .font(.system(size: 13, weight: .medium))
                                 .padding(.leading, 10)
-                                .frame(width: 150, alignment: .leading)
+                                .frame(width: 220, height: 13, alignment: .leading)
                                 .foregroundColor(.secondary)
                                 .padding(.top, 10)
                             Text("Created: \(self.todos.todos[todoIndex].createdAt)")
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(.leading, 10)
-                                .frame(width: 150, alignment: .leading)
+                                .frame(width: 220, height: 12, alignment: .leading)
                                 .foregroundColor(Color.secondary.opacity(0.7))
-                                .padding(.top, 3)
+                                .padding(.top, 5)
                         }
 
                         Spacer()
