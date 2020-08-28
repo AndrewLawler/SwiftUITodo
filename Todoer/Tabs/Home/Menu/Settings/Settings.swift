@@ -15,6 +15,7 @@ struct Settings: View {
     @State var notificationState = false
     @State var colorIndex = Constants.mainColorIndex
     @State var iconIndex = 0
+    @State var iconName = ""
 
     @Binding var showSettings: Bool
 
@@ -25,6 +26,19 @@ struct Settings: View {
 
     func openRate() {
 
+    }
+
+    func getAppIcon() -> String {
+        if iconName == "" {
+            let iconName = UIApplication.shared.alternateIconName ?? "Primary"
+            if iconName == "Primary" {
+                return "1"
+            } else {
+                return "2"
+            }
+        } else {
+            return iconName
+        }
     }
 
     var body: some View {
@@ -68,6 +82,29 @@ struct Settings: View {
                                 .cornerRadius(5)
                         }
                     }
+                    NavigationLink(destination: AppIconChoice(iconChoice: $iconName)) {
+                        HStack {
+                            ZStack {
+                                Color(Constants.mainColor)
+                                    .frame(width: 30, height: 30)
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                Image(systemName: "pencil.circle.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(Color.white)
+                            }
+                            Text("App Icon")
+                                .foregroundColor(Color.primary)
+                                .padding(.leading, 5)
+                            Spacer()
+                            Image(getAppIcon())
+                            .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .cornerRadius(5)
+                        }
+                    }
                 }
                 Section(header: Text("App")) {
                     HStack {
@@ -90,26 +127,26 @@ struct Settings: View {
                     }.onTapGesture {
                         self.openDeveloper()
                     }
-                    HStack {
-                        ZStack {
-                            Color(Constants.mainColor)
-                                .frame(width: 30, height: 30)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                            Image(systemName: "star.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(Color.white)
-                        }
-                        Text("Rate App")
-                            .foregroundColor(Color.primary)
-                            .padding(.leading, 5)
-                        Spacer()
-                        Image(systemName: "arrow.right.square")
-                            .foregroundColor(Color(Constants.mainColor))
-                    }.onTapGesture {
-                        self.openRate()
-                    }
+//                    HStack {
+//                        ZStack {
+//                            Color(Constants.mainColor)
+//                                .frame(width: 30, height: 30)
+//                                .clipShape(RoundedRectangle(cornerRadius: 5))
+//                            Image(systemName: "star.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: 20, height: 20)
+//                                .foregroundColor(Color.white)
+//                        }
+//                        Text("Rate App")
+//                            .foregroundColor(Color.primary)
+//                            .padding(.leading, 5)
+//                        Spacer()
+//                        Image(systemName: "arrow.right.square")
+//                            .foregroundColor(Color(Constants.mainColor))
+//                    }.onTapGesture {
+//                        self.openRate()
+//                    }
                 }
                 Section(header: Text("Release")) {
                     Text("Version \(Constants.version)")

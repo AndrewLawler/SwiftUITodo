@@ -9,6 +9,13 @@
 import SwiftUI
 import RealmSwift
 
+/// app icon structure
+struct AppIcon: Identifiable {
+    let id = UUID()
+    let name: String
+    let imageName: String
+}
+
 /// icon structure which contains system name and name
 struct Icon: Identifiable {
     let id = UUID()
@@ -123,7 +130,7 @@ enum Constants {
     ]
 
     /// custom app icons when we get up and running with the app icon
-    static let appIcons: [String] = []
+    static let appIcons: [AppIcon] = [AppIcon(name: "Original", imageName: "1"), AppIcon(name: "Galaxy", imageName: "2")]
 
     /// color choices for the user to pick from
     static let colors: [ColorOption] = [

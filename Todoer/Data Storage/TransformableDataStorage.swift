@@ -11,6 +11,20 @@ import RealmSwift
 
 /// structs
 
+/// app structure which holds all of our apps logic and internal storage
+class App: Object {
+    dynamic var preferences: Preferences
+    var lists = List<TodoList>()
+
+    init(preferences: Preferences) {
+        self.preferences = preferences
+    }
+
+    required init() {
+        self.preferences = Preferences()
+    }
+}
+
 class Preferences: Object {
 
     dynamic var mainColor: UIColor

@@ -3,13 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		6401CAE024E96CFE0026C8A5 /* ListSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6401CADF24E96CFE0026C8A5 /* ListSelection.swift */; };
 		6401CAE224E97DD00026C8A5 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6401CAE124E97DD00026C8A5 /* Settings.swift */; };
 		640C8D0F24EAE52300A8D5A2 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640C8D0E24EAE52300A8D5A2 /* AppView.swift */; };
+		6412D35224F97E0B0050694E /* AppIconChoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6412D35124F97E0B0050694E /* AppIconChoice.swift */; };
+		6412D35624F981140050694E /* AppIconTwo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6412D35424F981140050694E /* AppIconTwo.png */; };
+		6412D35724F981140050694E /* AppIconOriginal.png in Resources */ = {isa = PBXBuildFile; fileRef = 6412D35524F981140050694E /* AppIconOriginal.png */; };
 		642AAC8724E9A5F6007C01D7 /* EditTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642AAC8624E9A5F6007C01D7 /* EditTodo.swift */; };
 		642AAC8924E9A60D007C01D7 /* AddTodo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642AAC8824E9A60D007C01D7 /* AddTodo.swift */; };
 		642AAC8B24E9A621007C01D7 /* AddList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642AAC8A24E9A621007C01D7 /* AddList.swift */; };
@@ -36,6 +39,9 @@
 		6401CADF24E96CFE0026C8A5 /* ListSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSelection.swift; sourceTree = "<group>"; };
 		6401CAE124E97DD00026C8A5 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		640C8D0E24EAE52300A8D5A2 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		6412D35124F97E0B0050694E /* AppIconChoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconChoice.swift; sourceTree = "<group>"; };
+		6412D35424F981140050694E /* AppIconTwo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconTwo.png; sourceTree = "<group>"; };
+		6412D35524F981140050694E /* AppIconOriginal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconOriginal.png; sourceTree = "<group>"; };
 		642AAC8624E9A5F6007C01D7 /* EditTodo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTodo.swift; sourceTree = "<group>"; };
 		642AAC8824E9A60D007C01D7 /* AddTodo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodo.swift; sourceTree = "<group>"; };
 		642AAC8A24E9A621007C01D7 /* AddList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddList.swift; sourceTree = "<group>"; };
@@ -70,6 +76,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6412D35324F9810C0050694E /* Alternate App Icons */ = {
+			isa = PBXGroup;
+			children = (
+				6412D35524F981140050694E /* AppIconOriginal.png */,
+				6412D35424F981140050694E /* AppIconTwo.png */,
+			);
+			path = "Alternate App Icons";
+			sourceTree = "<group>";
+		};
 		642AAC9624E9A9C6007C01D7 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +95,7 @@
 				64C5895824EC7892008A3D8D /* EditSubTodo.swift */,
 				642AAC8824E9A60D007C01D7 /* AddTodo.swift */,
 				64817ED624EDD64400FC3501 /* ColorChoice.swift */,
+				6412D35124F97E0B0050694E /* AppIconChoice.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -164,6 +180,7 @@
 		646D37AD24E827A4006D5B8E /* Todoer */ = {
 			isa = PBXGroup;
 			children = (
+				6412D35324F9810C0050694E /* Alternate App Icons */,
 				64C0ED4724F6FEE900F7C5B3 /* Data Storage */,
 				642AAC9F24E9AA77007C01D7 /* Storage */,
 				642AAC9824E9A9F4007C01D7 /* Tabs */,
@@ -202,7 +219,6 @@
 				CEA4260760ABFA35D629FE80 /* Pods-TaskList.debug.xcconfig */,
 				2518EB2D036A5767B0F4F0FC /* Pods-TaskList.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -275,7 +291,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				646D37BE24E827A5006D5B8E /* LaunchScreen.storyboard in Resources */,
+				6412D35624F981140050694E /* AppIconTwo.png in Resources */,
 				646D37BB24E827A5006D5B8E /* Preview Assets.xcassets in Resources */,
+				6412D35724F981140050694E /* AppIconOriginal.png in Resources */,
 				646D37B824E827A5006D5B8E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				646D37AF24E827A4006D5B8E /* AppDelegate.swift in Sources */,
+				6412D35224F97E0B0050694E /* AppIconChoice.swift in Sources */,
 				6401CAE024E96CFE0026C8A5 /* ListSelection.swift in Sources */,
 				640C8D0F24EAE52300A8D5A2 /* AppView.swift in Sources */,
 				6401CAE224E97DD00026C8A5 /* Settings.swift in Sources */,

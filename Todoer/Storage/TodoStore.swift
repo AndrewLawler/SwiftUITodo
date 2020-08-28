@@ -89,6 +89,7 @@ class TodoStore: ObservableObject {
     func replaceTodo(listIndex: Int, index: Int, content: String, imageSection: Int, imageRow: Int, notificationState: Bool, reminderDate: Date) {
 
         let todo = Todo(id: "\(UUID())", content: content, imageSection: imageSection, imageRow: imageRow, notificationState: notificationState, reminderDate: reminderDate)
+        todo.subTodos = todos[listIndex].todos[index].subTodos
 
         let lists = realm.objects(TodoList.self).filter("id = '\(todos[listIndex].id)'")
 
