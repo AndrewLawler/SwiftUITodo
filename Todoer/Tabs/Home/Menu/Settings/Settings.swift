@@ -91,7 +91,7 @@ struct Settings: View {
                                 .cornerRadius(5)
                         }
                     }
-                    NavigationLink(destination: AppIconChoice(iconChoice: $iconName)) {
+                    NavigationLink(destination: AppIconChoice(iconChoice: $iconName, selectedIconRow: Int(getAppIcon())! - 1)) {
                         HStack {
                             ZStack {
                                 Color(Constants.mainColor)
@@ -170,7 +170,8 @@ struct Settings: View {
             .navigationBarItems(leading: Button(action: { self.showSettings.toggle() }) {
                 Text("Cancel")
                 }, trailing: Button(action: {
-                    self.todos.changeColorPreference(colorIndex: self.colorIndex)
+                    //self.todos.changeColorPreference(colorIndex: self.colorIndex)
+                    UserDefaults.standard.set(self.colorIndex, forKey: "colorIndex")
                     self.showSettings.toggle()
                 }) {
                 Text("Done").bold()

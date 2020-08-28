@@ -185,18 +185,5 @@ class TodoStore: ObservableObject {
         }
         reloadRealm()
     }
-
-
-    func changeColorPreference(colorIndex: Int) {
-        let pref = realm.objects(Preferences.self)
-        if let preference = pref.first {
-            try! realm.write {
-                preference.mainColor = Constants.colors[colorIndex].color
-                preference.mainColorIndex = colorIndex
-            }
-        }
-        Constants.mainColor = Constants.colors[colorIndex].color
-        Constants.mainColorIndex = colorIndex
-    }
     
 }

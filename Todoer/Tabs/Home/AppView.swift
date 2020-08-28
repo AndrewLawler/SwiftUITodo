@@ -37,7 +37,7 @@ struct AppView: View {
             HStack(spacing: 30) {
                 if todos.todoListCount() == 0 {
                     Text(Constants.welcome.title).font(.largeTitle).bold()
-                        .padding(.top, 90)
+                        .padding(.top, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 70 : 120)
                 } else {
                     Text(todos.todos[index].title)
                         .font(.largeTitle).bold()
@@ -168,48 +168,84 @@ struct AppView: View {
 
             ZStack {
                 /// Empty State
-                VStack {
-                    Spacer()
-                    VStack(spacing: 20) {
-                        Image(systemName: todos.todoListCount() == 0 ? Constants.images.list : Constants.images.plusCircle)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 144, height: 144)
-                            .padding(.bottom, 30)
-                            .foregroundColor(Color(Constants.mainColor))
-                        Text(Constants.emptyState.title)
-                            .font(.system(size: 30, weight: .semibold))
-                            .foregroundColor(Color(Constants.color.emptyTitle))
-                            .padding(.bottom, 10)
-                        Text(todos.todoListCount() == 0 ? Constants.emptyState.listSubTitle : Constants.emptyState.todoSubtitle)
-                            .font(.system(size: 18, weight: .regular))
-                            .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
-                            .multilineTextAlignment(.center)
-                            .padding(.bottom, 30)
-                        Button(action: {
-                            self.todos.todoListCount() == 0 ? self.addList.toggle() : self.addTodo.toggle()
-                        }) {
-                            ZStack {
-                                Color(Constants.mainColor)
-                                    .frame(width: 107, height: 43)
-                                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                                Image(systemName: Constants.images.plus)
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 20, weight: .semibold))
+                if todos.todoListCount() == 0 {
+                    VStack {
+                        VStack(spacing: 20) {
+                            Image("1")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 200, height: 200)
+                                .cornerRadius(25)
+                                .padding(.bottom, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 30 : 50)
+                            VStack(spacing: 30) {
+                               Text("Organize your tasks")
+                                    .font(.system(size: 30, weight: .semibold))
+                                    .foregroundColor(Color(Constants.color.emptyTitle))
+                                    .multilineTextAlignment(.center)
+                               Text("Click below to create your very\nfirst list and begin your\njourney!")
+                                    .font(.system(size: 18, weight: .regular))
+                                    .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
+                                    .multilineTextAlignment(.center)
+                            }.padding(.bottom, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 40 : 60)
+                            Button(action: {
+                                self.addList.toggle()
+                            }) {
+                                ZStack {
+                                    Color(Constants.mainColor)
+                                        .frame(width: 145, height: 43)
+                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    Text("Get started")
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 15, weight: .medium))
+                                }
                             }
-                        }
-                        .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
-                            if self.addList {
+                            .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
                                 AddList(addList: self.$addList, index: self.$index)
                                     .environmentObject(self.todos)
-                            } else if self.addTodo {
+                            }
+                        }
+                        Spacer()
+                        Spacer()
+                    }
+                } else {
+                    VStack {
+                        Spacer()
+                        VStack(spacing: 20) {
+                            Image(systemName: Constants.images.plusCircle)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 144, height: 144)
+                                .padding(.bottom, 30)
+                                .foregroundColor(Color(Constants.mainColor))
+                            Text(Constants.emptyState.title)
+                                .font(.system(size: 30, weight: .semibold))
+                                .foregroundColor(Color(Constants.color.emptyTitle))
+                                .padding(.bottom, 10)
+                            Text(Constants.emptyState.todoSubtitle)
+                                .font(.system(size: 18, weight: .regular))
+                                .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
+                                .multilineTextAlignment(.center)
+                                .padding(.bottom, 30)
+                            Button(action: {
+                                self.addTodo.toggle()
+                            }) {
+                                ZStack {
+                                    Color(Constants.mainColor)
+                                        .frame(width: 107, height: 43)
+                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    Image(systemName: Constants.images.plus)
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 20, weight: .semibold))
+                                }
+                            }
+                            .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
                                 AddTodo(index: self.$index, addTodo: self.$addTodo)
                                     .environmentObject(self.todos)
                             }
                         }
+                        Spacer()
+                        Spacer()
                     }
-                    Spacer()
-                    Spacer()
                 }
 
                 /// List View

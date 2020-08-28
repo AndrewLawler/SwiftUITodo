@@ -176,6 +176,8 @@ struct ListSelection: View {
                     self.todos.moveList(source: source, destination: destination)
                 }
                 .listRowBackground(Color(Constants.color.appBG))
+            }.onAppear {
+                UITableView.appearance().backgroundColor = UIColor(named: Constants.color.appBG)
             }
         }.background(Color(Constants.color.appBG))
     }

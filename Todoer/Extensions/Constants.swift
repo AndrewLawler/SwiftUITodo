@@ -42,8 +42,8 @@ enum Constants {
 
     static var version = "1.0"
 
-    static var mainColor = Constants.colors[0].color
-    static var mainColorIndex = 0
+    static var mainColor = Constants.colors[UserDefaults.standard.integer(forKey: "colorIndex")].color
+    static var mainColorIndex = UserDefaults.standard.integer(forKey: "colorIndex")
 
     enum color {
         static let darkMenuCircle = "darkModeMenuCircle"
@@ -56,7 +56,7 @@ enum Constants {
     }
 
     enum welcome {
-        static let title = "Welcome to Task List"
+        static let title = "Welcome to TaskList"
     }
 
     enum images {
