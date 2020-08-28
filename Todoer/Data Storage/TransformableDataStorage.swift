@@ -13,7 +13,7 @@ import RealmSwift
 
 /// app structure which holds all of our apps logic and internal storage
 class App: Object {
-    dynamic var preferences: Preferences
+    dynamic var preferences: Preferences?
     var lists = List<TodoList>()
 
     init(preferences: Preferences) {

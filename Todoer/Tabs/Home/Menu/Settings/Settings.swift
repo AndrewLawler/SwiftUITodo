@@ -33,12 +33,21 @@ struct Settings: View {
             let iconName = UIApplication.shared.alternateIconName ?? "Primary"
             if iconName == "Primary" {
                 return "1"
-            } else {
+            } else if iconName == "AppIconTwo" {
                 return "2"
+            } else if iconName == "Classic" {
+                return "3"
+            } else if iconName == "Red" {
+                return "4"
+            } else if iconName == "GreenBlue" {
+                return "5"
+            } else if iconName == "RedBlue" {
+                return "6"
             }
         } else {
             return iconName
         }
+        return "1"
     }
 
     var body: some View {

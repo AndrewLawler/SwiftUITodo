@@ -130,7 +130,14 @@ enum Constants {
     ]
 
     /// custom app icons when we get up and running with the app icon
-    static let appIcons: [AppIcon] = [AppIcon(name: "Original", imageName: "1"), AppIcon(name: "Galaxy", imageName: "2")]
+    static let appIcons: [AppIcon] = [
+        AppIcon(name: "Original", imageName: "1"),
+        AppIcon(name: "Galaxy", imageName: "2"),
+        AppIcon(name: "Classic", imageName: "3"),
+        AppIcon(name: "Retro", imageName: "4"),
+        AppIcon(name: "Lava Lamp", imageName: "5"),
+        AppIcon(name: "Slush", imageName: "6")
+    ]
 
     /// color choices for the user to pick from
     static let colors: [ColorOption] = [

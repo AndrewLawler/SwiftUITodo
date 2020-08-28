@@ -18,6 +18,10 @@ struct AppIconChoice: View {
         let iconName = UIApplication.shared.alternateIconName ?? "Primary"
         if row == 0 && iconName == "Primary" { return true }
         else if row == 1 && iconName == "AppIconTwo" { return true }
+        else if row == 2 && iconName == "Classic" { return true }
+        else if row == 3 && iconName == "Retro" { return true }
+        else if row == 4 && iconName == "Lava Lamp" { return true }
+        else if row == 5 && iconName == "Slush" { return true }
         else { return false }
     }
 
@@ -58,8 +62,16 @@ struct AppIconChoice: View {
                         self.iconChoice = "\(iconIndex + 1)"
                         if iconIndex == 0 {
                             UIApplication.shared.setAlternateIconName(nil)
-                        } else {
+                        } else if iconIndex == 1 {
                             UIApplication.shared.setAlternateIconName("AppIconTwo")
+                        } else if iconIndex == 2 {
+                            UIApplication.shared.setAlternateIconName("Classic")
+                        } else if iconIndex == 3 {
+                            UIApplication.shared.setAlternateIconName("Red")
+                        } else if iconIndex == 4 {
+                            UIApplication.shared.setAlternateIconName("GreenBlue")
+                        } else {
+                            UIApplication.shared.setAlternateIconName("RedBlue")
                         }
                     }
                 }
