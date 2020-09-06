@@ -23,6 +23,10 @@ struct ListSelection: View {
     @State var clickedEdit = false
     @State var editIndex = 0
 
+    func recreateIndex(id: Int) -> Int {
+        return (todos.todoListCount() - 1) - id
+    }
+
     /// get the correct string needed for the todo
     func todoText(todos: Int) -> String {
         if todos == 1 { return Constants.listSelect.todo }
@@ -63,7 +67,9 @@ struct ListSelection: View {
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
-                            Image(systemName: Constants.images.list)
+                            Image(systemName: Constants.images.addList)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color(Constants.mainColor))
@@ -107,29 +113,29 @@ struct ListSelection: View {
                             Color(Constants.mainColor)
                                 .frame(width: 80, height: 80)
                                 .cornerRadius(20)
-                            Image(systemName: Constants.iconsOrdered[self.todos.todos[todoIndex].imageSection].icons[self.todos.todos[todoIndex].imageRow].systemName)
+                            Image(systemName: Constants.iconsOrdered[self.todos.todos[self.recreateIndex(id: todoIndex)].imageSection].icons[self.todos.todos[self.recreateIndex(id: todoIndex)].imageRow].systemName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 50, height: 50)
                                 .foregroundColor(Color.white)
                         }.frame(width: 80, height: 80)
                         .onTapGesture {
-                            self.index = todoIndex
+                            self.index = self.recreateIndex(id: todoIndex)
                             self.showLists.toggle()
                         }
                         /// text with title, todos and creation date
                         VStack {
-                            Text(self.todos.todos[todoIndex].title)
+                            Text(self.todos.todos[self.recreateIndex(id: todoIndex)].title)
                                 .font(.headline).bold()
                                 .padding(.leading, 10)
                                 .frame(width: 180, alignment: .leading)
-                            Text("\(self.todos.todos[todoIndex].todos.count) \(self.todoText(todos: self.todos.todos[todoIndex].todos.count)), \(self.calculateSubTodo(listIndex: todoIndex)) \(self.subTodoText(todos: self.calculateSubTodo(listIndex: todoIndex)))")
+                            Text("\(self.todos.todos[self.recreateIndex(id: todoIndex)].todos.count) \(self.todoText(todos: self.todos.todos[self.recreateIndex(id: todoIndex)].todos.count)), \(self.calculateSubTodo(listIndex: self.recreateIndex(id: todoIndex))) \(self.subTodoText(todos: self.calculateSubTodo(listIndex: self.recreateIndex(id: todoIndex))))")
                                 .font(.system(size: 13, weight: .medium))
                                 .padding(.leading, 10)
                                 .frame(width: 180, height: 13, alignment: .leading)
                                 .foregroundColor(.secondary)
                                 .padding(.top, 10)
-                            Text("Created: \(self.todos.todos[todoIndex].createdAt)")
+                            Text("Created: \(self.todos.todos[self.recreateIndex(id: todoIndex)].createdAt)")
                                 .font(.system(size: 12, weight: .medium))
                                 .padding(.leading, 10)
                                 .frame(width: 180, height: 12, alignment: .leading)
@@ -141,7 +147,7 @@ struct ListSelection: View {
 
                         /// more button to edit the list
                         Button(action: {
-                            self.editIndex = todoIndex
+                            self.editIndex = self.recreateIndex(id: todoIndex)
                             self.editList.toggle()
                         }) {
                             Image(systemName: Constants.images.ellipsis)
@@ -158,25 +164,26 @@ struct ListSelection: View {
                     /// adds a tap gesture to the entire list on an invisible item
                     .background(Color(Constants.color.iconRow).opacity(0.01))
                     .onTapGesture {
-                        self.index = todoIndex
+                        self.index = self.recreateIndex(id: todoIndex)
                         self.showLists.toggle()
 
                     }.padding(.vertical, 8)
                 }
                 .onDelete { index in
                     /// if the item we are deleting is the same as the current index + the index is the last possible index and the count is greater than 1, reduce the index by 1. Else, just set it to 0 to be safe.
-                    if self.index == index.first && self.index == self.todos.todoListCount() - 1 && self.todos.todoListCount() > 1 {
-                        self.index = self.index - 1
+                    if self.todos.todoListCount() > 1 {
+                        self.index = (self.todos.todoListCount() - 1) - 1
                     } else {
                         self.index = 0
                     }
-                    self.todos.deleteTodoList(index: index.first!)
+                    self.todos.deleteTodoList(index: self.recreateIndex(id: index.first!))
                 }
                 .onMove { (source: IndexSet, destination: Int) in
                     self.todos.moveList(source: source, destination: destination)
                 }
                 .listRowBackground(Color(Constants.color.appBG))
             }.onAppear {
+                UITableView.appearance().separatorStyle = .none
                 UITableView.appearance().backgroundColor = UIColor(named: Constants.color.appBG)
             }
         }.background(Color(Constants.color.appBG))

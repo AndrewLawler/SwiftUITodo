@@ -38,12 +38,12 @@ struct AddList: View {
         NavigationView {
             /// list showing options in menu format
             List {
-                Section(header: Text("List Title")) {
+                Section(header: Text("Title")) {
                     TextField(textfieldPlaceholder, text: $listTitle)
                         .foregroundColor(.primary)
                         .accentColor(Color(Constants.mainColor))
                 }
-                Section(header: Text("Select Icon")) {
+                Section(header: Text("Icon")) {
                     NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
                         HStack {
                             Text("Please select an icon")
@@ -64,6 +64,7 @@ struct AddList: View {
             .navigationBarTitle("Create List")
             .navigationBarItems(leading: Button(action: { self.addList.toggle() }) {
                 Text("Cancel")
+                    .foregroundColor(Color(Constants.mainColor))
                 }, trailing: Button(action: {
                     /// if we are empty to not create a todo, instead just change the textfield placeholder to request something
                     if self.listTitle != "" {
@@ -80,6 +81,7 @@ struct AddList: View {
                     }
                 }) {
                     Text("Done").bold()
+                        .foregroundColor(Color(Constants.mainColor))
                 })
         }
     }

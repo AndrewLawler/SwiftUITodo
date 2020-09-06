@@ -19,8 +19,13 @@ struct Settings: View {
 
     @Binding var showSettings: Bool
 
-    func openDeveloper() {
-        let url = URL (string: "http://twitter.com/andylawler_dev")!
+    func openDeveloperTwitter() {
+        let url = URL (string: "https://twitter.com/andylawler_dev")!
+        UIApplication.shared.open (url)
+    }
+
+    func openDeveloperWebsite() {
+        let url = URL (string: "https://www.andrewlawler.me")!
         UIApplication.shared.open (url)
     }
 
@@ -53,7 +58,7 @@ struct Settings: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Customization")) {
+                Section(header: Text("Customisation")) {
 //                    Toggle(isOn: $notificationState) {
 //                        HStack {
 //                            ZStack {
@@ -127,15 +132,37 @@ struct Settings: View {
                                 .frame(width: 20, height: 20)
                                 .foregroundColor(Color.white)
                         }
-                        Text("Developer")
+                        Text("Twitter")
                             .foregroundColor(Color.primary)
                             .padding(.leading, 5)
                         Spacer()
                         Image(systemName: "arrow.right.square")
                             .foregroundColor(Color(Constants.mainColor))
                     }.onTapGesture {
-                        self.openDeveloper()
+                        self.openDeveloperTwitter()
                     }
+                    HStack {
+                        ZStack {
+                            Color(Constants.mainColor)
+                                .frame(width: 30, height: 30)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            Image(systemName: "globe")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.white)
+                        }
+                        Text("Website")
+                            .foregroundColor(Color.primary)
+                            .padding(.leading, 5)
+                        Spacer()
+                        Image(systemName: "arrow.right.square")
+                            .foregroundColor(Color(Constants.mainColor))
+                    }.onTapGesture {
+                        self.openDeveloperWebsite()
+                    }
+                }
+//                Section(header: Text("Support Us")) {
 //                    HStack {
 //                        ZStack {
 //                            Color(Constants.mainColor)
@@ -156,11 +183,12 @@ struct Settings: View {
 //                    }.onTapGesture {
 //                        self.openRate()
 //                    }
-                }
+//                }
+
                 Section(header: Text("Release")) {
                     Text("Version \(Constants.version)")
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(Color(Constants.mainColor))
+                        .foregroundColor(Color.primary)
                         .font(.system(size: 15))
                 }
             }
@@ -169,12 +197,14 @@ struct Settings: View {
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarItems(leading: Button(action: { self.showSettings.toggle() }) {
                 Text("Cancel")
+                    .foregroundColor(Color(Constants.mainColor))
                 }, trailing: Button(action: {
                     //self.todos.changeColorPreference(colorIndex: self.colorIndex)
                     UserDefaults.standard.set(self.colorIndex, forKey: "colorIndex")
                     self.showSettings.toggle()
                 }) {
                 Text("Done").bold()
+                    .foregroundColor(Color(Constants.mainColor))
             })
         }
     }

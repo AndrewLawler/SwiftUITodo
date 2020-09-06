@@ -28,12 +28,12 @@ struct EditList: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Edit Title")) {
+                Section(header: Text("Title")) {
                     TextField(todos.todos[listIndex].title, text: $listTitle)
                         .foregroundColor(.primary)
                         .accentColor(Color(Constants.mainColor))
                 }
-                Section(header: Text("Select Icon")) {
+                Section(header: Text("Icon")) {
                     NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
                         HStack {
                             Text("Please edit your icon")
@@ -54,6 +54,7 @@ struct EditList: View {
             .navigationBarTitle("Edit List")
             .navigationBarItems(leading: Button(action: { self.editList.toggle() }) {
                 Text("Cancel")
+                    .foregroundColor(Color(Constants.mainColor))
             }, trailing: Button(action: {
                 if self.listTitle == "" { self.listTitle = self.todos.todos[self.listIndex].title }
                 self.todos.editTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, index: self.listIndex)
@@ -62,6 +63,7 @@ struct EditList: View {
                 self.editList.toggle()
             }) {
                 Text("Done").bold()
+                    .foregroundColor(Color(Constants.mainColor))
             })
         }.onAppear {
             self.listTitle = self.todos.todos[self.listIndex].title

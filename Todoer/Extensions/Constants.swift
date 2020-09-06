@@ -63,11 +63,11 @@ enum Constants {
         static let check = "checkmark"
         static let checkmark = "checkmark.circle"
         static let ellipsis = "ellipsis"
-        static let plus = "plus"
+        static let plus = "plus.bubble.fill"
         static let plusCircle = "plus.circle"
-        static let menuArrow = "arrowshape.turn.up.left.fill"
         static let edit = "pencil"
         static let list = "doc.text.fill"
+        static let addList = "doc.on.doc.fill"
         static let settings = "gear"
         static let bulletList = "list.bullet"
     }
@@ -89,17 +89,16 @@ enum Constants {
     /// ordered icons into sections, used in Icon Choice View
     static let iconsOrdered: [SectionIcon] = [
         SectionIcon(title: "Popular", icons: [
-            Icon(systemName: "house.fill", name: "House"),
             Icon(systemName: "message.fill", name: "Message"),
-            Icon(systemName: "cart.fill", name: "Cart"),
-            Icon(systemName: "folder.fill", name: "Folder"),
-            Icon(systemName: "phone.fill", name: "Phone"),
-            Icon(systemName: "calendar", name: "Calendar"),
-            Icon(systemName: "car.fill", name: "Car")
-        ]),
-        SectionIcon(title: "Health", icons: [
             Icon(systemName: "heart.fill", name: "Heart"),
-
+            Icon(systemName: "camera.fill", name: "Camera"),
+            Icon(systemName: "house.fill", name: "House"),
+            Icon(systemName: "phone.fill", name: "Phone"),
+            Icon(systemName: "person.fill", name: "Person"),
+            Icon(systemName: "cart.fill", name: "Cart"),
+            Icon(systemName: "calendar", name: "Calendar"),
+            Icon(systemName: "car.fill", name: "Car"),
+            Icon(systemName: "sportscourt.fill", name: "Court")
         ]),
         SectionIcon(title: "World", icons: [
             Icon(systemName: "sun.min.fill", name: "Sun"),
@@ -107,25 +106,32 @@ enum Constants {
             Icon(systemName: "cloud.rain.fill", name: "Cloud"),
             Icon(systemName: "globe", name: "Globe"),
             Icon(systemName: "moon.fill", name: "Moon"),
+            Icon(systemName: "star.fill", name: "Star")
         ]),
         SectionIcon(title: "Accessories", icons: [
             Icon(systemName: "envelope.fill", name: "Envelope"),
+            Icon(systemName: "pencil", name: "Pencil"),
             Icon(systemName: "scissors", name: "Scissors"),
             Icon(systemName: "paperclip", name: "Paperclip"),
             Icon(systemName: "lock.fill", name: "Lock"),
             Icon(systemName: "bandage.fill", name: "Bandage"),
+            Icon(systemName: "wrench.fill", name: "Wrench"),
+            Icon(systemName: "folder.fill", name: "Folder"),
+        ]),
+        SectionIcon(title: "Technology", icons: [
+            Icon(systemName: "desktopcomputer", name: "Computer"),
+            Icon(systemName: "tv.fill", name: "TV"),
+            Icon(systemName: "gamecontroller.fill", name: "Controller")
         ]),
         SectionIcon(title: "Random", icons: [
             Icon(systemName: "airplane", name: "Airplane"),
-            Icon(systemName: "person.fill", name: "Person"),
             Icon(systemName: "doc.circle.fill", name: "Document"),
             Icon(systemName: "paperplane.fill", name: "Paperplane"),
             Icon(systemName: "tray.fill", name: "Tray"),
             Icon(systemName: "flag.fill", name: "Flag"),
             Icon(systemName: "video.fill", name: "Video"),
-            Icon(systemName: "camera.fill", name: "Camera"),
             Icon(systemName: "trash.fill", name: "Trash"),
-            Icon(systemName: "clock.fill", name: "Clock"),
+            Icon(systemName: "alarm.fill", name: "Clock"),
         ])
     ]
 

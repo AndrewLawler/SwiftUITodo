@@ -32,7 +32,7 @@ struct AppIconChoice: View {
 
     var body: some View {
         List {
-            Section(header: Text("App Icons")) {
+            Section {
                 ForEach(Constants.appIcons.indices, id: \.self) { iconIndex in
                     HStack {
                         Image(Constants.appIcons[iconIndex].imageName)
@@ -76,7 +76,6 @@ struct AppIconChoice: View {
                     }
                 }
             }
-        }.onAppear {
         }
         .listStyle(GroupedListStyle())
         .environment(\.horizontalSizeClass, .regular)

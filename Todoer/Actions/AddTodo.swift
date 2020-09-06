@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct AddTodo: View {
     
@@ -31,14 +32,14 @@ struct AddTodo: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Add Title")) {
+                Section(header: Text("Title")) {
                     TextField(textfieldPlaceholder, text: $todoTitle)
                         .foregroundColor(.primary)
                         .accentColor(Color(Constants.mainColor))
                 }
 
                 if self.todos.todos[self.index].todos.count != 0 {
-                    Section(header: Text("Sub Task?")) {
+                    Section(header: Text("Sub Task")) {
                         Toggle(isOn: $subTodoToggle) {
                             HStack {
                                 ZStack {
@@ -51,7 +52,7 @@ struct AddTodo: View {
                                         .frame(width: 20, height: 20)
                                         .foregroundColor(Color.white)
                                 }
-                                Text("Add Sub Task")
+                                Text("Add Sub Task?")
                                     .padding(.leading, 5)
                             }
                         }
@@ -65,7 +66,7 @@ struct AddTodo: View {
                     }
                 }
                 if !subTodoToggle {
-                    Section(header: Text("Select Icon")) {
+                    Section(header: Text("Icon")) {
                         NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
                             HStack {
                                 Text("Please select an icon")
@@ -80,40 +81,42 @@ struct AddTodo: View {
                             }
                         }
                     }
-//                    Section(header: Text("Manage Notifications")) {
-//                        Toggle(isOn: $notificationState) {
-//                            HStack {
-//                                ZStack {
-//                                    Constants.mainColor
-//                                        .frame(width: 30, height: 30)
-//                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-//                                    Image(systemName: "bell.fill")
-//                                        .resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .frame(width: 20, height: 20)
-//                                        .foregroundColor(Color.white)
-//                                }
-//                                Text("Notifications")
-//                                    .padding(.leading, 5)
-//                            }
-//                        }
-//                        DatePicker(selection: $reminderDate, in: ...Date(), displayedComponents: .date) {
-//                            HStack {
-//                                ZStack {
-//                                    Constants.mainColor
-//                                        .frame(width: 30, height: 30)
-//                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-//                                    Image(systemName: "calendar")
-//                                        .resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .frame(width: 20, height: 20)
-//                                        .foregroundColor(Color.white)
-//                                }
-//                                Text("Date")
-//                                    .padding(.leading, 5)
-//                            }
-//                        }
-//                    }
+                    Section(header: Text("Notifications")) {
+                        Toggle(isOn: $notificationState) {
+                            HStack {
+                                ZStack {
+                                    Color(Constants.mainColor)
+                                        .frame(width: 30, height: 30)
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    Image(systemName: "bell.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(Color.white)
+                                }
+                                Text("Notify Me?")
+                                    .padding(.leading, 5)
+                            }
+                        }
+                        if self.notificationState == true {
+                            DatePicker(selection: $reminderDate, in: Date()..., displayedComponents: [.date, .hourAndMinute]) {
+                                HStack {
+                                    ZStack {
+                                        Color(Constants.mainColor)
+                                            .frame(width: 30, height: 30)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        Image(systemName: "calendar")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 20)
+                                            .foregroundColor(Color.white)
+                                    }
+                                    Text("Date/Time")
+                                        .padding(.leading, 5)
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .listStyle(GroupedListStyle())
@@ -122,6 +125,7 @@ struct AddTodo: View {
             .navigationBarItems(leading: 
                 Button(action: { self.addTodo.toggle() }) {
                     Text("Cancel")
+                        .foregroundColor(Color(Constants.mainColor))
                 }, trailing:
                 Button(action: {
                     if self.todoTitle != "" {
@@ -135,8 +139,18 @@ struct AddTodo: View {
                     } else {
                         self.textfieldPlaceholder = "Please add a task title"
                     }
+                    if self.notificationState == true {
+                        let seconds = self.reminderDate.timeIntervalSince(Date())
+                        let content = UNMutableNotificationContent()
+                        content.title = self.todoTitle
+                        content.subtitle = self.todos.todos[self.index].title
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
+                        let request = UNNotificationRequest(identifier: self.todos.todos[self.index].todos[self.todoIndex].id, content: content, trigger: trigger)
+                        UNUserNotificationCenter.current().add(request)
+                    }
             }) {
                 Text("Done").bold()
+                    .foregroundColor(Color(Constants.mainColor))
             })
         }
     }

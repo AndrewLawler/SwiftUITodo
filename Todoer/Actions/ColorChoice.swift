@@ -19,7 +19,7 @@ struct ColorChoice: View {
 
     var body: some View {
         List {
-            Section(header: Text("Select a color")) {
+            Section {
                 ForEach(Constants.colors.indices, id: \.self) { colorIndex in
                     HStack {
                         Color(Constants.colors[colorIndex].color)

@@ -19,42 +19,42 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-            <key>Classic</key>
-            <dict>
-                <key>CFBundleIconFiles</key>
-                <array>
-                    <string>Classic</string>
-                </array>
-                <key>UIPrerenderedIcon</key>
-                <false/>
-            </dict>
-            <key>Red</key>
-            <dict>
-                <key>CFBundleIconFiles</key>
-                <array>
-                    <string>Red</string>
-                </array>
-                <key>UIPrerenderedIcon</key>
-                <false/>
-            </dict>
-            <key>GreenBlue</key>
-            <dict>
-                <key>CFBundleIconFiles</key>
-                <array>
-                    <string>GreenBlue</string>
-                </array>
-                <key>UIPrerenderedIcon</key>
-                <false/>
-            </dict>
-            <key>RedBlue</key>
-            <dict>
-                <key>CFBundleIconFiles</key>
-                <array>
-                    <string>RedBlue</string>
-                </array>
-                <key>UIPrerenderedIcon</key>
-                <false/>
-            </dict>
+			<key>Classic</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Classic</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>GreenBlue</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>GreenBlue</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>Red</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Red</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>RedBlue</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>RedBlue</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
@@ -75,9 +75,9 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
@@ -106,9 +106,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

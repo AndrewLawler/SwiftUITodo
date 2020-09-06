@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct EditTodo: View {
 
@@ -30,12 +31,12 @@ struct EditTodo: View {
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Edit Title")) {
+                Section(header: Text("Title")) {
                     TextField(todos.todos[index].todos[todoIndex].content, text: $todoTitle)
                         .foregroundColor(.primary)
                         .accentColor(Color(Constants.mainColor))
                 }
-                Section(header: Text("Edit Icon")) {
+                Section(header: Text("Icon")) {
                     NavigationLink(destination: IconChoice(selectedIconRowIndex: $selectedIconRowIndex, selectedIconSectionIndex: $selectedIconSectionIndex)) {
                         HStack {
                             Text("Please edit your icon")
@@ -50,58 +51,121 @@ struct EditTodo: View {
                         }
                     }
                 }
-//                Section(header: Text("Edit Notifications")) {
-//                    Toggle(isOn: $notificationState) {
-//                        HStack {
-//                            ZStack {
-//                                Constants.mainColor
-//                                    .frame(width: 30, height: 30)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-//                                Image(systemName: "bell.fill")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .frame(width: 20, height: 20)
-//                                    .foregroundColor(Color.white)
-//                            }
-//                            Text("Notifications")
-//                                .padding(.leading, 5)
-//                        }
-//                    }
-//                    DatePicker(selection: $reminderDate, in: ...Date(), displayedComponents: .date) {
-//                        HStack {
-//                            ZStack {
-//                                Constants.mainColor
-//                                    .frame(width: 30, height: 30)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-//                                Image(systemName: "calendar")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .frame(width: 20, height: 20)
-//                                    .foregroundColor(Color.white)
-//                            }
-//                            Text("Date")
-//                                .padding(.leading, 5)
-//                        }
-//                    }
-//                }
+                if self.todos.todos[self.index].todos[self.todoIndex].notificationState == false {
+                    Section(header: Text("Add Notifications?")) {
+                        Toggle(isOn: $notificationState) {
+                            HStack {
+                                ZStack {
+                                    Color(Constants.mainColor)
+                                        .frame(width: 30, height: 30)
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    Image(systemName: "bell.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(Color.white)
+                                }
+                                Text("Notifications")
+                                    .padding(.leading, 5)
+                            }
+                        }
+                        if self.notificationState == true {
+                            DatePicker(selection: $reminderDate, in: Date()..., displayedComponents: [.date, .hourAndMinute]) {
+                                HStack {
+                                    ZStack {
+                                        Color(Constants.mainColor)
+                                            .frame(width: 30, height: 30)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        Image(systemName: "calendar")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 20)
+                                            .foregroundColor(Color.white)
+                                    }
+                                    Text("Date/Time")
+                                        .padding(.leading, 5)
+                                }
+                            }
+                        }
+                    }
+                }
+                if self.todos.todos[self.index].todos[self.todoIndex].notificationState == true {
+                    Section(header: Text("Edit Notifications?")) {
+                        Toggle(isOn: $notificationState) {
+                            HStack {
+                                ZStack {
+                                    Color(Constants.mainColor)
+                                        .frame(width: 30, height: 30)
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    Image(systemName: "bell.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(Color.white)
+                                }
+                                Text("Notifications")
+                                    .padding(.leading, 5)
+                            }
+                        }
+                        if self.notificationState == true {
+                            DatePicker(selection: $reminderDate, in: Date()..., displayedComponents: [.date, .hourAndMinute]) {
+                                HStack {
+                                    ZStack {
+                                        Color(Constants.mainColor)
+                                            .frame(width: 30, height: 30)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        Image(systemName: "calendar")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 20, height: 20)
+                                            .foregroundColor(Color.white)
+                                    }
+                                    Text("Date/Time")
+                                        .padding(.leading, 5)
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle("Edit Task")
             .navigationBarItems(leading: Button(action: { self.editTodo.toggle() }) {
                 Text("Cancel")
+                    .foregroundColor(Color(Constants.mainColor))
             }, trailing: Button(action: {
                 if self.todoTitle == "" { self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].content }
                 self.todos.replaceTodo(listIndex: self.index, index: self.todoIndex, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.notificationState, reminderDate: self.reminderDate)
                 self.editTodo.toggle()
                 self.todoTitle = ""
+
+                if self.notificationState == true && self.reminderDate != self.todos.todos[self.index].todos[self.todoIndex].reminderDate {
+                    /// remove current Notification
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [self.todos.todos[self.index].todos[self.todoIndex].id])
+                    /// add new one
+                    let seconds = self.reminderDate.timeIntervalSince(Date())
+                    let content = UNMutableNotificationContent()
+                    content.title = self.todoTitle
+                    content.subtitle = self.todos.todos[self.index].title
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
+                    let request = UNNotificationRequest(identifier: self.todos.todos[self.index].todos[self.todoIndex].id, content: content, trigger: trigger)
+                    UNUserNotificationCenter.current().add(request)
+                }
             }) {
                 Text("Done").bold()
+                    .foregroundColor(Color(Constants.mainColor))
             })
         }.onAppear {
             self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].content
             self.selectedIconRowIndex = self.iconRowIndex
             self.selectedIconSectionIndex = self.iconSectionIndex
+            self.notificationState = self.todos.todos[self.index].todos[self.todoIndex].notificationState
+            if self.notificationState == false {
+                self.reminderDate = Date()
+            } else {
+                self.reminderDate = self.todos.todos[self.index].todos[self.todoIndex].reminderDate
+            }
         }
     }
 }

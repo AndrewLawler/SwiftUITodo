@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct AppView: View {
 
@@ -29,11 +30,36 @@ struct AppView: View {
 
     @State var showSettings = false
 
+
+    func getAppIcon() -> String {
+        let iconName = UIApplication.shared.alternateIconName ?? "Primary"
+        if iconName == "Primary" {
+            return "1"
+        } else if iconName == "AppIconTwo" {
+            return "2"
+        } else if iconName == "Classic" {
+            return "3"
+        } else if iconName == "Red" {
+            return "4"
+        } else if iconName == "GreenBlue" {
+            return "5"
+        } else if iconName == "RedBlue" {
+            return "6"
+        }
+        return "1"
+    }
+
+    let notificationDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
+
     /// need logic for gapFromTop using device type of less than iphone 8
     
     var body: some View {
         VStack(spacing: 0) {
-
             HStack(spacing: 30) {
                 if todos.todoListCount() == 0 {
                     Text(Constants.welcome.title).font(.largeTitle).bold()
@@ -48,7 +74,6 @@ struct AppView: View {
             }
             .padding(.bottom, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 10 : 35)
             .padding(.horizontal, 20)
-            
             HStack {
                 if todos.todoListCount() >= 1 {
                     Button(action: { self.showLists.toggle() }) {
@@ -57,7 +82,9 @@ struct AppView: View {
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
-                            Image(systemName: Constants.images.menuArrow)
+                            Image(systemName: Constants.images.list)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color(Constants.mainColor))
@@ -78,6 +105,8 @@ struct AppView: View {
                                 .clipShape(Circle())
                             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             Image(systemName: Constants.images.edit)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color(Constants.mainColor))
@@ -95,7 +124,9 @@ struct AppView: View {
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
                                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
-                            Image(systemName: Constants.images.list)
+                            Image(systemName: Constants.images.addList)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color(Constants.mainColor))
@@ -114,6 +145,8 @@ struct AppView: View {
                                 .clipShape(Circle())
                                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             Image(systemName: Constants.images.plus)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color(Constants.mainColor))
@@ -145,6 +178,8 @@ struct AppView: View {
                                 .clipShape(Circle())
                                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 0)
                             Image(systemName: Constants.images.settings)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 20, height: 20)
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(Color(Constants.mainColor))
@@ -168,89 +203,98 @@ struct AppView: View {
 
             ZStack {
                 /// Empty State
-                if todos.todoListCount() == 0 {
-                    VStack {
-                        VStack(spacing: 20) {
-                            Image("1")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 200, height: 200)
-                                .cornerRadius(25)
-                                .padding(.bottom, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 30 : 50)
-                            VStack(spacing: 30) {
-                               Text("Organize your tasks")
-                                    .font(.system(size: 30, weight: .semibold))
-                                    .foregroundColor(Color(Constants.color.emptyTitle))
-                                    .multilineTextAlignment(.center)
-                               Text("Click below to create your very\nfirst list and begin your\njourney!")
-                                    .font(.system(size: 18, weight: .regular))
-                                    .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
-                                    .multilineTextAlignment(.center)
-                            }.padding(.bottom, DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Standard ? 40 : 60)
-                            Button(action: {
-                                self.addList.toggle()
-                            }) {
-                                ZStack {
-                                    Color(Constants.mainColor)
-                                        .frame(width: 145, height: 43)
-                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                                    Text("Get started")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 15, weight: .medium))
-                                }
-                            }
-                            .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
-                                AddList(addList: self.$addList, index: self.$index)
-                                    .environmentObject(self.todos)
-                            }
-                        }
-                        Spacer()
-                        Spacer()
-                    }
-                } else {
-                    VStack {
-                        Spacer()
-                        VStack(spacing: 20) {
-                            Image(systemName: Constants.images.plusCircle)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 144, height: 144)
-                                .padding(.bottom, 30)
-                                .foregroundColor(Color(Constants.mainColor))
-                            Text(Constants.emptyState.title)
+                VStack {
+                    VStack(spacing: 20) {
+                        Image(getAppIcon())
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 170, height: 170)
+                            .cornerRadius(30)
+                            .padding(.bottom, 50)
+                        VStack(spacing: 30) {
+                           Text("Organise your tasks")
                                 .font(.system(size: 30, weight: .semibold))
                                 .foregroundColor(Color(Constants.color.emptyTitle))
-                                .padding(.bottom, 10)
-                            Text(Constants.emptyState.todoSubtitle)
+                                .multilineTextAlignment(.center)
+                           Text("Click below to create your very\nfirst list!")
                                 .font(.system(size: 18, weight: .regular))
                                 .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
                                 .multilineTextAlignment(.center)
-                                .padding(.bottom, 30)
-                            Button(action: {
-                                self.addTodo.toggle()
-                            }) {
-                                ZStack {
-                                    Color(Constants.mainColor)
-                                        .frame(width: 107, height: 43)
-                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                                    Image(systemName: Constants.images.plus)
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 20, weight: .semibold))
+                        }.padding(.bottom, 40)
+                        Button(action: {
+                            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]) { success, error in
+                                if success {
+                                    print("Notification Permissions Granted 😀")
+                                } else if let error = error {
+                                    print(error.localizedDescription)
                                 }
                             }
-                            .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
-                                AddTodo(index: self.$index, addTodo: self.$addTodo)
-                                    .environmentObject(self.todos)
+                            self.addList.toggle()
+                        }) {
+                            ZStack {
+                                Color(Constants.mainColor)
+                                    .frame(width: 145, height: 43)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                Text("Get started")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 15, weight: .medium))
                             }
                         }
-                        Spacer()
-                        Spacer()
+                        .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
+                            AddList(addList: self.$addList, index: self.$index)
+                                .environmentObject(self.todos)
+                        }
                     }
+                    Spacer()
+                    Spacer()
                 }
+                .offset(y: todos.todoListCount() == 0 ? 0 : UIScreen.main.bounds.height + 100)
+                .animation(.easeInOut)
+
+                VStack {
+                    Spacer()
+                    VStack(spacing: 20) {
+                        Image(systemName: Constants.images.plusCircle)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 144, height: 144)
+                            .padding(.bottom, 30)
+                            .foregroundColor(Color(Constants.mainColor))
+                        Text(Constants.emptyState.title)
+                            .font(.system(size: 30, weight: .semibold))
+                            .foregroundColor(Color(Constants.color.emptyTitle))
+                            .padding(.bottom, 10)
+                        Text(Constants.emptyState.todoSubtitle)
+                            .font(.system(size: 18, weight: .regular))
+                            .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
+                            .multilineTextAlignment(.center)
+                            .padding(.bottom, 30)
+                        Button(action: {
+                            self.addTodo.toggle()
+                        }) {
+                            ZStack {
+                                Color(Constants.mainColor)
+                                    .frame(width: 107, height: 43)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                Image(systemName: Constants.images.plus)
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 20, weight: .semibold))
+                            }
+                        }
+                        .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
+                            AddTodo(index: self.$index, addTodo: self.$addTodo)
+                                .environmentObject(self.todos)
+                        }
+                    }
+                    Spacer()
+                    Spacer()
+                }
+                .offset(y: todos.todoListCount() != 0 ? 0 : UIScreen.main.bounds.height + 100)
+                .animation(.easeInOut)
 
                 /// List View
+                /// todos
                 if self.todos.todoCount(index: index) != 0 {
-                    /// todos
                     List {
                         ForEach(self.todos.todos[index].todos.indices, id: \.self) { todoIndex in
                             VStack(spacing: 10) {
@@ -271,25 +315,27 @@ struct AppView: View {
                                     }
                                     .frame(width: 25, height: 25)
                                     .padding(.leading, 10)
-
                                     ZStack {
-                                        Color(Constants.color.todoBG)
-                                            .frame(width: 30, height: 30)
-                                            .clipShape(Circle())
                                         Image(systemName: Constants.iconsOrdered[self.todos.todos[self.index].todos[todoIndex].imageSection].icons[self.todos.todos[self.index].todos[todoIndex].imageRow].systemName)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 17, height: 17)
                                             .foregroundColor(Color(Constants.mainColor))
                                     }.padding(.leading, 5)
-
                                     Text(self.todos.todos[self.index].todos[todoIndex].content)
                                         .fontWeight(.medium)
                                         .padding(.leading, 10)
                                         .font(.callout)
-
                                     Spacer()
-
+                                    
+                                    if self.todos.todos[self.index].todos[todoIndex].notificationState == true {
+                                        Text(self.notificationDate.string(from: self.todos.todos[self.index].todos[todoIndex].reminderDate))
+                                            .fontWeight(.medium)
+                                            .font(.caption)
+                                            .padding(.leading, 10)
+                                            .foregroundColor(Color("timeLabel"))
+                                    }
+                                    
                                     Button(action: {
                                         self.indexOfTodo = todoIndex
                                         self.editTodo.toggle()
@@ -344,13 +390,10 @@ struct AppView: View {
                                                     }
                                                     .frame(width: 25, height: 25)
                                                     .padding(.horizontal, 10)
-
                                                     Text(self.todos.todos[self.index].todos[todoIndex].subTodos [subTodoIndex].content)
                                                         .fontWeight(.regular)
                                                         .font(.caption)
-
                                                     Spacer()
-
                                                     Button(action: {
                                                         self.indexOfTodo = todoIndex
                                                         self.indexOfSubTodo = subTodoIndex
@@ -367,9 +410,9 @@ struct AppView: View {
                                                                 .padding(.horizontal, 10)
                                                         }
                                                     }.buttonStyle(PlainButtonStyle())
-                                                    .sheet(isPresented: self.$editSubTodo) {
-                                                        EditSubTodo(todoIndex: self.indexOfTodo, subTodoIndex:  self.indexOfSubTodo, editSubTodo: self.$editSubTodo, index:     self.$index)
-                                                            .environmentObject(self.todos)
+                                                        .sheet(isPresented: self.$editSubTodo) {
+                                                            EditSubTodo(todoIndex: self.indexOfTodo, subTodoIndex:  self.indexOfSubTodo, editSubTodo: self.$editSubTodo, index:     self.$index)
+                                                                .environmentObject(self.todos)
                                                     }
                                                 }
                                             }
