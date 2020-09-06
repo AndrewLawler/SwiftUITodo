@@ -64,7 +64,6 @@ struct AddList: View {
             .navigationBarTitle("Create List")
             .navigationBarItems(leading: Button(action: { self.addList.toggle() }) {
                 Text("Cancel")
-                    .foregroundColor(Color(Constants.mainColor))
                 }, trailing: Button(action: {
                     /// if we are empty to not create a todo, instead just change the textfield placeholder to request something
                     if self.listTitle != "" {
@@ -81,7 +80,6 @@ struct AddList: View {
                     }
                 }) {
                     Text("Done").bold()
-                        .foregroundColor(Color(Constants.mainColor))
                 })
         }
     }

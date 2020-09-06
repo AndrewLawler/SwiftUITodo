@@ -33,7 +33,6 @@ struct EditSubTodo: View {
             .navigationBarTitle("Edit Sub Task")
             .navigationBarItems(leading: Button(action: { self.editSubTodo.toggle() }) {
                 Text("Cancel")
-                    .foregroundColor(Color(Constants.mainColor))
             }, trailing: Button(action: {
                 if self.todoTitle == "" { self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].subTodos[self.subTodoIndex].content }
                 self.todos.replaceSubTodo(listIndex: self.index, index: self.todoIndex, subTodoIndex: self.subTodoIndex, content: self.todoTitle)
@@ -41,7 +40,6 @@ struct EditSubTodo: View {
                 self.todoTitle = ""
             }) {
                 Text("Done").bold()
-                    .foregroundColor(Color(Constants.mainColor))
             })
         }.onAppear {
             self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].subTodos[self.subTodoIndex].content

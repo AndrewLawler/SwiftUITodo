@@ -51,7 +51,7 @@ struct EditTodo: View {
                         }
                     }
                 }
-                if self.todos.todos[self.index].todos[self.todoIndex].notificationState == false {
+                if self.todos.todos[self.index].todos[self.todoIndex].notificationState == false || self.todos.todos[self.index].todos[todoIndex].reminderDate.timeIntervalSince(Date()) <= 0 {
                     Section(header: Text("Add Notifications?")) {
                         Toggle(isOn: $notificationState) {
                             HStack {
@@ -88,8 +88,7 @@ struct EditTodo: View {
                             }
                         }
                     }
-                }
-                if self.todos.todos[self.index].todos[self.todoIndex].notificationState == true {
+                } else if self.todos.todos[self.index].todos[self.todoIndex].notificationState == true {
                     Section(header: Text("Edit Notifications?")) {
                         Toggle(isOn: $notificationState) {
                             HStack {
@@ -133,34 +132,40 @@ struct EditTodo: View {
             .navigationBarTitle("Edit Task")
             .navigationBarItems(leading: Button(action: { self.editTodo.toggle() }) {
                 Text("Cancel")
-                    .foregroundColor(Color(Constants.mainColor))
             }, trailing: Button(action: {
-                if self.todoTitle == "" { self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].content }
-                self.todos.replaceTodo(listIndex: self.index, index: self.todoIndex, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.notificationState, reminderDate: self.reminderDate)
-                self.editTodo.toggle()
-                self.todoTitle = ""
-
                 if self.notificationState == true && self.reminderDate != self.todos.todos[self.index].todos[self.todoIndex].reminderDate {
                     /// remove current Notification
-                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [self.todos.todos[self.index].todos[self.todoIndex].id])
+                    if self.reminderDate.timeIntervalSince(Date()) > 0 {
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [self.todos.todos[self.index].todos[self.todoIndex].id])
+                        print("Removed Notification \(self.todos.todos[self.index].todos[self.todoIndex].id) ❌")
+                    }
                     /// add new one
-                    let seconds = self.reminderDate.timeIntervalSince(Date())
+                    var seconds = self.reminderDate.timeIntervalSince(Date())
+                    if seconds <= 0 { seconds = 5 }
+                    print("⏱ \(seconds)")
                     let content = UNMutableNotificationContent()
                     content.title = self.todoTitle
                     content.subtitle = self.todos.todos[self.index].title
                     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
                     let request = UNNotificationRequest(identifier: self.todos.todos[self.index].todos[self.todoIndex].id, content: content, trigger: trigger)
                     UNUserNotificationCenter.current().add(request)
+                    print("Added Notification \(self.todos.todos[self.index].todos[self.todoIndex].id) ✅")
                 }
+                if self.todoTitle == "" { self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].content }
+                self.todos.replaceTodo(listIndex: self.index, index: self.todoIndex, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.notificationState, reminderDate: self.reminderDate)
+                self.editTodo.toggle()
+                self.todoTitle = ""
             }) {
                 Text("Done").bold()
-                    .foregroundColor(Color(Constants.mainColor))
             })
         }.onAppear {
             self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].content
             self.selectedIconRowIndex = self.iconRowIndex
             self.selectedIconSectionIndex = self.iconSectionIndex
             self.notificationState = self.todos.todos[self.index].todos[self.todoIndex].notificationState
+            if self.todos.todos[self.index].todos[self.todoIndex].reminderDate.timeIntervalSince(Date()) <= 0 {
+                self.notificationState = false
+            }
             if self.notificationState == false {
                 self.reminderDate = Date()
             } else {

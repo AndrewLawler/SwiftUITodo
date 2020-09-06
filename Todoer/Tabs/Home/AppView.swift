@@ -216,7 +216,7 @@ struct AppView: View {
                                 .font(.system(size: 30, weight: .semibold))
                                 .foregroundColor(Color(Constants.color.emptyTitle))
                                 .multilineTextAlignment(.center)
-                           Text("Click below to create your very\nfirst list!")
+                           Text("Tap below to create your very\nfirst list!")
                                 .font(.system(size: 18, weight: .regular))
                                 .foregroundColor(Color(#colorLiteral(red: 0.6862745098, green: 0.6862745098, blue: 0.6862745098, alpha: 1)))
                                 .multilineTextAlignment(.center)
@@ -327,8 +327,8 @@ struct AppView: View {
                                         .padding(.leading, 10)
                                         .font(.callout)
                                     Spacer()
-                                    
-                                    if self.todos.todos[self.index].todos[todoIndex].notificationState == true {
+
+                                    if self.todos.todos[self.index].todos[todoIndex].notificationState && self.todos.todos[self.index].todos[todoIndex].reminderDate.timeIntervalSince(Date()) > 0 {
                                         Text(self.notificationDate.string(from: self.todos.todos[self.index].todos[todoIndex].reminderDate))
                                             .fontWeight(.medium)
                                             .font(.caption)
@@ -428,6 +428,12 @@ struct AppView: View {
                         }
                         .onDelete { index in
                             withAnimation(.easeOut) {
+                                /// remove notification if there is one
+                                print("⏱ \(self.todos.todos[self.index].todos[index.first!].reminderDate.timeIntervalSince(Date()))")
+                                if self.todos.todos[self.index].todos[index.first!].reminderDate.timeIntervalSince(Date()) > 0 {
+                                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [self.todos.todos[self.index].todos[index.first!].id])
+                                    print("Removed Notification \(self.todos.todos[self.index].todos[index.first!].id) ❌")
+                                }
                                 self.todos.deleteTodo(index: self.index, todoIndex: index.first!)
                             }
                         }

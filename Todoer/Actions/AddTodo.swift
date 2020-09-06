@@ -10,6 +10,8 @@ import SwiftUI
 import UserNotifications
 
 struct AddTodo: View {
+
+    @ObservedObject var keyboardResponder = KeyboardResponder()
     
     @EnvironmentObject var todos: TodoStore
 
@@ -29,6 +31,8 @@ struct AddTodo: View {
     @State var todoIndex = 0
     @State var subTodoToggle = false
 
+    @State var showingKeyboard = false
+
     var body: some View {
         NavigationView {
             List {
@@ -36,8 +40,10 @@ struct AddTodo: View {
                     TextField(textfieldPlaceholder, text: $todoTitle)
                         .foregroundColor(.primary)
                         .accentColor(Color(Constants.mainColor))
+                        .onTapGesture {
+                            self.showingKeyboard = true
+                        }
                 }
-
                 if self.todos.todos[self.index].todos.count != 0 {
                     Section(header: Text("Sub Task")) {
                         Toggle(isOn: $subTodoToggle) {
@@ -125,7 +131,6 @@ struct AddTodo: View {
             .navigationBarItems(leading: 
                 Button(action: { self.addTodo.toggle() }) {
                     Text("Cancel")
-                        .foregroundColor(Color(Constants.mainColor))
                 }, trailing:
                 Button(action: {
                     if self.todoTitle != "" {
@@ -140,17 +145,19 @@ struct AddTodo: View {
                         self.textfieldPlaceholder = "Please add a task title"
                     }
                     if self.notificationState == true {
-                        let seconds = self.reminderDate.timeIntervalSince(Date())
+                        var seconds = self.reminderDate.timeIntervalSince(Date())
+                        if seconds <= 0 { seconds = 5 }
+                        print("⏱ \(seconds)")
                         let content = UNMutableNotificationContent()
-                        content.title = self.todoTitle
+                        content.title = self.todos.todos[self.index].todos[self.todoIndex].content
                         content.subtitle = self.todos.todos[self.index].title
                         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
                         let request = UNNotificationRequest(identifier: self.todos.todos[self.index].todos[self.todoIndex].id, content: content, trigger: trigger)
                         UNUserNotificationCenter.current().add(request)
+                        print("Added Notification \(self.todos.todos[self.index].todos[self.todoIndex].id) ✅")
                     }
             }) {
                 Text("Done").bold()
-                    .foregroundColor(Color(Constants.mainColor))
             })
         }
     }

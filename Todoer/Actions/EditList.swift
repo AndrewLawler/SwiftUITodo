@@ -54,7 +54,6 @@ struct EditList: View {
             .navigationBarTitle("Edit List")
             .navigationBarItems(leading: Button(action: { self.editList.toggle() }) {
                 Text("Cancel")
-                    .foregroundColor(Color(Constants.mainColor))
             }, trailing: Button(action: {
                 if self.listTitle == "" { self.listTitle = self.todos.todos[self.listIndex].title }
                 self.todos.editTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, index: self.listIndex)
@@ -63,7 +62,6 @@ struct EditList: View {
                 self.editList.toggle()
             }) {
                 Text("Done").bold()
-                    .foregroundColor(Color(Constants.mainColor))
             })
         }.onAppear {
             self.listTitle = self.todos.todos[self.listIndex].title

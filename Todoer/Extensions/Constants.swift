@@ -40,7 +40,7 @@ struct ColorOption: Identifiable {
 /// enum used to reference static variables across the app
 enum Constants {
 
-    static var version = "1.0"
+    static var version = "1.0.5"
 
     static var mainColor = Constants.colors[UserDefaults.standard.integer(forKey: "colorIndex")].color
     static var mainColorIndex = UserDefaults.standard.integer(forKey: "colorIndex")
@@ -152,7 +152,6 @@ enum Constants {
         ColorOption(color: #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), name: "Orange"),
         ColorOption(color: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), name: "Green"),
         ColorOption(color: #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1), name: "Yellow"),
-        ColorOption(color: #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), name: "Purple"),
     ]
 
 }

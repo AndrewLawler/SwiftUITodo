@@ -170,6 +170,13 @@ struct ListSelection: View {
                     }.padding(.vertical, 8)
                 }
                 .onDelete { index in
+                    /// delete pending notifications for this list
+                    for todo in self.todos.todos[self.index].todos {
+                        if todo.reminderDate.timeIntervalSince(Date()) > 0 {
+                            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [todo.id])
+                            print("Removed Notification \(todo.id) ❌")
+                        }
+                    }
                     /// if the item we are deleting is the same as the current index + the index is the last possible index and the count is greater than 1, reduce the index by 1. Else, just set it to 0 to be safe.
                     if self.todos.todoListCount() > 1 {
                         self.index = (self.todos.todoListCount() - 1) - 1
