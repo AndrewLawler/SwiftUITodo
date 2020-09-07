@@ -30,7 +30,6 @@ struct AppView: View {
 
     @State var showSettings = false
 
-
     func getAppIcon() -> String {
         let iconName = UIApplication.shared.alternateIconName ?? "Primary"
         if iconName == "Primary" {
@@ -51,6 +50,7 @@ struct AppView: View {
 
     let notificationDate: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.dateFormat = ""
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         return formatter
@@ -222,22 +222,15 @@ struct AppView: View {
                                 .multilineTextAlignment(.center)
                         }.padding(.bottom, 40)
                         Button(action: {
-                            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]) { success, error in
-                                if success {
-                                    print("Notification Permissions Granted 😀")
-                                } else if let error = error {
-                                    print(error.localizedDescription)
-                                }
-                            }
                             self.addList.toggle()
                         }) {
                             ZStack {
                                 Color(Constants.mainColor)
                                     .frame(width: 145, height: 43)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                                Text("Get started")
+                                Image(systemName: Constants.images.addList)
                                     .foregroundColor(.white)
-                                    .font(.system(size: 15, weight: .medium))
+                                    .font(.system(size: 20, weight: .semibold))
                             }
                         }
                         .sheet(isPresented: self.todos.todoListCount() == 0 ? $addList : $addTodo) {
@@ -455,6 +448,24 @@ struct AppView: View {
         .edgesIgnoringSafeArea(.bottom)
         .background(Color(Constants.color.appBG))
         .edgesIgnoringSafeArea(.all)
+        .onAppear {
+            let id = UserDefaults.standard.integer(forKey: "setNotifications")
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]) { success, error in
+                if success {
+                    if id != 1 {
+                        print("Notification Permissions Granted 😀")
+                        UserDefaults.standard.set(1, forKey: "notifications")
+                        UserDefaults.standard.set(1, forKey: "setNotifications")
+                    }
+                } else if let error = error {
+                    print(error.localizedDescription)
+                    if id != 1 {
+                        UserDefaults.standard.set(0, forKey: "notifications")
+                        UserDefaults.standard.set(1, forKey: "setNotifications")
+                    }
+                }
+            }
+        }
     }
 }
 

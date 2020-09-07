@@ -16,6 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current().delegate = self
+
+        let current = UNUserNotificationCenter.current()
+        current.getNotificationSettings(completionHandler: { (settings) in
+            if settings.authorizationStatus == .notDetermined {
+                print("Notification permission has not been asked yet, go for it! 🚀")
+            } else if settings.authorizationStatus == .denied {
+                print("Notification permission was previously denied, go to settings & privacy to re-enable ❌")
+                UserDefaults.standard.set(0, forKey: "notifications")
+                UserDefaults.standard.set(0, forKey: "setNotifications")
+            } else if settings.authorizationStatus == .authorized {
+                print("Notification permission was already granted ✅")
+                UserDefaults.standard.set(1, forKey: "notifications")
+                UserDefaults.standard.set(1, forKey: "setNotifications")
+            }
+        })
+        
         Thread.sleep(forTimeInterval: 1.0)
         return true
     }

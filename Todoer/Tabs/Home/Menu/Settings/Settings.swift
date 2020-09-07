@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct Settings: View {
 
@@ -19,12 +20,28 @@ struct Settings: View {
 
     @Binding var showSettings: Bool
 
+    @State var notificationPermissions = false
+
+    /// dev
+
     func openDeveloperTwitter() {
         let url = URL (string: "https://twitter.com/andylawler_dev")!
         UIApplication.shared.open (url)
     }
 
-    func openDeveloperWebsite() {
+    /// app
+
+    func openAppTwitter() {
+        let url = URL (string: "https://www.twitter.com/tasklist_app")!
+        UIApplication.shared.open (url)
+    }
+
+    func openAppInstagram() {
+        let url = URL (string: "https://www.instagram.com/tasklist_app")!
+        UIApplication.shared.open (url)
+    }
+
+    func openAppWebsite() {
         let url = URL (string: "https://www.andrewlawler.me")!
         UIApplication.shared.open (url)
     }
@@ -58,23 +75,39 @@ struct Settings: View {
     var body: some View {
         NavigationView {
             List {
+                if self.notificationPermissions {
+                    Section(header: Text("Notifications")) {
+                        Toggle(isOn: $notificationState) {
+                            HStack {
+                                ZStack {
+                                    Color(Constants.mainColor)
+                                        .frame(width: 30, height: 30)
+                                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    Image(systemName: "bell.fill")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(Color.white)
+                                }
+                                Text("Notifications")
+                                    .padding(.leading, 5)
+                            }
+                        }
+                    }
+                } else {
+                    Section(header: Text("Notifications")) {
+                        HStack {
+                            Text("Enable notifications from your Settings")
+                                .frame(maxWidth: .infinity)
+                                .foregroundColor(Color(Constants.mainColor))
+                                .font(.system(size: 15))
+                        }.onTapGesture {
+                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+                        }
+
+                    }
+                }
                 Section(header: Text("Customisation")) {
-//                    Toggle(isOn: $notificationState) {
-//                        HStack {
-//                            ZStack {
-//                                Constants.mainColor
-//                                    .frame(width: 30, height: 30)
-//                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-//                                Image(systemName: "bell.fill")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .frame(width: 20, height: 20)
-//                                    .foregroundColor(Color.white)
-//                            }
-//                            Text("Notifications")
-//                                .padding(.leading, 5)
-//                        }
-//                    }
                     NavigationLink(destination: ColorChoice(selectedColorRowIndex: self.$colorIndex)) {
                         HStack {
                             ZStack {
@@ -120,7 +153,27 @@ struct Settings: View {
                         }
                     }
                 }
-                Section(header: Text("App")) {
+                Section(header: Text("Socials")) {
+                    HStack {
+                        ZStack {
+                            Color(Constants.mainColor)
+                                .frame(width: 30, height: 30)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            Image(systemName: "hammer.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.white)
+                        }
+                        Text("Developer")
+                            .foregroundColor(Color.primary)
+                            .padding(.leading, 5)
+                        Spacer()
+                        Image(systemName: "arrow.right.square")
+                            .foregroundColor(Color(Constants.mainColor))
+                    }.onTapGesture {
+                        self.openDeveloperTwitter()
+                    }
                     HStack {
                         ZStack {
                             Color(Constants.mainColor)
@@ -139,8 +192,30 @@ struct Settings: View {
                         Image(systemName: "arrow.right.square")
                             .foregroundColor(Color(Constants.mainColor))
                     }.onTapGesture {
-                        self.openDeveloperTwitter()
+                        self.openAppTwitter()
                     }
+                    HStack {
+                        ZStack {
+                            Color(Constants.mainColor)
+                                .frame(width: 30, height: 30)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            Image(systemName: Constants.images.instagram)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color.white)
+                        }
+                        Text("Instagram")
+                            .foregroundColor(Color.primary)
+                            .padding(.leading, 5)
+                        Spacer()
+                        Image(systemName: "arrow.right.square")
+                            .foregroundColor(Color(Constants.mainColor))
+                    }.onTapGesture {
+                        self.openAppInstagram()
+                    }
+                }
+                Section(header: Text("Extras")) {
                     HStack {
                         ZStack {
                             Color(Constants.mainColor)
@@ -159,10 +234,8 @@ struct Settings: View {
                         Image(systemName: "arrow.right.square")
                             .foregroundColor(Color(Constants.mainColor))
                     }.onTapGesture {
-                        self.openDeveloperWebsite()
+                        self.openAppWebsite()
                     }
-                }
-//                Section(header: Text("Support Us")) {
 //                    HStack {
 //                        ZStack {
 //                            Color(Constants.mainColor)
@@ -183,8 +256,7 @@ struct Settings: View {
 //                    }.onTapGesture {
 //                        self.openRate()
 //                    }
-//                }
-
+                }
                 Section(header: Text("Release")) {
                     Text("Version \(Constants.version)")
                         .frame(maxWidth: .infinity)
@@ -197,15 +269,26 @@ struct Settings: View {
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarItems(leading: Button(action: { self.showSettings.toggle() }) {
                 Text("Cancel")
-                    .foregroundColor(Color(Constants.mainColor))
                 }, trailing: Button(action: {
-                    //self.todos.changeColorPreference(colorIndex: self.colorIndex)
+                    if !self.notificationState {
+                        /// delete requests
+                        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                        /// change all notificationStates to false
+                        self.todos.editTodoListTodosNotificationStates()
+                    }
+                    let num = self.notificationState ? 1 : 0
+                    UserDefaults.standard.set(num, forKey: "notifications")
                     UserDefaults.standard.set(self.colorIndex, forKey: "colorIndex")
                     self.showSettings.toggle()
                 }) {
                 Text("Done").bold()
-                    .foregroundColor(Color(Constants.mainColor))
             })
+            .onAppear {
+                let id = UserDefaults.standard.integer(forKey: "notifications")
+                if id == 1 { self.notificationState = true }
+                let id2 = UserDefaults.standard.integer(forKey: "setNotifications")
+                if id2 == 1 { self.notificationPermissions = true }
+            }
         }
     }
 }

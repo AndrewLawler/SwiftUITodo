@@ -28,6 +28,8 @@ struct EditTodo: View {
     @State var selectedIconRowIndex = 0
     @State var selectedIconSectionIndex = 0
 
+    @State var masterNotificationPermissions = false
+
     var body: some View {
         NavigationView {
             List {
@@ -133,7 +135,7 @@ struct EditTodo: View {
             .navigationBarItems(leading: Button(action: { self.editTodo.toggle() }) {
                 Text("Cancel")
             }, trailing: Button(action: {
-                if self.notificationState == true && self.reminderDate != self.todos.todos[self.index].todos[self.todoIndex].reminderDate {
+                if self.notificationState == true && self.reminderDate != self.todos.todos[self.index].todos[self.todoIndex].reminderDate && self.masterNotificationPermissions {
                     /// remove current Notification
                     if self.reminderDate.timeIntervalSince(Date()) > 0 {
                         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [self.todos.todos[self.index].todos[self.todoIndex].id])
@@ -152,7 +154,7 @@ struct EditTodo: View {
                     print("Added Notification \(self.todos.todos[self.index].todos[self.todoIndex].id) ✅")
                 }
                 if self.todoTitle == "" { self.todoTitle = self.todos.todos[self.index].todos[self.todoIndex].content }
-                self.todos.replaceTodo(listIndex: self.index, index: self.todoIndex, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.notificationState, reminderDate: self.reminderDate)
+                self.todos.replaceTodo(listIndex: self.index, index: self.todoIndex, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.masterNotificationPermissions ? self.notificationState : false, reminderDate: self.reminderDate)
                 self.editTodo.toggle()
                 self.todoTitle = ""
             }) {
@@ -171,6 +173,8 @@ struct EditTodo: View {
             } else {
                 self.reminderDate = self.todos.todos[self.index].todos[self.todoIndex].reminderDate
             }
+            let id = UserDefaults.standard.integer(forKey: "notifications")
+            if id == 1 { self.masterNotificationPermissions = true }
         }
     }
 }

@@ -33,6 +33,8 @@ struct AddTodo: View {
 
     @State var showingKeyboard = false
 
+    @State var masterNotificationPermissions = false
+
     var body: some View {
         NavigationView {
             List {
@@ -137,14 +139,14 @@ struct AddTodo: View {
                         if self.subTodoToggle {
                             self.todos.addSubTodo(title: self.todoTitle, index: self.index, todoIndex: self.todoIndex)
                         } else {
-                            self.todos.addTodo(index: self.index, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.notificationState, reminderDate: self.reminderDate)
+                            self.todos.addTodo(index: self.index, content: self.todoTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, notificationState: self.masterNotificationPermissions ? self.notificationState : false, reminderDate: self.reminderDate)
                         }
                         self.todoTitle = ""
                         self.addTodo.toggle()
                     } else {
                         self.textfieldPlaceholder = "Please add a task title"
                     }
-                    if self.notificationState == true {
+                    if self.notificationState == true && self.masterNotificationPermissions {
                         var seconds = self.reminderDate.timeIntervalSince(Date())
                         if seconds <= 0 { seconds = 5 }
                         print("⏱ \(seconds)")
@@ -159,6 +161,9 @@ struct AddTodo: View {
             }) {
                 Text("Done").bold()
             })
+        }.onAppear {
+            let id = UserDefaults.standard.integer(forKey: "notifications")
+            if id == 1 { self.masterNotificationPermissions = true }
         }
     }
 }

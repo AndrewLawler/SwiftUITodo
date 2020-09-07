@@ -69,6 +69,20 @@ class TodoStore: ObservableObject {
         reloadRealm()
     }
 
+    /// edit notification state of list items
+    func editTodoListTodosNotificationStates() {
+        let lists = realm.objects(TodoList.self)
+        try! realm.write {
+            for list in lists {
+                for todo in list.todos {
+                    todo.notificationState = false
+                }
+            }
+        }
+        reloadRealm()
+        print("Dequeued all notifications ✅")
+    }
+
     /// add Todo to list
     func addTodo(index: Int, content: String, imageSection: Int, imageRow: Int, notificationState: Bool, reminderDate: Date) {
 

@@ -57,6 +57,27 @@ struct EditList: View {
             }, trailing: Button(action: {
                 if self.listTitle == "" { self.listTitle = self.todos.todos[self.listIndex].title }
                 self.todos.editTodoList(title: self.listTitle, imageSection: self.selectedIconSectionIndex, imageRow: self.selectedIconRowIndex, index: self.listIndex)
+
+                /// re-queue all active notifications in this list with the updated list title
+                for todo in self.todos.todos[self.index].todos {
+                    /// remove notification if active and add a new one
+                    if todo.notificationState && todo.reminderDate.timeIntervalSince(Date()) > 0 {
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [todo.id])
+                        print("Removed Notification \(todo.id) ❌")
+                        var seconds = todo.reminderDate.timeIntervalSince(Date())
+                        if seconds <= 0 { seconds = 5 }
+                        print("⏱ \(seconds)")
+                        let content = UNMutableNotificationContent()
+                        content.title = todo.content
+                        content.subtitle = self.todos.todos[self.index].title
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
+                        let request = UNNotificationRequest(identifier: todo.id, content: content, trigger: trigger)
+                        UNUserNotificationCenter.current().add(request)
+                        print("Added Notification \(todo.id) ✅")
+                    }
+                }
+
+
                 self.listTitle = ""
                 self.listIcon = 0
                 self.editList.toggle()

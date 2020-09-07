@@ -66,10 +66,11 @@ enum Constants {
         static let plus = "plus.bubble.fill"
         static let plusCircle = "plus.circle"
         static let edit = "pencil"
-        static let list = "doc.text.fill"
-        static let addList = "doc.on.doc.fill"
+        static let list = "doc.on.doc.fill"
+        static let addList = "doc.text.fill"
         static let settings = "gear"
         static let bulletList = "list.bullet"
+        static let instagram = "camera.circle"
     }
 
     enum emptyState {
