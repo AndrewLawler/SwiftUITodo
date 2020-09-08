@@ -15,8 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // Setting the delegate for the User Notification Center so we can respond to actions
         UNUserNotificationCenter.current().delegate = self
-
+        // Checking to see if we have permissions to show notifications to the user or not
         let current = UNUserNotificationCenter.current()
         current.getNotificationSettings(completionHandler: { (settings) in
             if settings.authorizationStatus == .notDetermined {
@@ -27,11 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UserDefaults.standard.set(0, forKey: "setNotifications")
             } else if settings.authorizationStatus == .authorized {
                 print("Notification permission was already granted ✅")
-                UserDefaults.standard.set(1, forKey: "notifications")
                 UserDefaults.standard.set(1, forKey: "setNotifications")
             }
         })
-        
+        // Sleeping the thread for 1 second so the Splash screen is viewable for the user
         Thread.sleep(forTimeInterval: 1.0)
         return true
     }
@@ -97,6 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// Show foreground notifications
 extension AppDelegate: UNUserNotificationCenterDelegate {
 
     func userNotificationCenter(_ center: UNUserNotificationCenter,

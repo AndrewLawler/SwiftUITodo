@@ -14,10 +14,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    // Setting up TodoStore to pass as an environment object throughout the app
     var todos = TodoStore()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
+        // UserDefault for the default color of the app
         if UserDefaults.standard.integer(forKey: "colorIndex") == nil {
             UserDefaults.standard.set(0, forKey: "colorIndex")
         }
@@ -32,12 +33,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
         // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
 
-        // restore all Todos
-
-//        try! FileManager.default.removeItem(at: Realm.Configuration.defaultConfiguration.fileURL!)
-        
+        // Load in the database for the user
         todos.reloadRealm()
 
+        // Creating the main view to then pass in the todos array
         let appView = AppView()
             .environmentObject(todos)
 

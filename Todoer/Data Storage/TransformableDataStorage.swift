@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-/// structs
+/// structs to store inside Realm
 
 class Todo: Object, Identifiable {
     @objc dynamic var id: String
