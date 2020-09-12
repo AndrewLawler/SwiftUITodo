@@ -267,9 +267,7 @@ struct Settings: View {
             .navigationBarTitle("Settings")
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
-            .navigationBarItems(leading: Button(action: { self.showSettings.toggle() }) {
-                Text("Cancel")
-                }, trailing: Button(action: {
+            .navigationBarItems(trailing: Button(action: {
                     if !self.notificationState {
                         /// delete requests
                         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()

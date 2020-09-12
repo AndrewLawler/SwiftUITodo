@@ -35,6 +35,11 @@ struct AddTodo: View {
 
     @State var masterNotificationPermissions = false
 
+    func amISelected(row: Int) -> Bool {
+        if row == todoIndex { return true }
+        else { return false }
+    }
+
     var body: some View {
         NavigationView {
             List {
@@ -65,9 +70,35 @@ struct AddTodo: View {
                             }
                         }
                         if subTodoToggle {
-                            Picker(selection: $todoIndex, label: Text("Add to main task")){
-                                ForEach(0 ..< self.todos.todos[self.index].todos.count) {
-                                    Text(self.todos.todos[self.index].todos[$0].content)
+                            ForEach(self.todos.todos[self.index].todos.indices, id: \.self) { todoIndex in
+                                HStack {
+                                    ZStack {
+                                        Color(Constants.mainColor)
+                                            .frame(width: 30, height: 30)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                        Image(systemName: "text.aligncenter")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 18, height: 18)
+                                            .foregroundColor(Color.white)
+                                    }.padding(.leading, 30)
+                                    Text(self.todos.todos[self.index].todos[todoIndex].content)
+                                        .padding(.leading, 5)
+                                    Spacer()
+                                    if self.amISelected(row: todoIndex) {
+                                        Image(systemName: "checkmark")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 15, height: 15)
+                                            .font(.system(size: 15, weight: .bold))
+                                            .foregroundColor(Color(Constants.mainColor))
+                                    }
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(maxHeight: .infinity)
+                                .background(Color("iconSelectionRow").opacity(0.01))
+                                .onTapGesture {
+                                    self.todoIndex = todoIndex
                                 }
                             }
                         }
@@ -144,7 +175,7 @@ struct AddTodo: View {
                         self.todoTitle = ""
                         self.addTodo.toggle()
                     } else {
-                        self.textfieldPlaceholder = "Please add a task title"
+                        self.textfieldPlaceholder = self.subTodoToggle ? "Please add a sub task title" : "Please add a task title"
                     }
                     if self.notificationState == true && self.masterNotificationPermissions {
                         var seconds = self.reminderDate.timeIntervalSince(Date())
