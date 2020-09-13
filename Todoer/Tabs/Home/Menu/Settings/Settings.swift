@@ -171,7 +171,11 @@ struct Settings: View {
                         Spacer()
                         Image(systemName: "arrow.right.square")
                             .foregroundColor(Color(Constants.mainColor))
-                    }.onTapGesture {
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(maxHeight: .infinity)
+                    .background(Color("iconSelectionRow").opacity(0.01))
+                    .onTapGesture {
                         self.openDeveloperTwitter()
                     }
                     HStack {
@@ -191,7 +195,11 @@ struct Settings: View {
                         Spacer()
                         Image(systemName: "arrow.right.square")
                             .foregroundColor(Color(Constants.mainColor))
-                    }.onTapGesture {
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(maxHeight: .infinity)
+                    .background(Color("iconSelectionRow").opacity(0.01))
+                    .onTapGesture {
                         self.openAppTwitter()
                     }
                     HStack {
@@ -211,7 +219,11 @@ struct Settings: View {
                         Spacer()
                         Image(systemName: "arrow.right.square")
                             .foregroundColor(Color(Constants.mainColor))
-                    }.onTapGesture {
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(maxHeight: .infinity)
+                    .background(Color("iconSelectionRow").opacity(0.01))
+                    .onTapGesture {
                         self.openAppInstagram()
                     }
                 }

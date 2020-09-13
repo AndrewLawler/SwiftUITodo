@@ -72,16 +72,13 @@ struct AddTodo: View {
                         if subTodoToggle {
                             ForEach(self.todos.todos[self.index].todos.indices, id: \.self) { todoIndex in
                                 HStack {
-                                    ZStack {
-                                        Color(Constants.mainColor)
-                                            .frame(width: 30, height: 30)
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                                        Image(systemName: "text.aligncenter")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 18, height: 18)
-                                            .foregroundColor(Color.white)
-                                    }.padding(.leading, 30)
+                                    Image(systemName: Constants.images.bulletList)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 15, height: 15)
+                                        .foregroundColor(Color(Constants.color.todo))
+                                        .padding(.leading, 30)
+
                                     Text(self.todos.todos[self.index].todos[todoIndex].content)
                                         .padding(.leading, 5)
                                     Spacer()

@@ -39,6 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Creating the main view to then pass in the todos array
         let appView = AppView()
             .environmentObject(todos)
+            .environment(\.horizontalSizeClass, .regular)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
