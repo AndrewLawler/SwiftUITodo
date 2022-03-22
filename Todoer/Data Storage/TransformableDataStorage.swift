@@ -29,7 +29,7 @@ class Todo: Object, Identifiable {
         self.reminderDate = reminderDate
     }
 
-    required init() {
+    required override init() {
         self.id = ""
         self.content = ""
         self.imageRow = 0
@@ -56,7 +56,7 @@ class TodoList: Object, Identifiable {
         self.createdAt = createdAt
     }
 
-    required init() {
+    required override init() {
         self.id = ""
         self.title = ""
         self.imageSection = 0
@@ -74,7 +74,7 @@ class SubTodo: Object, Identifiable {
         self.content = content
     }
 
-    required init() {
+    required override init() {
         self.id = ""
         self.content = ""
     }
